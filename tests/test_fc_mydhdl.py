@@ -14,11 +14,12 @@ from myhdl import (
     intbv,
 )
 
-from fc_mydhdl import HardwareConstants, fc_serial
-from fc_reference import QuantizedFullyConnected
+from mnist_fc.fc_mydhdl import HardwareConstants, fc_serial
+from mnist_fc.fc_reference import QuantizedFullyConnected
 
 
-MODEL_PATH = Path(__file__).with_name("mnist-12-int8.onnx")
+ROOT = Path(__file__).resolve().parents[1]
+MODEL_PATH = ROOT / "models" / "mnist-12-int8.onnx"
 
 
 def _simulate_layer(
@@ -215,7 +216,7 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
 
     def test_converter_requests_block_rom_inference_for_both_weight_banks(self) -> None:
         with TemporaryDirectory() as output_dir:
-            from convert_fc import main
+            from mnist_fc.convert_fc import main
             from unittest.mock import patch
 
             with patch("sys.argv", ["convert_fc.py", "--output-dir", output_dir]):

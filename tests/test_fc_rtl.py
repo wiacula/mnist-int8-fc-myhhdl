@@ -8,13 +8,13 @@ from pathlib import Path
 import numpy as np
 from myhdl import Cosimulation, ResetSignal, Signal, Simulation, StopSimulation, always, delay, instance, intbv
 
-from fc_reference import QuantizedFullyConnected
+from mnist_fc.fc_reference import QuantizedFullyConnected
 
 
-ROOT = Path(__file__).parent
-MODEL_PATH = ROOT / "mnist-12-int8.onnx"
+ROOT = Path(__file__).resolve().parents[1]
+MODEL_PATH = ROOT / "models" / "mnist-12-int8.onnx"
 RTL_PATH = ROOT / "build" / "mnist_fc_serial.v"
-WRAPPER_PATH = ROOT / "rtl_dut_wrapper.v"
+WRAPPER_PATH = ROOT / "tests" / "rtl_dut_wrapper.v"
 VVP_PATH = ROOT / "build" / "mnist_fc_serial.vvp"
 VPI_PATH = Path(os.environ.get("MYHDL_VPI", "myhdl.vpi"))
 
@@ -32,7 +32,13 @@ class GeneratedRtlTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         subprocess.run(
-            [sys.executable, str(ROOT / "convert_fc.py"), "--output-dir", str(RTL_PATH.parent)],
+            [
+                sys.executable,
+                "-m",
+                "mnist_fc.convert_fc",
+                "--output-dir",
+                str(RTL_PATH.parent),
+            ],
             cwd=ROOT,
             check=True,
         )

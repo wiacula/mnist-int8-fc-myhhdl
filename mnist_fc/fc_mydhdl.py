@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import numpy as np
 from myhdl import Signal, always, always_comb, always_seq, block, enum, intbv
 
-from fc_reference import QuantizedFullyConnected
+from .fc_reference import QuantizedFullyConnected
 
 
 FIXED_SHIFT = 40

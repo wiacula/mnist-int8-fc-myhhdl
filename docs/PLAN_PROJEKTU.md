@@ -70,7 +70,7 @@ W pierwszej wersji używamy:
 
   ```bash
   source .venv/bin/activate
-  python convert_fc.py
+  python -m mnist_fc.convert_fc
   ```
 
 - Wygenerowany RTL zapisuje się w `build/mnist_fc_serial.v`.

@@ -1,5 +1,5 @@
 if {[llength $argv] != 2} {
-    error "Usage: vivado -mode batch -source vivado_synth.tcl -tclargs <rtl_file> <report_file>"
+    error "Usage: vivado -mode batch -source scripts/vivado_synth.tcl -tclargs <rtl_file> <report_file>"
 }
 
 set rtl_file [lindex $argv 0]

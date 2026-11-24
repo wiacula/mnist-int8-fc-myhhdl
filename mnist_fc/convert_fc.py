@@ -3,8 +3,8 @@ from pathlib import Path
 
 from myhdl import ResetSignal, Signal, intbv
 
-from fc_mydhdl import HardwareConstants, fc_serial
-from fc_reference import QuantizedFullyConnected
+from .fc_mydhdl import HardwareConstants, fc_serial
+from .fc_reference import QuantizedFullyConnected
 
 
 def _request_block_roms(rtl_path: Path, bank_depth: int) -> None:
@@ -53,7 +53,8 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    layer = QuantizedFullyConnected.from_onnx("mnist-12-int8.onnx")
+    model_path = Path(__file__).resolve().parents[1] / "models" / "mnist-12-int8.onnx"
+    layer = QuantizedFullyConnected.from_onnx(model_path)
     constants = HardwareConstants.from_layer(layer)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     even_weights = tuple(

@@ -6,10 +6,11 @@ import onnx
 import onnxruntime as ort
 from onnx import TensorProto, helper, numpy_helper
 
-from fc_reference import QuantizedFullyConnected
+from mnist_fc.fc_reference import QuantizedFullyConnected
 
 
-MODEL_PATH = Path(__file__).with_name("mnist-12-int8.onnx")
+ROOT = Path(__file__).resolve().parents[1]
+MODEL_PATH = ROOT / "models" / "mnist-12-int8.onnx"
 
 
 def _make_onnx_reference_session() -> tuple[ort.InferenceSession, str, str]:
