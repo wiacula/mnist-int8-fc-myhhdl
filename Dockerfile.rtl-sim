@@ -1,0 +1,17 @@
+FROM python:3.12-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends iverilog gcc libc6-dev make \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install --no-cache-dir numpy==2.5.5 onnx==1.23.2 myhdl==0.11.52 \
+    && python -m pip download --no-deps --no-binary=:all: myhdl==0.11.52 -d /tmp \
+    && mkdir /tmp/myhdl-source \
+    && tar -xzf /tmp/myhdl-0.11.52.tar.gz --strip-components=1 -C /tmp/myhdl-source \
+    && cd /tmp/myhdl-source/cosimulation/icarus \
+    && iverilog-vpi myhdl.c myhdl_table.c \
+    && install -D myhdl.vpi /usr/local/lib/myhdl.vpi \
+    && rm -rf /tmp/myhdl-source /tmp/myhdl-0.11.52.tar.gz
+
+ENV MYHDL_VPI=/usr/local/lib/myhdl.vpi
+WORKDIR /workspace

@@ -208,9 +208,38 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             dut.convert(hdl="Verilog", path=output_dir, name="mnist_fc_serial")
             rtl = (Path(output_dir) / "mnist_fc_serial.v").read_text()
 
-        self.assertIn("reg signed [7:0]  weight_memory [0:2560-1];", rtl)
+        self.assertIn("reg signed [7:0]  even_weight_memory [0:1280-1];", rtl)
+        self.assertIn("reg signed [7:0]  odd_weight_memory [0:1280-1];", rtl)
         self.assertIn("always @(posedge clk) begin: read_memories", rtl)
         self.assertIn("wire signed [63:0] matmul_product;", rtl)
+
+    def test_converter_requests_block_rom_inference_for_both_weight_banks(self) -> None:
+        with TemporaryDirectory() as output_dir:
+            from convert_fc import main
+            from unittest.mock import patch
+
+            with patch("sys.argv", ["convert_fc.py", "--output-dir", output_dir]):
+                main()
+            rtl = (Path(output_dir) / "mnist_fc_serial.v").read_text()
+
+        self.assertIn(
+            '(* rom_style = "block" *)\n'
+            'reg signed [7:0]  even_weight_memory [0:1280-1];',
+            rtl,
+        )
+        self.assertIn(
+            '(* rom_style = "block" *)\n'
+            'reg signed [7:0]  odd_weight_memory [0:1280-1];',
+            rtl,
+        )
+        self.assertIn(
+            '$readmemh("even_weight_memory.mem", even_weight_memory);',
+            rtl,
+        )
+        self.assertIn(
+            '$readmemh("odd_weight_memory.mem", odd_weight_memory);',
+            rtl,
+        )
 
 
 if __name__ == "__main__":

@@ -39,6 +39,30 @@ Generate Verilog with:
 python convert_fc.py
 ```
 
-The generated file is written to `build/mnist_fc_serial.v`. FPGA resource
-inference still needs to be checked with Vivado for the assigned Zynq-7000
-device.
+The converter generates `build/mnist_fc_serial.v` and two adjacent memory
+initialization files, `even_weight_memory.mem` and `odd_weight_memory.mem`.
+Copy all three files together when moving the design into Vivado. The weights
+are interleaved into even/odd output banks, and both synchronous ROMs are
+initialized with `$readmemh` and marked for block-RAM inference.
+
+For batch synthesis targeting `xc7z020clg400-1`, run:
+
+```bash
+vivado -mode batch -source vivado_synth.tcl \
+  -tclargs build/mnist_fc_serial.v build/utilization.rpt
+```
+
+## Test generated Verilog
+
+The RTL testbench is written in MyHDL and co-simulates the generated Verilog
+with Icarus Verilog. Docker Desktop is used to provide Icarus and the MyHDL VPI
+module on macOS:
+
+```bash
+sh run_rtl_tests.sh
+```
+
+The co-simulation checks zero, maximum, and deterministic random input vectors
+against the Python reference, and inserts output backpressure to test the
+valid/ready handshake. On systems with Icarus and the MyHDL VPI module already
+installed, run it directly with `python -m unittest -v test_fc_rtl`.

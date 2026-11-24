@@ -98,9 +98,27 @@ def fc_serial(
         Signal(intbv(0, min=-256, max=256))
         for _ in range(input_size)
     ]
-    weight_memory = [
-        Signal(intbv(weight, min=-128, max=128))
-        for weight in weights
+    even_weight_memory = [
+        Signal(
+            intbv(
+                weights[(output_index * 2) * input_size + input_index],
+                min=-128,
+                max=128,
+            )
+        )
+        for output_index in range((output_size + 1) // 2)
+        for input_index in range(input_size)
+    ]
+    odd_weight_memory = [
+        Signal(
+            intbv(
+                weights[(output_index * 2 + 1) * input_size + input_index],
+                min=-128,
+                max=128,
+            )
+        )
+        for output_index in range(output_size // 2)
+        for input_index in range(input_size)
     ]
     matmul_multiplier_memory = [
         Signal(intbv(multiplier, min=-(1 << 31), max=(1 << 31)))
@@ -113,9 +131,13 @@ def fc_serial(
     input_load_index = Signal(intbv(0, min=0, max=input_size))
     input_index = Signal(intbv(0, min=0, max=input_size))
     output_index = Signal(intbv(0, min=0, max=output_size))
-    weight_address = Signal(intbv(0, min=0, max=len(weights)))
+    weight_bank_address = Signal(
+        intbv(0, min=0, max=((output_size + 1) // 2) * input_size)
+    )
     input_value = Signal(intbv(0, min=-256, max=256))
     weight_value = Signal(intbv(0, min=-128, max=128))
+    even_weight_value = Signal(intbv(0, min=-128, max=128))
+    odd_weight_value = Signal(intbv(0, min=-128, max=128))
     input_value_extended = Signal(intbv(0, min=-(1 << 15), max=(1 << 15)))
     weight_value_extended = Signal(intbv(0, min=-(1 << 15), max=(1 << 15)))
     mac_product = Signal(intbv(0, min=-(1 << 15), max=(1 << 15)))
@@ -144,11 +166,22 @@ def fc_serial(
     @always(clk.posedge)
     def read_memories():
         input_value.next = input_memory[input_index]
-        weight_value.next = weight_memory[weight_address]
+
+    @always(clk.posedge)
+    def read_weight_banks():
+        even_weight_value.next = even_weight_memory[weight_bank_address]
+        odd_weight_value.next = odd_weight_memory[weight_bank_address]
+
+    @always_comb
+    def select_weight_bank():
+        if output_index % 2 == 0:
+            weight_value.next = even_weight_value
+        else:
+            weight_value.next = odd_weight_value
 
     @always_comb
     def read_weight():
-        weight_address.next = output_index * input_size + input_index
+        weight_bank_address.next = (output_index // 2) * input_size + input_index
 
     @always_comb
     def select_requantization_constants():
@@ -285,6 +318,8 @@ def fc_serial(
     return (
         control_outputs,
         read_memories,
+        read_weight_banks,
+        select_weight_bank,
         read_weight,
         select_requantization_constants,
         extend_mac_operands,
