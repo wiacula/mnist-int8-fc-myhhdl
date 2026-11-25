@@ -3,7 +3,7 @@ from pathlib import Path
 
 from myhdl import ResetSignal, Signal, intbv
 
-from .fc_mydhdl import HardwareConstants, fc_serial
+from .fc_mydhdl import HardwareConstants, fc_parallel2, fc_serial
 from .fc_reference import QuantizedFullyConnected
 
 
@@ -51,6 +51,13 @@ def main() -> None:
         default=Path("build"),
         help="Directory for generated Verilog",
     )
+    parser.add_argument(
+        "--parallel-macs",
+        type=int,
+        choices=(1, 2),
+        default=1,
+        help="Number of output MAC units to generate",
+    )
     args = parser.parse_args()
 
     model_path = Path(__file__).resolve().parents[1] / "models" / "mnist-12-int8.onnx"
@@ -79,7 +86,14 @@ def main() -> None:
     output_valid = Signal(bool(0))
     output_ready = Signal(bool(0))
 
-    dut = fc_serial(
+    if args.parallel_macs == 2:
+        dut_factory = fc_parallel2
+        top_name = "mnist_fc_parallel2"
+    else:
+        dut_factory = fc_serial
+        top_name = "mnist_fc_serial"
+
+    dut = dut_factory(
         clk,
         reset,
         input_data,
@@ -97,13 +111,13 @@ def main() -> None:
         constants.input_size,
         constants.output_size,
     )
-    dut.convert(hdl="Verilog", path=str(args.output_dir), name="mnist_fc_serial")
-    rtl_path = args.output_dir / "mnist_fc_serial.v"
+    dut.convert(hdl="Verilog", path=str(args.output_dir), name=top_name)
+    rtl_path = args.output_dir / f"{top_name}.v"
     _request_block_roms(
         rtl_path,
         ((constants.output_size + 1) // 2) * constants.input_size,
     )
-    print(f"Generated {rtl_path}")
+    print(f"Generated {rtl_path} with {args.parallel_macs} MAC unit(s)")
 
 
 if __name__ == "__main__":

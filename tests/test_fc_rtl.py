@@ -13,9 +13,7 @@ from mnist_fc.fc_reference import QuantizedFullyConnected
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "mnist-12-int8.onnx"
-RTL_PATH = ROOT / "build" / "mnist_fc_serial.v"
 WRAPPER_PATH = ROOT / "tests" / "rtl_dut_wrapper.v"
-VVP_PATH = ROOT / "build" / "mnist_fc_serial.vvp"
 VPI_PATH = Path(os.environ.get("MYHDL_VPI", "myhdl.vpi"))
 
 
@@ -29,15 +27,22 @@ def _simulator_available() -> bool:
 
 @unittest.skipUnless(_simulator_available(), "Icarus Verilog and MyHDL VPI are required")
 class GeneratedRtlTests(unittest.TestCase):
+    rtl_top = "mnist_fc_serial"
+    parallel_macs = 1
+
     @classmethod
     def setUpClass(cls) -> None:
+        cls.rtl_path = ROOT / "build" / f"{cls.rtl_top}.v"
+        cls.vvp_path = ROOT / "build" / f"{cls.rtl_top}.vvp"
         subprocess.run(
             [
                 sys.executable,
                 "-m",
                 "mnist_fc.convert_fc",
+                "--parallel-macs",
+                str(cls.parallel_macs),
                 "--output-dir",
-                str(RTL_PATH.parent),
+                str(cls.rtl_path.parent),
             ],
             cwd=ROOT,
             check=True,
@@ -47,10 +52,10 @@ class GeneratedRtlTests(unittest.TestCase):
                 "iverilog",
                 "-g2012",
                 "-s",
-                "tb_mnist_fc_serial",
+                f"tb_{cls.rtl_top}",
                 "-o",
-                str(VVP_PATH),
-                str(RTL_PATH),
+                str(cls.vvp_path),
+                str(cls.rtl_path),
                 str(WRAPPER_PATH),
             ],
             cwd=ROOT,
@@ -109,9 +114,9 @@ class GeneratedRtlTests(unittest.TestCase):
 
         original_directory = Path.cwd()
         try:
-            os.chdir(RTL_PATH.parent)
+            os.chdir(self.rtl_path.parent)
             cosimulation = Cosimulation(
-                f"vvp -m {VPI_PATH} {VVP_PATH}",
+                f"vvp -m {VPI_PATH} {self.vvp_path}",
                 clk=clk,
                 reset=reset,
                 input_data=input_data,
@@ -136,6 +141,11 @@ class GeneratedRtlTests(unittest.TestCase):
         for index, activations in enumerate(vectors):
             with self.subTest(vector=index):
                 self._run_rtl(activations)
+
+
+class Parallel2GeneratedRtlTests(GeneratedRtlTests):
+    rtl_top = "mnist_fc_parallel2"
+    parallel_macs = 2
 
 
 if __name__ == "__main__":

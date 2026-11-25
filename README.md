@@ -35,12 +35,12 @@ The reference layer uses the model's `QLinearMatMul` followed by its
 The model file is from the [ONNX Model Zoo MNIST model](https://github.com/onnx/models/tree/main/validated/vision/classification/mnist)
 and is provided under its MIT license.
 
-The MyHDL implementation accepts 256 uint8 activations with a valid/ready
-handshake, calculates one MAC per cycle using synchronous memories, and emits
-10 quantized outputs. Its fixed-point requantization is checked over the full
-possible accumulator ranges and against the ONNX Runtime reference. The
-compute phase takes 2,600 cycles per image, excluding the 256-cycle input
-loading phase.
+The default MyHDL implementation accepts 256 uint8 activations with a
+valid/ready handshake, calculates one MAC per cycle using synchronous
+memories, and emits 10 quantized outputs. Its fixed-point requantization is
+checked over the full possible accumulator ranges and against the ONNX Runtime
+reference. The compute phase takes 2,600 cycles per image, excluding the
+256-cycle input loading phase.
 
 Generate Verilog with:
 
@@ -48,17 +48,33 @@ Generate Verilog with:
 python -m mnist_fc.convert_fc
 ```
 
-The converter generates `build/mnist_fc_serial.v` and two adjacent memory
-initialization files, `even_weight_memory.mem` and `odd_weight_memory.mem`.
-Copy all three files together when moving the design into Vivado. The weights
-are interleaved into even/odd output banks, and both synchronous ROMs are
-initialized with `$readmemh` and marked for block-RAM inference.
+To generate the two-MAC implementation, which calculates an even/odd output
+pair in parallel, run:
 
-For batch synthesis targeting `xc7z020clg400-1`, run:
+```bash
+python -m mnist_fc.convert_fc --parallel-macs 2
+```
+
+The converter generates `build/mnist_fc_serial.v` by default, or
+`build/mnist_fc_parallel2.v` for the two-MAC version, plus two adjacent memory
+initialization files, `even_weight_memory.mem` and `odd_weight_memory.mem`.
+Copy the RTL and both memory files together when moving a design into Vivado.
+The synchronous ROMs are initialized with `$readmemh` and marked for block-RAM
+inference.
+
+For batch synthesis targeting `xc7z020clg400-1`, run the default serial version
+with:
 
 ```bash
 vivado -mode batch -source scripts/vivado_synth.tcl \
   -tclargs build/mnist_fc_serial.v build/utilization.rpt
+```
+
+For the two-MAC version, pass its top-level module name as the third argument:
+
+```bash
+vivado -mode batch -source scripts/vivado_synth.tcl \
+  -tclargs build/mnist_fc_parallel2.v build/utilization_parallel2.rpt mnist_fc_parallel2
 ```
 
 ## Test generated Verilog
@@ -72,6 +88,7 @@ sh scripts/run_rtl_tests.sh
 ```
 
 The co-simulation checks zero, maximum, and deterministic random input vectors
-against the Python reference, and inserts output backpressure to test the
-valid/ready handshake. On systems with Icarus and the MyHDL VPI module already
-installed, run it directly with `python -m unittest -v tests.test_fc_rtl`.
+against the Python reference for both implementations, and inserts output
+backpressure to test the valid/ready handshake. On systems with Icarus and the
+MyHDL VPI module already installed, run it directly with
+`python -m unittest -v tests.test_fc_rtl`.

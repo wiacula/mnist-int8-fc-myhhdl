@@ -14,7 +14,7 @@ from myhdl import (
     intbv,
 )
 
-from mnist_fc.fc_mydhdl import HardwareConstants, fc_serial
+from mnist_fc.fc_mydhdl import HardwareConstants, fc_parallel2, fc_serial
 from mnist_fc.fc_reference import QuantizedFullyConnected
 
 
@@ -25,6 +25,8 @@ MODEL_PATH = ROOT / "models" / "mnist-12-int8.onnx"
 def _simulate_layer(
     activations: np.ndarray,
     constants: HardwareConstants,
+    parallel: bool = False,
+    stall_outputs: bool = False,
 ) -> tuple[list[int], int]:
     outputs: list[int] = []
     elapsed_cycles = [0]
@@ -35,9 +37,10 @@ def _simulate_layer(
     input_ready = Signal(bool(0))
     output_data = Signal(intbv(0)[8:])
     output_valid = Signal(bool(0))
-    output_ready = Signal(bool(1))
+    output_ready = Signal(bool(not stall_outputs))
 
-    dut = fc_serial(
+    dut_factory = fc_parallel2 if parallel else fc_serial
+    dut = dut_factory(
         clk,
         reset,
         input_data,
@@ -77,7 +80,9 @@ def _simulate_layer(
 
         for cycle in range(5000):
             yield clk.negedge
-            if output_valid:
+            output_ready.next = not stall_outputs or cycle % 4 != 0
+            yield delay(1)
+            if output_valid and output_ready:
                 outputs.append(int(output_data))
             yield clk.posedge
             yield delay(1)
@@ -112,6 +117,40 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
     def test_matches_reference_for_maximum_input(self) -> None:
         activations = np.full(self.layer.input_size, 255, dtype=np.uint8)
         outputs, _ = _simulate_layer(activations, self.constants)
+        np.testing.assert_array_equal(outputs, self.layer.run(activations))
+
+    def test_parallel2_matches_reference_with_reduced_compute_cycles(self) -> None:
+        vectors = [
+            np.zeros(self.layer.input_size, dtype=np.uint8),
+            np.full(self.layer.input_size, 255, dtype=np.uint8),
+            np.random.default_rng(2026).integers(
+                0, 256, size=self.layer.input_size, dtype=np.uint8
+            ),
+        ]
+        for index, activations in enumerate(vectors):
+            with self.subTest(vector=index):
+                outputs, cycles = _simulate_layer(
+                    activations,
+                    self.constants,
+                    parallel=True,
+                )
+                np.testing.assert_array_equal(outputs, self.layer.run(activations))
+                if index == 0:
+                    self.assertEqual(
+                        cycles,
+                        (self.layer.output_size // 2) * 261,
+                    )
+
+    def test_parallel2_holds_output_during_backpressure(self) -> None:
+        activations = np.random.default_rng(42).integers(
+            0, 256, size=self.layer.input_size, dtype=np.uint8
+        )
+        outputs, _ = _simulate_layer(
+            activations,
+            self.constants,
+            parallel=True,
+            stall_outputs=True,
+        )
         np.testing.assert_array_equal(outputs, self.layer.run(activations))
 
     def test_fixed_point_requantization_matches_over_full_ranges(self) -> None:
@@ -241,6 +280,42 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             '$readmemh("odd_weight_memory.mem", odd_weight_memory);',
             rtl,
         )
+
+    def test_parallel2_converts_with_two_weight_banks(self) -> None:
+        clk = Signal(bool(0))
+        reset = ResetSignal(0, active=1, isasync=False)
+        input_data = Signal(intbv(0)[8:])
+        input_valid = Signal(bool(0))
+        input_ready = Signal(bool(0))
+        output_data = Signal(intbv(0)[8:])
+        output_valid = Signal(bool(0))
+        output_ready = Signal(bool(0))
+        dut = fc_parallel2(
+            clk,
+            reset,
+            input_data,
+            input_valid,
+            input_ready,
+            output_data,
+            output_valid,
+            output_ready,
+            self.constants.weights,
+            self.constants.matmul_multipliers,
+            self.constants.add_multiplier,
+            self.constants.add_bias_offsets,
+            self.constants.matmul_output_zero_point,
+            self.constants.output_zero_point,
+            self.constants.input_size,
+            self.constants.output_size,
+        )
+        with TemporaryDirectory() as output_dir:
+            dut.convert(hdl="Verilog", path=output_dir, name="mnist_fc_parallel2")
+            rtl = (Path(output_dir) / "mnist_fc_parallel2.v").read_text()
+
+        self.assertIn("reg signed [7:0]  even_weight_memory [0:1280-1];", rtl)
+        self.assertIn("reg signed [7:0]  odd_weight_memory [0:1280-1];", rtl)
+        self.assertIn("wire signed [63:0] even_matmul_product;", rtl)
+        self.assertIn("wire signed [63:0] odd_matmul_product;", rtl)
 
 
 if __name__ == "__main__":
