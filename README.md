@@ -56,10 +56,11 @@ python -m mnist_fc.convert_fc --parallel-macs 2
 ```
 
 The converter generates `build/mnist_fc_serial.v` by default, or
-`build/mnist_fc_parallel2.v` for the two-MAC version, plus two adjacent memory
-initialization files, `even_weight_memory.mem` and `odd_weight_memory.mem`.
-Copy the RTL and both memory files together when moving a design into Vivado.
-The synchronous ROMs are initialized with `$readmemh` and marked for block-RAM
+`build/mnist_fc_parallel2.v` for the two-MAC version. The serial design uses
+`even_weight_memory.mem` and `odd_weight_memory.mem`; the parallel design packs
+each pair of output weights into `pair_weight_memory.mem`. Copy the relevant
+RTL and memory file(s) together when moving a design into Vivado. The
+synchronous ROMs are initialized with `$readmemh` and marked for block-RAM
 inference.
 
 For batch synthesis targeting `xc7z020clg400-1`, run the default serial version

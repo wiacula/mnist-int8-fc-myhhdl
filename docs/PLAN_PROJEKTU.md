@@ -114,29 +114,13 @@ Dla każdej liczby MAC-ów zmierzyć:
 - BRAM,
 - zużycie rejestrów.
 
-### Wariant P=2 — równoległość po wyjściach
-
-- Zachowano implementację P=1 jako punkt odniesienia.
-- Dodano `fc_parallel2`, który liczy jednocześnie dwa wyjścia z użyciem
-  oddzielnych banków wag parzystych i nieparzystych.
-- Wygenerowany moduł RTL to `mnist_fc_parallel2`; uruchomienie:
-  `python -m mnist_fc.convert_fc --parallel-macs 2`.
-- Testy MyHDL potwierdzają zgodność bajt po bajcie dla wejścia zerowego,
-  maksymalnego i losowego oraz działanie backpressure.
-- Pomiar MyHDL: 1305 taktów obliczeń i emisji 10 wyjść, plus 256 taktów
-  ładowania wejścia (bez resetu i dodatkowych taktów wynikających z
-  backpressure). Dla P=1 jest to odpowiednio 2600 + 256 taktów.
-- Test RTL/Icarus i synteza Vivado wariantu P=2 pozostają do uruchomienia;
-  zasoby sprzętowe i wynik czasowy są jeszcze TBD.
-
 ## Etap 8: Porównanie
 
 Przygotować tabelę:
 
 | Wersja | MAC | II | Taktów/obraz | LUT | DSP | BRAM | Zgodność |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Pojedynczy MAC | 1 | 1 | 2600 obliczeń + 256 wejść | 374 | 6 | 3 | PASS |
-| Dwa MAC | 2 | 1 | 1305 obliczeń + 256 wejść | TBD | TBD | TBD | PASS (MyHDL) |
+| Pojedynczy MAC | 1 | 1 | 2600 obliczeń + 256 wejść | TBD | TBD | TBD | PASS |
 
 Dodać wykresy lub krótki rozdział opisujący:
 
@@ -180,10 +164,8 @@ Dodać wykresy lub krótki rozdział opisujący:
 
 Następny krok:
 
-1. Uruchomić `sh scripts/run_rtl_tests.sh` w środowisku z Dockerem albo testy
-   `tests.test_fc_rtl` w środowisku z Icarus i MyHDL VPI.
-2. Przenieść `build/mnist_fc_parallel2.v` oraz oba pliki `.mem` do Vivado.
-3. Uruchomić syntezę wariantu P=2, zachować raport i uzupełnić LUT, FF, DSP
-   oraz BRAM w tabeli porównawczej.
+1. Sprawdzić wymagania prowadzącego dotyczące RTL testbenchu i wariantu równoległego.
+2. Przenieść wygenerowany Verilog i oba pliki `.mem` do projektu Vivado.
+3. Uruchomić syntezę w projekcie kursowym i zachować jego raport.
 4. Dodać constraints zegara i uruchomić implementację, jeśli wymagane są wyniki
-   czasowe; porównać osiągniętą częstotliwość oraz throughput z P=1.
+   czasowe.

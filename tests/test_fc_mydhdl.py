@@ -263,12 +263,12 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             rtl = (Path(output_dir) / "mnist_fc_serial.v").read_text()
 
         self.assertIn(
-            '(* rom_style = "block" *)\n'
+            '(* rom_style = "block", ram_style = "block" *)\n'
             'reg signed [7:0]  even_weight_memory [0:1280-1];',
             rtl,
         )
         self.assertIn(
-            '(* rom_style = "block" *)\n'
+            '(* rom_style = "block", ram_style = "block" *)\n'
             'reg signed [7:0]  odd_weight_memory [0:1280-1];',
             rtl,
         )
@@ -281,7 +281,7 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             rtl,
         )
 
-    def test_parallel2_converts_with_two_weight_banks(self) -> None:
+    def test_parallel2_converts_with_packed_weight_memory(self) -> None:
         clk = Signal(bool(0))
         reset = ResetSignal(0, active=1, isasync=False)
         input_data = Signal(intbv(0)[8:])
@@ -312,10 +312,42 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             dut.convert(hdl="Verilog", path=output_dir, name="mnist_fc_parallel2")
             rtl = (Path(output_dir) / "mnist_fc_parallel2.v").read_text()
 
-        self.assertIn("reg signed [7:0]  even_weight_memory [0:1280-1];", rtl)
-        self.assertIn("reg signed [7:0]  odd_weight_memory [0:1280-1];", rtl)
+        self.assertIn("reg [15:0]  pair_weight_memory [0:1280-1];", rtl)
         self.assertIn("wire signed [63:0] even_matmul_product;", rtl)
         self.assertIn("wire signed [63:0] odd_matmul_product;", rtl)
+
+    def test_parallel2_converter_writes_packed_block_rom(self) -> None:
+        from mnist_fc.convert_fc import main
+        from unittest.mock import patch
+
+        with TemporaryDirectory() as output_dir:
+            with patch(
+                "sys.argv",
+                [
+                    "convert_fc.py",
+                    "--parallel-macs",
+                    "2",
+                    "--output-dir",
+                    output_dir,
+                ],
+            ):
+                main()
+            rtl = (Path(output_dir) / "mnist_fc_parallel2.v").read_text()
+            memory_lines = (
+                Path(output_dir) / "pair_weight_memory.mem"
+            ).read_text().splitlines()
+
+        self.assertIn(
+            '(* rom_style = "block", ram_style = "block" *)\n'
+            'reg [15:0]  pair_weight_memory [0:1280-1];',
+            rtl,
+        )
+        self.assertIn(
+            '$readmemh("pair_weight_memory.mem", pair_weight_memory);',
+            rtl,
+        )
+        self.assertEqual(len(memory_lines), self.layer.input_size * 5)
+        self.assertTrue(all(len(line) == 4 for line in memory_lines))
 
 
 if __name__ == "__main__":

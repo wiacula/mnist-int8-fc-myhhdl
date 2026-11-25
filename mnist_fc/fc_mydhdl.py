@@ -365,23 +365,21 @@ def fc_parallel2(
         Signal(intbv(0, min=-256, max=256))
         for _ in range(input_size)
     ]
-    even_weight_memory = [
+    pair_weight_memory = [
         Signal(
             intbv(
-                weights[(output_index * 2) * input_size + input_index],
-                min=-128,
-                max=128,
-            )
-        )
-        for output_index in range(output_size // 2)
-        for input_index in range(input_size)
-    ]
-    odd_weight_memory = [
-        Signal(
-            intbv(
-                weights[(output_index * 2 + 1) * input_size + input_index],
-                min=-128,
-                max=128,
+                (
+                    weights[(output_index * 2) * input_size + input_index] & 0xFF
+                )
+                | (
+                    (
+                        weights[(output_index * 2 + 1) * input_size + input_index]
+                        & 0xFF
+                    )
+                    << 8
+                ),
+                min=0,
+                max=1 << 16,
             )
         )
         for output_index in range(output_size // 2)
@@ -402,6 +400,7 @@ def fc_parallel2(
         intbv(0, min=0, max=(output_size // 2) * input_size)
     )
     input_value = Signal(intbv(0, min=-256, max=256))
+    pair_weight_value = Signal(intbv(0)[16:])
     even_weight_value = Signal(intbv(0, min=-128, max=128))
     odd_weight_value = Signal(intbv(0, min=-128, max=128))
     input_value_extended = Signal(intbv(0, min=-(1 << 15), max=(1 << 15)))
@@ -452,8 +451,18 @@ def fc_parallel2(
 
     @always(clk.posedge)
     def read_weight_banks():
-        even_weight_value.next = even_weight_memory[weight_bank_address]
-        odd_weight_value.next = odd_weight_memory[weight_bank_address]
+        pair_weight_value.next = pair_weight_memory[weight_bank_address]
+
+    @always_comb
+    def unpack_weight_pair():
+        even_weight = int(pair_weight_value[8:0])
+        odd_weight = int(pair_weight_value[16:8])
+        if even_weight >= 128:
+            even_weight -= 256
+        if odd_weight >= 128:
+            odd_weight -= 256
+        even_weight_value.next = even_weight
+        odd_weight_value.next = odd_weight
 
     @always_comb
     def read_weight():
@@ -671,6 +680,7 @@ def fc_parallel2(
         control_outputs,
         read_memories,
         read_weight_banks,
+        unpack_weight_pair,
         read_weight,
         select_requantization_constants,
         extend_mac_operands,
