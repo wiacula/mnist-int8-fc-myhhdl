@@ -63,8 +63,8 @@ RTL and memory file(s) together when moving a design into Vivado. The
 synchronous ROMs are initialized with `$readmemh` and marked for block-RAM
 inference.
 
-For batch synthesis targeting `xc7z020clg400-1`, run the default serial version
-with:
+For batch synthesis targeting the device specified in the project plan
+(`xc7z020clg400-1`), run the default serial version with:
 
 ```bash
 vivado -mode batch -source scripts/vivado_synth.tcl \
@@ -77,6 +77,24 @@ For the two-MAC version, pass its top-level module name as the third argument:
 vivado -mode batch -source scripts/vivado_synth.tcl \
   -tclargs build/mnist_fc_parallel2.v build/utilization_parallel2.rpt mnist_fc_parallel2
 ```
+
+For a routed timing analysis, provide a clock period in nanoseconds. The
+project has no fixed clock requirement. The selected 25 MHz target (40 ns) is
+the highest tested frequency for which both variants have at least 5 ns of WNS
+and zero TNS. At 35 ns, both variants have zero TNS but less than 5 ns of WNS;
+at 100 MHz, neither meets timing. See the
+[timing and implementation results](reports/parallel_implementation_results.md)
+for the sweep and selection method. For example, analyze the serial version at
+25 MHz:
+
+```bash
+vivado -mode batch -source scripts/vivado_timing.tcl \
+  -tclargs build/mnist_fc_serial.v reports/vivado_timing_serial_40ns.rpt mnist_fc_serial 40.0
+```
+
+Run the same script for each architecture and period being compared. The timing
+summary, critical paths, and utilization are saved as separate reports. This
+block-level analysis does not include board-level input/output delays.
 
 ## Test generated Verilog
 

@@ -1,9 +1,9 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2026.2 (win64) Build 6713330 Sat Nov 07 01:26:36 MST 2026
-| Date         : Wed Nov 25 21:04:47 2026
+| Date         : Thu Nov 26 00:13:53 2026
 | Host         : tomasz running 64-bit major release  (build 9200)
-| Command      : report_utilization -file C:/Users/tomas/Desktop/ESL_projekt/mnist-int8-fc-myhhdl-1/build/utilization_parallel2.rpt
+| Command      : report_utilization -file C:/Users/tomas/Desktop/ESL_projekt/mnist-int8-fc-myhhdl-1/reports/vivado_utilization_parallel2.rpt
 | Design       : mnist_fc_parallel2
 | Device       : xc7z020clg400-1
 | Speed File   : -1
