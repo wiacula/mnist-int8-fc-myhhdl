@@ -139,7 +139,10 @@ class QuantizedFullyConnected:
             * self.weight_scales
             / np.float32(self.matmul_output_scale)
         )
-        matmul_values = np.rint(accumulator * matmul_scale) + self.matmul_output_zero_point
+        matmul_values = (
+            np.rint(accumulator.astype(np.float32) * matmul_scale)
+            + self.matmul_output_zero_point
+        )
         quantized_matmul = np.clip(matmul_values, 0, 255).astype(np.uint8)
 
         matmul_real = (

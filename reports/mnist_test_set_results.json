@@ -1,0 +1,58 @@
+{
+  "dataset": "MNIST official t10k test split",
+  "samples": 10000,
+  "dataset_file_md5": {
+    "t10k-images-idx3-ubyte.gz": "9fb629c4189551a2d022fa330f9573f3",
+    "t10k-labels-idx1-ubyte.gz": "ec29112dd5afa0611ce80d1b7f02629c"
+  },
+  "models_sha256": {
+    "mnist-12.onnx": "5c688690f8bacf667d4c2074af5ad0646ca328d7ab03eccf944a65b320171bdd",
+    "mnist-12-int8.onnx": "5eac0752eecf4991a5e4157cf31a186f2c61090494019e87979ac17df1dae253"
+  },
+  "input_preprocessing": {
+    "float_model": "float32 pixels in [0, 1], divided by 255",
+    "int8_model": "float32 pixels in [0, 255], scale=1, zero_point=0"
+  },
+  "float_top1_accuracy_percent": 98.9,
+  "int8_top1_accuracy_percent": 98.92,
+  "fc_reference_top1_accuracy_percent": 98.92,
+  "float_int8_prediction_agreement_percent": 99.65,
+  "fc_reference_int8_prediction_agreement_percent": 100.0,
+  "fc_reference_exact_output_vectors": 10000,
+  "fc_reference_exact_output_bytes": 100000,
+  "fc_reference_output_mismatch_examples": [],
+  "fc_reference_output_mismatches": [],
+  "myhdl_simulation_on_real_mnist_vectors": {
+    "P=1": {
+      "real_mnist_vectors": 11,
+      "byte_exact_int8_model_vectors": 11,
+      "byte_exact_fc_reference_vectors": 11,
+      "correct_predictions": 11,
+      "top1_accuracy_percent": 100.0
+    },
+    "P=2": {
+      "real_mnist_vectors": 11,
+      "byte_exact_int8_model_vectors": 11,
+      "byte_exact_fc_reference_vectors": 11,
+      "correct_predictions": 11,
+      "top1_accuracy_percent": 100.0
+    }
+  },
+  "float32_rounding_edge_indices": [
+    4951
+  ],
+  "myhdl_sample_indices": [
+    0,
+    1111,
+    2222,
+    3333,
+    4444,
+    4951,
+    5555,
+    6666,
+    7777,
+    8888,
+    9999
+  ],
+  "onnxruntime_version": "1.32.0"
+}

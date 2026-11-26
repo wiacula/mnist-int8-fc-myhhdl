@@ -6,7 +6,7 @@ MNIST-12-int8 model using Python/MyHDL.
 ## Repository layout
 
 - `mnist_fc/` contains the Python reference, MyHDL design, and RTL converter.
-- `models/` contains the quantized ONNX model.
+- `models/` contains the float and quantized ONNX models.
 - `tests/` contains Python tests, the RTL testbench, and its Docker image.
 - `scripts/` contains the test runner and Vivado project/synthesis scripts.
 - `docs/` and `reports/` contain the project plan and implementation reports.
@@ -38,10 +38,39 @@ and is provided under its MIT license.
 
 The default MyHDL implementation accepts 256 uint8 activations with a
 valid/ready handshake, calculates one MAC per cycle using synchronous
-memories, and emits 10 quantized outputs. Its fixed-point requantization is
-checked over the full possible accumulator ranges and against the ONNX Runtime
-reference. The compute phase takes 2,600 cycles per image, excluding the
-256-cycle input loading phase.
+memories, and emits 10 quantized outputs. Its integer requantization logic
+reproduces the model's float32 product rounding and is tested against ONNX
+Runtime, including near-half rounding cases. The compute phase takes 2,600
+cycles per image, excluding the 256-cycle input loading phase.
+
+## MNIST test-set evaluation
+
+Run the evaluator on the official 10,000-image MNIST test split:
+
+```bash
+python scripts/evaluate_mnist.py --myhdl-samples 10 \
+  --json-out reports/mnist_test_set_results.json
+```
+
+The script downloads and checksum-validates the test data if it is not already
+cached. It evaluates the float and int8 ONNX models and the Python 256-to-10
+reference on all selected images. Float-model pixels are divided by 255; the
+int8 model receives pixel values from 0 to 255 with scale 1 and zero point 0.
+It also cycle-simulates MyHDL P=1 and P=2 on ten evenly spaced real examples
+and on examples that exercise float32 rounding edges or differ between the
+Python reference and ONNX Runtime. These simulations do not constitute a full
+RTL test on all 10,000 images.
+
+On the complete test split, float and int8 top-1 accuracy are 98.90% and
+98.92%. The Python layer reference matches the int8 model byte-for-byte on all
+10,000 images. The requantizer now reproduces the model's float32 product
+rounding using integer logic. The evaluator also identifies and simulates the
+near-half rounding case at sample 4951; P=1 and P=2 both match ONNX Runtime on
+that sample and ten evenly spaced examples.
+
+The timing figures below and in the implementation report were measured before
+this requantizer change. Re-run Vivado synthesis and routed timing before
+treating the previous 25 MHz result as valid for the updated hardware.
 
 Generate Verilog with:
 
@@ -91,10 +120,9 @@ vivado -mode batch -source scripts/vivado_synth.tcl \
 ```
 
 For a routed timing analysis, provide a clock period in nanoseconds. The
-project has no fixed clock requirement. The selected 25 MHz target (40 ns) is
-the highest tested frequency for which both variants have at least 5 ns of WNS
-and zero TNS. At 35 ns, both variants have zero TNS but less than 5 ns of WNS;
-at 100 MHz, neither meets timing. See the
+project has no fixed clock requirement. The previous timing sweep selected a
+25 MHz target (40 ns), but it predates the float32-compatible requantizer and
+must be rerun before using it as a timing claim for the current design. See the
 [timing and implementation results](reports/parallel_implementation_results.md)
 for the sweep and selection method. For example, analyze the serial version at
 25 MHz:

@@ -1,5 +1,9 @@
 # Wyniki wariantu rownoleglego P=2
 
+**Uwaga:** raporty syntezy, implementacji i timingu ponizej dotycza wersji
+sprzed zmiany requantyzacji opisanej w sekcji MNIST. Nie sa potwierdzeniem
+timingu ani zasobow aktualnego RTL; trzeba je ponownie wygenerowac w Vivado.
+
 ## Zakres
 
 Wariant P=2 liczy dwa wyjscia warstwy jednoczesnie. Wyniki nadal sa emitowane
@@ -102,7 +106,7 @@ Raporty sweepu: [P=1 przy 10 ns](./vivado_timing_serial_10ns.rpt),
 [P=1 przy 29 ns](./vivado_timing_serial_29ns.rpt),
 [P=2 przy 29 ns](./vivado_timing_parallel2_29ns.rpt).
 
-## Walidacja testow RTL
+## Walidacja testow RTL przed aktualna zmiana arytmetyki
 
 - `python -m unittest -v`: 15 testow, wszystkie PASS, bez pominietych testow.
 - `python -m unittest -v tests.test_fc_rtl`: 2 testy RTL, oba PASS dla
@@ -110,10 +114,51 @@ Raporty sweepu: [P=1 przy 10 ns](./vivado_timing_serial_10ns.rpt),
 - Wspolsymulacje wykonano z Icarus Verilog 13.0 oraz MyHDL 0.11.52 VPI.
   Wyniki RTL porownano z referencja Python dla danych granicznych i losowych.
 
+Po zmianie requantyzacji aktualne testy Python/MyHDL przechodza (13 testow).
+Obie wersje Verilog generuja sie poprawnie, ale nie wykonano ich aktualnej
+wspolsymulacji RTL ani syntezy/timingu: w srodowisku nie ma Icarus Verilog,
+`vvp` ani Vivado.
+
+## Test na zbiorze MNIST
+
+Ewaluator:
+
+```bash
+python scripts/evaluate_mnist.py --myhdl-samples 10 \
+  --json-out reports/mnist_test_set_results.json
+```
+
+Wykorzystano oficjalny podzial testowy MNIST `t10k`: 10 000 obrazow 28x28.
+Skrypt pobiera dane w razie potrzeby i sprawdza MD5 plikow. Model float
+otrzymuje piksele podzielone przez 255, a model int8 piksele 0-255 (skala 1,
+zero point 0).
+
+| Ewaluowany model | Dokladnosc top-1 |
+|---|---:|
+| Pelny model float ONNX | 98.90% |
+| Pelny model int8 ONNX | 98.92% |
+| Referencja Python warstwy 256->10 na cechach int8 | 98.92% |
+
+Predykcje referencji Python i pelnego modelu int8 sa zgodne dla wszystkich
+10 000 obrazow, a wyjscia bajtowe sa zgodne dla 10 000/10 000 wektorow
+(100 000/100 000 bajtow). Wczesniejsza rozbieznosc dotyczyla obrazu o indeksie
+4951, kanalu 6: iloczyn w `QLinearMatMul` jest blisko polowy miedzy liczbami.
+Requantyzacja sprzetowa wykonywala zaokraglenie fixed-point bez posredniego
+zaokraglenia iloczynu do float32, przez co wynik wynosil 77 zamiast 76. Obecna
+wersja odtwarza zaokraglenie iloczynu float32 za pomoca arytmetyki calkowitej.
+
+Symulacje cyklowe MyHDL dla P=1 i P=2 wykonano na 11 rzeczywistych wektorach:
+dziesieciu rownomiernie rozmieszczonych probkach oraz probce 4951, wykrytej
+jako przypadek graniczny float32. Oba warianty zgadzaja sie bajt w bajt z
+referencja Python i ONNX Runtime na 11/11 wektorach; poprawnie klasyfikuja
+11/11 probek. Nie jest to pomiar dokladnosci sprzetowej na calym zbiorze ani
+pelny test RTL na 10 000 obrazach. Szczegolowe wyniki, sumy kontrolne i
+hash'e modeli sa w [mnist_test_set_results.json](./mnist_test_set_results.json).
+
 ## Pozostale walidacje
 
-- Przy 10 ns (100 MHz) oba warianty nie spelniaja ograniczen. Wybrany okres
-  40 ns spelnia przyjete kryterium WNS >= 5 ns i TNS = 0 dla obu wariantow;
-  dokladnego Fmax nie wyznaczono.
+- Historyczny sweep sprzed zmiany arytmetyki wskazywal okres 40 ns jako
+  spelniajacy przyjete kryterium WNS >= 5 ns i TNS = 0. Nie jest to aktualne
+  potwierdzenie timingu nowego RTL; wymagane jest ponowne uruchomienie Vivado.
 - Raporty nie zawieraja opoznien wejscia/wyjscia, wiec nie potwierdzaja
   zamkniecia timingowego na poziomie calej plytki lub systemu.

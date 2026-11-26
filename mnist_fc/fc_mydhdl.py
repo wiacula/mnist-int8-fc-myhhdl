@@ -15,7 +15,8 @@ ACCUMULATOR_MAX = 1 << 31
 @dataclass(frozen=True)
 class HardwareConstants:
     weights: tuple[int, ...]
-    matmul_multipliers: tuple[int, ...]
+    matmul_scale_mantissas: tuple[int, ...]
+    matmul_scale_exponents: tuple[int, ...]
     add_multiplier: int
     add_bias_offsets: tuple[int, ...]
     matmul_output_zero_point: int
@@ -30,15 +31,23 @@ class HardwareConstants:
         if np.any(layer.weight_zero_points != 0):
             raise ValueError("The MyHDL core currently requires weight zero points of 0")
 
-        shift_factor = 1 << FIXED_SHIFT
         matmul_scales = (
             np.float32(layer.input_scale)
             * layer.weight_scales
             / np.float32(layer.matmul_output_scale)
         )
-        matmul_multipliers = tuple(
-            int(np.rint(float(scale) * shift_factor)) for scale in matmul_scales
-        )
+        scale_parts = []
+        for scale in matmul_scales:
+            bits = int(np.asarray(scale, dtype=np.float32).view(np.uint32))
+            exponent_bits = (bits >> 23) & 0xFF
+            if bits >> 31 or exponent_bits == 0 or exponent_bits == 0xFF:
+                raise ValueError("Expected positive, normal float32 matmul scales")
+            mantissa = (bits & 0x7FFFFF) | (1 << 23)
+            exponent = exponent_bits - 127 - 23
+            scale_parts.append((mantissa, exponent))
+        matmul_scale_mantissas = tuple(part[0] for part in scale_parts)
+        matmul_scale_exponents = tuple(part[1] for part in scale_parts)
+        shift_factor = 1 << FIXED_SHIFT
         add_matmul_scale = np.float32(layer.matmul_output_scale) / np.float32(
             layer.output_scale
         )
@@ -56,6 +65,10 @@ class HardwareConstants:
         )
         if accumulator_bound > (1 << 31) - 1:
             raise ValueError("The model's fully connected accumulator may exceed int32 range")
+        if accumulator_bound > (1 << 24):
+            raise ValueError(
+                "The model's accumulator may not be exactly representable as float32"
+            )
         weights = tuple(
             int(layer.weights[input_index, output_index])
             for output_index in range(layer.output_size)
@@ -63,7 +76,8 @@ class HardwareConstants:
         )
         return cls(
             weights=weights,
-            matmul_multipliers=matmul_multipliers,
+            matmul_scale_mantissas=matmul_scale_mantissas,
+            matmul_scale_exponents=matmul_scale_exponents,
             add_multiplier=add_multiplier,
             add_bias_offsets=add_bias_offsets,
             matmul_output_zero_point=layer.matmul_output_zero_point,
@@ -71,6 +85,79 @@ class HardwareConstants:
             input_size=layer.input_size,
             output_size=layer.output_size,
         )
+
+
+@block
+def float32_matmul_requantize(
+    accumulator,
+    scale_mantissa,
+    scale_exponent,
+    zero_point: int,
+    output,
+):
+    product = Signal(intbv(0)[56:])
+
+    @always_comb
+    def multiply():
+        if accumulator < 0:
+            product.next = (-accumulator) * scale_mantissa
+        else:
+            product.next = accumulator * scale_mantissa
+
+    @always_comb
+    def round_float32_product():
+        most_significant_bit = -1
+        rounded_magnitude = 0
+        rounded = 0
+        quantized = 0
+        for bit_index in range(56):
+            if product[bit_index]:
+                most_significant_bit = bit_index
+
+        if most_significant_bit < 0:
+            rounded_magnitude = 0
+        else:
+            normalization_shift = 0
+            if most_significant_bit > 23:
+                normalization_shift = most_significant_bit - 23
+            normalized = product >> normalization_shift
+            if normalization_shift > 0:
+                normalization_remainder = product - (
+                    normalized << normalization_shift
+                )
+                normalization_half = 1 << (normalization_shift - 1)
+                if normalization_remainder > normalization_half or (
+                    normalization_remainder == normalization_half
+                    and (normalized & 1) != 0
+                ):
+                    normalized = normalized + 1
+            product_exponent = scale_exponent + normalization_shift
+
+            if product_exponent < 0:
+                rounding_shift = -product_exponent
+                quotient = normalized >> rounding_shift
+                remainder = normalized - (quotient << rounding_shift)
+                half = 1 << (rounding_shift - 1)
+                if remainder > half or (remainder == half and (quotient & 1) != 0):
+                    rounded_magnitude = quotient + 1
+                else:
+                    rounded_magnitude = quotient
+            else:
+                rounded_magnitude = normalized << product_exponent
+
+        if accumulator < 0:
+            rounded = -rounded_magnitude
+        else:
+            rounded = rounded_magnitude
+        quantized = rounded + zero_point
+        if quantized < 0:
+            output.next = 0
+        elif quantized > 255:
+            output.next = 255
+        else:
+            output.next = quantized
+
+    return multiply, round_float32_product
 
 
 @block
@@ -84,7 +171,8 @@ def fc_serial(
     output_valid,
     output_ready,
     weights: tuple[int, ...],
-    matmul_multipliers: tuple[int, ...],
+    matmul_scale_mantissas: tuple[int, ...],
+    matmul_scale_exponents: tuple[int, ...],
     add_multiplier: int,
     add_bias_offsets: tuple[int, ...],
     matmul_output_zero_point: int,
@@ -120,9 +208,13 @@ def fc_serial(
         for output_index in range(output_size // 2)
         for input_index in range(input_size)
     ]
-    matmul_multiplier_memory = [
-        Signal(intbv(multiplier, min=-(1 << 31), max=(1 << 31)))
-        for multiplier in matmul_multipliers
+    matmul_scale_mantissa_memory = [
+        Signal(intbv(mantissa)[24:])
+        for mantissa in matmul_scale_mantissas
+    ]
+    matmul_scale_exponent_memory = [
+        Signal(intbv(exponent, min=-64, max=1))
+        for exponent in matmul_scale_exponents
     ]
     add_bias_offset_memory = [
         Signal(intbv(offset, min=-(1 << 47), max=(1 << 47)))
@@ -142,11 +234,9 @@ def fc_serial(
     weight_value_extended = Signal(intbv(0, min=-(1 << 15), max=(1 << 15)))
     mac_product = Signal(intbv(0, min=-(1 << 15), max=(1 << 15)))
     accumulator = Signal(intbv(0, min=ACCUMULATOR_MIN, max=ACCUMULATOR_MAX))
-    matmul_multiplier = Signal(intbv(0, min=-(1 << 31), max=(1 << 31)))
+    matmul_scale_mantissa = Signal(intbv(0)[24:])
+    matmul_scale_exponent = Signal(intbv(0, min=-64, max=1))
     add_bias_offset = Signal(intbv(0, min=-(1 << 47), max=(1 << 47)))
-    matmul_accumulator_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
-    matmul_multiplier_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
-    matmul_product = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
     matmul_value_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
     add_centered_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
     add_multiplier_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
@@ -156,6 +246,13 @@ def fc_serial(
     matmul_value = Signal(intbv(0)[8:])
     output_quantized = Signal(intbv(0)[8:])
     output_register = Signal(intbv(0)[8:])
+    matmul_requantizer = float32_matmul_requantize(
+        accumulator,
+        matmul_scale_mantissa,
+        matmul_scale_exponent,
+        matmul_output_zero_point,
+        matmul_value,
+    )
 
     @always_comb
     def control_outputs():
@@ -185,17 +282,9 @@ def fc_serial(
 
     @always_comb
     def select_requantization_constants():
-        matmul_multiplier.next = matmul_multiplier_memory[output_index]
+        matmul_scale_mantissa.next = matmul_scale_mantissa_memory[output_index]
+        matmul_scale_exponent.next = matmul_scale_exponent_memory[output_index]
         add_bias_offset.next = add_bias_offset_memory[output_index]
-
-    @always_comb
-    def extend_matmul_operands():
-        matmul_accumulator_extended.next = accumulator
-        matmul_multiplier_extended.next = matmul_multiplier
-
-    @always_comb
-    def multiply_matmul():
-        matmul_product.next = matmul_accumulator_extended * matmul_multiplier_extended
 
     @always(clk.posedge)
     def write_input_memory():
@@ -230,22 +319,6 @@ def fc_serial(
             add_centered_extended * add_multiplier_extended
             + add_offset_extended
         )
-
-    @always_comb
-    def requantize_matmul():
-        quotient = matmul_product >> FIXED_SHIFT
-        rounded = quotient
-        if matmul_product[FIXED_SHIFT:0] > FIXED_HALF or (
-            matmul_product[FIXED_SHIFT:0] == FIXED_HALF and (quotient & 1) != 0
-        ):
-            rounded = quotient + 1
-        quantized = rounded + matmul_output_zero_point
-        if quantized < 0:
-            matmul_value.next = 0
-        elif quantized > 255:
-            matmul_value.next = 255
-        else:
-            matmul_value.next = quantized
 
     @always_comb
     def requantize_bias_add():
@@ -324,14 +397,12 @@ def fc_serial(
         select_requantization_constants,
         extend_mac_operands,
         multiply_mac,
-        extend_matmul_operands,
-        multiply_matmul,
+        matmul_requantizer,
         write_input_memory,
         extend_matmul_value,
         center_matmul_value,
         extend_add_operands,
         multiply_add,
-        requantize_matmul,
         requantize_bias_add,
         sequencer,
     )
@@ -348,7 +419,8 @@ def fc_parallel2(
     output_valid,
     output_ready,
     weights: tuple[int, ...],
-    matmul_multipliers: tuple[int, ...],
+    matmul_scale_mantissas: tuple[int, ...],
+    matmul_scale_exponents: tuple[int, ...],
     add_multiplier: int,
     add_bias_offsets: tuple[int, ...],
     matmul_output_zero_point: int,
@@ -385,9 +457,13 @@ def fc_parallel2(
         for output_index in range(output_size // 2)
         for input_index in range(input_size)
     ]
-    matmul_multiplier_memory = [
-        Signal(intbv(multiplier, min=-(1 << 31), max=(1 << 31)))
-        for multiplier in matmul_multipliers
+    matmul_scale_mantissa_memory = [
+        Signal(intbv(mantissa)[24:])
+        for mantissa in matmul_scale_mantissas
+    ]
+    matmul_scale_exponent_memory = [
+        Signal(intbv(exponent, min=-64, max=1))
+        for exponent in matmul_scale_exponents
     ]
     add_bias_offset_memory = [
         Signal(intbv(offset, min=-(1 << 47), max=(1 << 47)))
@@ -410,16 +486,12 @@ def fc_parallel2(
     odd_mac_product = Signal(intbv(0, min=-(1 << 15), max=(1 << 15)))
     even_accumulator = Signal(intbv(0, min=ACCUMULATOR_MIN, max=ACCUMULATOR_MAX))
     odd_accumulator = Signal(intbv(0, min=ACCUMULATOR_MIN, max=ACCUMULATOR_MAX))
-    even_matmul_multiplier = Signal(intbv(0, min=-(1 << 31), max=(1 << 31)))
-    odd_matmul_multiplier = Signal(intbv(0, min=-(1 << 31), max=(1 << 31)))
+    even_matmul_scale_mantissa = Signal(intbv(0)[24:])
+    odd_matmul_scale_mantissa = Signal(intbv(0)[24:])
+    even_matmul_scale_exponent = Signal(intbv(0, min=-64, max=1))
+    odd_matmul_scale_exponent = Signal(intbv(0, min=-64, max=1))
     even_add_bias_offset = Signal(intbv(0, min=-(1 << 47), max=(1 << 47)))
     odd_add_bias_offset = Signal(intbv(0, min=-(1 << 47), max=(1 << 47)))
-    even_accumulator_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
-    odd_accumulator_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
-    even_multiplier_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
-    odd_multiplier_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
-    even_matmul_product = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
-    odd_matmul_product = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
     even_matmul_value_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
     odd_matmul_value_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
     even_add_centered_extended = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
@@ -438,6 +510,20 @@ def fc_parallel2(
     odd_output_quantized = Signal(intbv(0)[8:])
     even_output_register = Signal(intbv(0)[8:])
     odd_output_register = Signal(intbv(0)[8:])
+    even_matmul_requantizer = float32_matmul_requantize(
+        even_accumulator,
+        even_matmul_scale_mantissa,
+        even_matmul_scale_exponent,
+        matmul_output_zero_point,
+        even_matmul_value,
+    )
+    odd_matmul_requantizer = float32_matmul_requantize(
+        odd_accumulator,
+        odd_matmul_scale_mantissa,
+        odd_matmul_scale_exponent,
+        matmul_output_zero_point,
+        odd_matmul_value,
+    )
 
     @always_comb
     def control_outputs():
@@ -471,13 +557,33 @@ def fc_parallel2(
     @always_comb
     def select_requantization_constants():
         if output_index % 2 == 0:
-            even_matmul_multiplier.next = matmul_multiplier_memory[output_index]
-            odd_matmul_multiplier.next = matmul_multiplier_memory[output_index + 1]
+            even_matmul_scale_mantissa.next = (
+                matmul_scale_mantissa_memory[output_index]
+            )
+            odd_matmul_scale_mantissa.next = (
+                matmul_scale_mantissa_memory[output_index + 1]
+            )
+            even_matmul_scale_exponent.next = (
+                matmul_scale_exponent_memory[output_index]
+            )
+            odd_matmul_scale_exponent.next = (
+                matmul_scale_exponent_memory[output_index + 1]
+            )
             even_add_bias_offset.next = add_bias_offset_memory[output_index]
             odd_add_bias_offset.next = add_bias_offset_memory[output_index + 1]
         else:
-            even_matmul_multiplier.next = matmul_multiplier_memory[output_index - 1]
-            odd_matmul_multiplier.next = matmul_multiplier_memory[output_index]
+            even_matmul_scale_mantissa.next = (
+                matmul_scale_mantissa_memory[output_index - 1]
+            )
+            odd_matmul_scale_mantissa.next = (
+                matmul_scale_mantissa_memory[output_index]
+            )
+            even_matmul_scale_exponent.next = (
+                matmul_scale_exponent_memory[output_index - 1]
+            )
+            odd_matmul_scale_exponent.next = (
+                matmul_scale_exponent_memory[output_index]
+            )
             even_add_bias_offset.next = add_bias_offset_memory[output_index - 1]
             odd_add_bias_offset.next = add_bias_offset_memory[output_index]
 
@@ -491,22 +597,6 @@ def fc_parallel2(
     def multiply_macs():
         even_mac_product.next = input_value_extended * even_weight_extended
         odd_mac_product.next = input_value_extended * odd_weight_extended
-
-    @always_comb
-    def extend_matmul_operands():
-        even_accumulator_extended.next = even_accumulator
-        odd_accumulator_extended.next = odd_accumulator
-        even_multiplier_extended.next = even_matmul_multiplier
-        odd_multiplier_extended.next = odd_matmul_multiplier
-
-    @always_comb
-    def multiply_matmuls():
-        even_matmul_product.next = (
-            even_accumulator_extended * even_multiplier_extended
-        )
-        odd_matmul_product.next = (
-            odd_accumulator_extended * odd_multiplier_extended
-        )
 
     @always_comb
     def extend_matmul_values():
@@ -539,38 +629,6 @@ def fc_parallel2(
             odd_add_centered_extended * odd_add_multiplier_extended
             + odd_add_offset_extended
         )
-
-    @always_comb
-    def requantize_matmuls():
-        even_quotient = even_matmul_product >> FIXED_SHIFT
-        even_rounded = even_quotient
-        if even_matmul_product[FIXED_SHIFT:0] > FIXED_HALF or (
-            even_matmul_product[FIXED_SHIFT:0] == FIXED_HALF
-            and (even_quotient & 1) != 0
-        ):
-            even_rounded = even_quotient + 1
-        even_quantized = even_rounded + matmul_output_zero_point
-        if even_quantized < 0:
-            even_matmul_value.next = 0
-        elif even_quantized > 255:
-            even_matmul_value.next = 255
-        else:
-            even_matmul_value.next = even_quantized
-
-        odd_quotient = odd_matmul_product >> FIXED_SHIFT
-        odd_rounded = odd_quotient
-        if odd_matmul_product[FIXED_SHIFT:0] > FIXED_HALF or (
-            odd_matmul_product[FIXED_SHIFT:0] == FIXED_HALF
-            and (odd_quotient & 1) != 0
-        ):
-            odd_rounded = odd_quotient + 1
-        odd_quantized = odd_rounded + matmul_output_zero_point
-        if odd_quantized < 0:
-            odd_matmul_value.next = 0
-        elif odd_quantized > 255:
-            odd_matmul_value.next = 255
-        else:
-            odd_matmul_value.next = odd_quantized
 
     @always_comb
     def requantize_adds():
@@ -685,13 +743,12 @@ def fc_parallel2(
         select_requantization_constants,
         extend_mac_operands,
         multiply_macs,
-        extend_matmul_operands,
-        multiply_matmuls,
+        even_matmul_requantizer,
+        odd_matmul_requantizer,
         extend_matmul_values,
         center_matmul_values,
         extend_add_operands,
         multiply_adds,
-        requantize_matmuls,
         requantize_adds,
         write_input_memory,
         sequencer,

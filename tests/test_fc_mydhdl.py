@@ -14,7 +14,13 @@ from myhdl import (
     intbv,
 )
 
-from mnist_fc.fc_mydhdl import HardwareConstants, fc_parallel2, fc_serial
+from mnist_fc.fc_mydhdl import (
+    FIXED_SHIFT,
+    HardwareConstants,
+    fc_parallel2,
+    fc_serial,
+    float32_matmul_requantize,
+)
 from mnist_fc.fc_reference import QuantizedFullyConnected
 
 
@@ -50,7 +56,8 @@ def _simulate_layer(
         output_valid,
         output_ready,
         constants.weights,
-        constants.matmul_multipliers,
+        constants.matmul_scale_mantissas,
+        constants.matmul_scale_exponents,
         constants.add_multiplier,
         constants.add_bias_offsets,
         constants.matmul_output_zero_point,
@@ -93,6 +100,38 @@ def _simulate_layer(
 
     Simulation(dut, clock_driver, stimulus).run()
     return outputs, elapsed_cycles[0]
+
+
+def _simulate_matmul_requantizer(
+    cases: list[tuple[int, int]],
+    constants: HardwareConstants,
+    zero_point: int,
+) -> list[int]:
+    outputs: list[int] = []
+    accumulator = Signal(intbv(0, min=-(1 << 31), max=(1 << 31)))
+    scale_mantissa = Signal(intbv(0)[24:])
+    scale_exponent = Signal(intbv(0, min=-64, max=1))
+    output = Signal(intbv(0)[8:])
+    dut = float32_matmul_requantize(
+        accumulator,
+        scale_mantissa,
+        scale_exponent,
+        zero_point,
+        output,
+    )
+
+    @instance
+    def stimulus():
+        for value, channel in cases:
+            accumulator.next = value
+            scale_mantissa.next = constants.matmul_scale_mantissas[channel]
+            scale_exponent.next = constants.matmul_scale_exponents[channel]
+            yield delay(1)
+            outputs.append(int(output))
+        raise StopSimulation
+
+    Simulation(dut, stimulus).run()
+    return outputs
 
 
 class MyHDLFullyConnectedTests(unittest.TestCase):
@@ -153,7 +192,7 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
         )
         np.testing.assert_array_equal(outputs, self.layer.run(activations))
 
-    def test_fixed_point_requantization_matches_over_full_ranges(self) -> None:
+    def test_float32_matmul_rounding_matches_onnx_near_half_cases(self) -> None:
         shift_factor = 1 << 40
         half = shift_factor >> 1
 
@@ -169,26 +208,29 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             * self.layer.weight_scales
             / np.float32(self.layer.matmul_output_scale)
         )
+        cases: list[tuple[int, int]] = []
         for output_index in range(self.layer.output_size):
             weights = self.layer.weights[:, output_index].astype(np.int64)
             low = int(np.minimum(weights * 0, weights * 255).sum())
             high = int(np.maximum(weights * 0, weights * 255).sum())
             accumulators = np.arange(low, high + 1, dtype=np.int64)
-            expected = np.clip(
-                np.rint(accumulators * matmul_scales[output_index])
-                + self.layer.matmul_output_zero_point,
-                0,
-                255,
+            multiplier = int(
+                np.rint(float(matmul_scales[output_index]) * shift_factor)
             )
-            actual = np.clip(
-                round_even(
-                    accumulators * self.constants.matmul_multipliers[output_index]
-                )
-                + self.layer.matmul_output_zero_point,
-                0,
-                255,
+            old_product = accumulators * multiplier
+            old_matmul = round_even(old_product)
+            float32_matmul = np.rint(
+                accumulators.astype(np.float32) * matmul_scales[output_index]
             )
-            np.testing.assert_array_equal(actual, expected)
+            differing_accumulators = accumulators[old_matmul != float32_matmul]
+            cases.extend(
+                (int(value), output_index) for value in differing_accumulators
+            )
+            cases.extend(
+                (value, output_index)
+                for value in (low, -1, 0, 1, high)
+                if low <= value <= high
+            )
 
             quantized_matmul = np.arange(256, dtype=np.int64)
             bias = int(self.layer.bias.reshape(self.layer.output_size)[output_index])
@@ -217,6 +259,27 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             )
             np.testing.assert_array_equal(actual_add, expected_add)
 
+        self.assertIn((-37225, 6), cases)
+        actual = _simulate_matmul_requantizer(
+            cases,
+            self.constants,
+            self.layer.matmul_output_zero_point,
+        )
+        expected = [
+            int(
+                np.clip(
+                    np.rint(np.float32(value) * matmul_scales[channel])
+                    + self.layer.matmul_output_zero_point,
+                    0,
+                    255,
+                )
+            )
+            for value, channel in cases
+        ]
+        np.testing.assert_array_equal(actual, expected)
+        counterexample_index = cases.index((-37225, 6))
+        self.assertEqual(actual[counterexample_index], 76)
+
     def test_converts_to_synchronous_memory_verilog(self) -> None:
         clk = Signal(bool(0))
         reset = ResetSignal(0, active=1, isasync=False)
@@ -236,7 +299,8 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             output_valid,
             output_ready,
             self.constants.weights,
-            self.constants.matmul_multipliers,
+            self.constants.matmul_scale_mantissas,
+            self.constants.matmul_scale_exponents,
             self.constants.add_multiplier,
             self.constants.add_bias_offsets,
             self.constants.matmul_output_zero_point,
@@ -251,7 +315,7 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
         self.assertIn("reg signed [7:0]  even_weight_memory [0:1280-1];", rtl)
         self.assertIn("reg signed [7:0]  odd_weight_memory [0:1280-1];", rtl)
         self.assertIn("always @(posedge clk) begin: read_memories", rtl)
-        self.assertIn("wire signed [63:0] matmul_product;", rtl)
+        self.assertIn("matmul_scale_mantissa_memory", rtl)
 
     def test_converter_requests_block_rom_inference_for_both_weight_banks(self) -> None:
         with TemporaryDirectory() as output_dir:
@@ -300,7 +364,8 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             output_valid,
             output_ready,
             self.constants.weights,
-            self.constants.matmul_multipliers,
+            self.constants.matmul_scale_mantissas,
+            self.constants.matmul_scale_exponents,
             self.constants.add_multiplier,
             self.constants.add_bias_offsets,
             self.constants.matmul_output_zero_point,
@@ -313,8 +378,8 @@ class MyHDLFullyConnectedTests(unittest.TestCase):
             rtl = (Path(output_dir) / "mnist_fc_parallel2.v").read_text()
 
         self.assertIn("reg [15:0]  pair_weight_memory [0:1280-1];", rtl)
-        self.assertIn("wire signed [63:0] even_matmul_product;", rtl)
-        self.assertIn("wire signed [63:0] odd_matmul_product;", rtl)
+        self.assertIn("matmul_scale_mantissa_memory", rtl)
+        self.assertIn("matmul_scale_exponent_memory", rtl)
 
     def test_parallel2_converter_writes_packed_block_rom(self) -> None:
         from mnist_fc.convert_fc import main
