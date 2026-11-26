@@ -8,8 +8,9 @@ MNIST-12-int8 model using Python/MyHDL.
 - `mnist_fc/` contains the Python reference, MyHDL design, and RTL converter.
 - `models/` contains the quantized ONNX model.
 - `tests/` contains Python tests, the RTL testbench, and its Docker image.
-- `scripts/` contains the test runner and Vivado synthesis script.
-- `docs/` and `reports/` contain the project plan and synthesis report.
+- `scripts/` contains the test runner and Vivado project/synthesis scripts.
+- `docs/` and `reports/` contain the project plan and implementation reports.
+- `vivado_project/` contains the serial design's Vivado project and sources.
 - `build/` is generated output and is not tracked by Git.
 
 ## Setup
@@ -62,6 +63,17 @@ each pair of output weights into `pair_weight_memory.mem`. Copy the relevant
 RTL and memory file(s) together when moving a design into Vivado. The
 synchronous ROMs are initialized with `$readmemh` and marked for block-RAM
 inference.
+
+The Vivado project for the serial P=1 design is
+`vivado_project/mnist_fc.xpr`. It targets `xc7z020clg400-1` and includes its
+generated Verilog and memory files. It specifies the FPGA part only, with no
+board preset or pin constraints. To regenerate the source and create or update
+the project from the repository root:
+
+```bash
+python -m mnist_fc.convert_fc --output-dir vivado_project/src
+vivado -mode batch -source scripts/create_vivado_project.tcl
+```
 
 For batch synthesis targeting the device specified in the project plan
 (`xc7z020clg400-1`), run the default serial version with:

@@ -3,3 +3,16 @@ build/
 __pycache__/
 *.py[cod]
 .DS_Store
+
+# Vivado-generated files
+.Xil/
+vivado*.jou
+vivado*.log
+vivado_project/*.cache/
+vivado_project/*.gen/
+vivado_project/*.hw/
+vivado_project/*.ip_user_files/
+vivado_project/*.runs/
+vivado_project/*.sim/
+vivado_project/*.srcs/
+vivado_project/src/tb_*.v
