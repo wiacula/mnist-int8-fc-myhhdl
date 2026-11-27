@@ -106,18 +106,16 @@ Raporty sweepu: [P=1 przy 10 ns](./vivado_timing_serial_10ns.rpt),
 [P=1 przy 29 ns](./vivado_timing_serial_29ns.rpt),
 [P=2 przy 29 ns](./vivado_timing_parallel2_29ns.rpt).
 
-## Walidacja testow RTL przed aktualna zmiana arytmetyki
+## Aktualna walidacja RTL
 
-- `python -m unittest -v`: 15 testow, wszystkie PASS, bez pominietych testow.
-- `python -m unittest -v tests.test_fc_rtl`: 2 testy RTL, oba PASS dla
-  wariantu P=1 i P=2.
-- Wspolsymulacje wykonano z Icarus Verilog 13.0 oraz MyHDL 0.11.52 VPI.
-  Wyniki RTL porownano z referencja Python dla danych granicznych i losowych.
-
-Po zmianie requantyzacji aktualne testy Python/MyHDL przechodza (13 testow).
-Obie wersje Verilog generuja sie poprawnie, ale nie wykonano ich aktualnej
-wspolsymulacji RTL ani syntezy/timingu: w srodowisku nie ma Icarus Verilog,
-`vvp` ani Vivado.
+- `python -m unittest -v tests.test_fc_rtl`: 2 testy PASS dla P=1 i P=2.
+- Wspolsymulacje aktualnego RTL wykonano na Icarus Verilog 12.0 z MyHDL
+  0.11.52. Kazdy wariant sprawdzono dla wejscia zerowego, maksymalnego i
+  deterministycznego losowego; wszystkie bajty wyjscia zgadzaja sie bit w bit
+  z referencja Python. Testy obejmuja tez backpressure na wyjsciu.
+- Synteza i timing aktualnego RTL nie zostaly jeszcze wykonane. Raporty
+  Vivado opisane wyzej pochodza sprzed zmiany requantyzacji i nie sa aktualnym
+  potwierdzeniem zasobow ani czestotliwosci.
 
 ## Test na zbiorze MNIST
 

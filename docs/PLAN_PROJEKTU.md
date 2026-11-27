@@ -151,21 +151,23 @@ Dodać wykresy lub krótki rozdział opisujący:
 - Przygotowano testy ONNX i MyHDL.
 - Wygenerowano Verilog.
 - Wszystkie obecne testy Python/MyHDL przechodzą.
-- Dodano testbench MyHDL i sprawdzono wygenerowany RTL w symulatorze Icarus.
-- RTL zgadza się bit w bit z Pythonowym wzorcem dla wejścia zerowego,
-  maksymalnego i losowego; sprawdzono też zatrzymanie odbioru wyników.
+- Testy ko-symulacji aktualnego RTL dla P=1 i P=2 przechodzą w Icarus Verilog
+  12.0 z MyHDL 0.11.52. Dla wejścia zerowego, maksymalnego i losowego wszystkie
+  bajty wyjścia zgadzają się bit w bit z wzorcem Pythonowym; sprawdzono też
+  zatrzymanie odbioru wyników.
 - Pierwszy raport Vivado pokazał, że pierwotny ROM wag był realizowany w LUT;
   sama wskazówka `rom_style` nie zmieniła mapowania.
 - ROM wag rozdzielono na dwa banki i zmieniono ich inicjalizację na pliki
   `$readmemh`. Ponowna synteza Vivado potwierdziła dwa banki wag w BRAM oraz
   osobną BRAM dla bufora wejściowego: 3 x RAMB18E1 łącznie.
-- Aktualny raport syntezy: 374 LUT, 64 FF, 6 DSP48E1 i 3 RAMB18E1 dla
-  `xc7z020clg400-1`. Test RTL w Icarus nadal zgadza się bit w bit z wzorcem.
+- Historyczne raporty syntezy i timingu dotyczą RTL sprzed zmiany
+  requantyzacji; trzeba ponownie wykonać syntezę i timing aktualnego RTL.
 
 Następny krok:
 
-1. Sprawdzić wymagania prowadzącego dotyczące RTL testbenchu i wariantu równoległego.
-2. Przenieść wygenerowany Verilog i oba pliki `.mem` do projektu Vivado.
-3. Uruchomić syntezę w projekcie kursowym i zachować jego raport.
-4. Dodać constraints zegara i uruchomić implementację, jeśli wymagane są wyniki
-   czasowe.
+1. Przenieść aktualne źródła RTL i pliki `.mem` do projektu Vivado.
+2. Ponownie uruchomić syntezę P=1 i P=2 oraz zachować raporty.
+3. Dodać constraints zegara i ponowić analizę timingową, jeśli wymagane są
+   aktualne wyniki czasowe.
+4. Sprawdzić wymagania prowadzącego dotyczące RTL testbenchu i wariantu
+   równoległego.
