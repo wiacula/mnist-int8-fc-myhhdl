@@ -1,14 +1,14 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2026.2 (win64) Build 6713330 Sat Nov 07 01:26:36 MST 2026
-| Date         : Thu Nov 26 00:39:18 2026
+| Date         : Fri Nov 27 19:02:44 2026
 | Host         : tomasz running 64-bit major release  (build 9200)
-| Command      : report_timing_summary -delay_type min_max -report_unconstrained -file C:/Users/tomas/Desktop/ESL_projekt/mnist-int8-fc-myhhdl-1/reports/vivado_timing_parallel2_30ns.rpt
+| Command      : report_timing_summary -delay_type min_max -report_unconstrained -file C:/Users/tomas/Desktop/ESL_projekt/mnist-int8-fc-myhhdl-1/build/vivado_reports_current_20261127/vivado_timing_parallel2_30ns.rpt
 | Design       : mnist_fc_parallel2
 | Device       : 7z020-clg400
 | Speed File   : -1  PRODUCTION 1.12 2019-11-22
 | Design State : Routed
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Timing Summary Report
 
@@ -138,10 +138,10 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      0.074        0.000                      0                  495        0.127        0.000                      0                  495       14.500        0.000                       0                   116  
+    -10.942     -337.749                     32                  383        0.212        0.000                      0                  383       14.500        0.000                       0                   126  
 
 
-All user specified timing constraints are met.
+Timing constraints are not met.
 
 
 ------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ core_clk  {0.000 15.000}     30.000          33.333
 
 Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-core_clk            0.074        0.000                      0                  495        0.127        0.000                      0                  495       14.500        0.000                       0                   116  
+core_clk          -10.942     -337.749                     32                  383        0.212        0.000                      0                  383       14.500        0.000                       0                   126  
 
 
 ------------------------------------------------------------------------------------------------
@@ -213,28 +213,28 @@ Path Group    From Clock    To Clock
 From Clock:  core_clk
   To Clock:  core_clk
 
-Setup :            0  Failing Endpoints,  Worst Slack        0.074ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.127ns,  Total Violation        0.000ns
+Setup :           32  Failing Endpoints,  Worst Slack      -10.942ns,  Total Violation     -337.749ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.212ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack       14.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.074ns  (required time - arrival time)
-  Source:                 output_index_reg[1]/C
+Slack (VIOLATED) :        -10.942ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
-  Destination:            even_output_register_reg[0]/D
+  Destination:            even_matmul_value_stage_reg[0]/D
                             (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
   Path Group:             core_clk
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            30.000ns  (core_clk rise@30.000ns - core_clk rise@0.000ns)
-  Data Path Delay:        29.888ns  (logic 18.446ns (61.717%)  route 11.442ns (38.283%))
-  Logic Levels:           36  (CARRY4=20 DSP48E1=4 LUT2=3 LUT4=3 LUT5=2 LUT6=4)
-  Clock Path Skew:        -0.032ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.556ns = ( 34.556 - 30.000 ) 
-    Source Clock Delay      (SCD):    5.082ns
-    Clock Pessimism Removal (CPR):    0.494ns
+  Data Path Delay:        40.949ns  (logic 18.875ns (46.094%)  route 22.074ns (53.906%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=4 LUT5=5 LUT6=14)
+  Clock Path Skew:        0.011ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.631ns = ( 34.631 - 30.000 ) 
+    Source Clock Delay      (SCD):    5.078ns
+    Clock Pessimism Removal (CPR):    0.458ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -250,108 +250,165 @@ Slack (MET) :             0.074ns  (required time - arrival time)
     U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.171     3.229    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         1.752     5.082    clk_IBUF_BUFG
-    SLICE_X17Y8          FDRE                                         r  output_index_reg[1]/C
+                         net (fo=125, routed)         1.748     5.078    clk_IBUF_BUFG
+    SLICE_X21Y12         FDRE                                         r  even_accumulator_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X17Y8          FDRE (Prop_fdre_C_Q)         0.456     5.538 r  output_index_reg[1]/Q
-                         net (fo=125, routed)         1.036     6.575    p_0_in[1]
-    SLICE_X9Y14          LUT2 (Prop_lut2_I0_O)        0.124     6.699 r  even_matmul_product_i_5/O
-                         net (fo=2, routed)           0.948     7.646    even_multiplier_extended[16]
-    DSP48_X1Y6           DSP48E1 (Prop_dsp48e1_A[16]_PCOUT[47])
-                                                      4.036    11.682 r  even_matmul_product/PCOUT[47]
-                         net (fo=1, routed)           0.002    11.684    even_matmul_product_n_106
-    DSP48_X1Y7           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[0])
-                                                      1.518    13.202 r  even_matmul_product__0/P[0]
-                         net (fo=1, routed)           0.996    14.198    even_matmul_product__0_n_105
-    SLICE_X8Y14          LUT2 (Prop_lut2_I1_O)        0.124    14.322 r  even_add_product0_i_81/O
-                         net (fo=1, routed)           0.000    14.322    even_add_product0_i_81_n_0
-    SLICE_X8Y14          CARRY4 (Prop_carry4_S[2]_CO[3])
-                                                      0.380    14.702 r  even_add_product0_i_62/CO[3]
-                         net (fo=1, routed)           0.000    14.702    even_add_product0_i_62_n_0
-    SLICE_X8Y15          CARRY4 (Prop_carry4_CI_O[3])
-                                                      0.315    15.017 r  even_add_product0_i_40/O[3]
-                         net (fo=8, routed)           0.640    15.657    even_matmul_product__3[39]
-    SLICE_X9Y11          LUT6 (Prop_lut6_I4_O)        0.307    15.964 r  even_add_product0_i_69/O
-                         net (fo=1, routed)           1.104    17.069    even_add_product0_i_69_n_0
-    SLICE_X13Y9          LUT6 (Prop_lut6_I2_O)        0.124    17.193 r  even_add_product0_i_45/O
-                         net (fo=1, routed)           0.567    17.760    even_add_product0_i_45_n_0
-    SLICE_X15Y10         LUT4 (Prop_lut4_I0_O)        0.124    17.884 r  even_add_product0_i_24/O
-                         net (fo=1, routed)           0.000    17.884    even_add_product0_i_24_n_0
-    SLICE_X15Y10         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    18.416 r  even_add_product0_i_13/CO[3]
-                         net (fo=1, routed)           0.000    18.416    even_add_product0_i_13_n_0
-    SLICE_X15Y11         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    18.530 r  even_add_product0_i_10/CO[3]
-                         net (fo=1, routed)           0.000    18.530    even_add_product0_i_10_n_0
-    SLICE_X15Y12         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    18.644 r  even_add_product0_i_73/CO[3]
-                         net (fo=1, routed)           0.000    18.644    even_add_product0_i_73_n_0
-    SLICE_X15Y13         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    18.758 r  even_add_product0_i_56/CO[3]
-                         net (fo=1, routed)           0.000    18.758    even_add_product0_i_56_n_0
-    SLICE_X15Y14         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    18.872 r  even_add_product0_i_38/CO[3]
-                         net (fo=1, routed)           0.000    18.872    even_add_product0_i_38_n_0
-    SLICE_X15Y15         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    18.986 r  even_add_product0_i_22/CO[3]
-                         net (fo=1, routed)           0.000    18.986    even_add_product0_i_22_n_0
-    SLICE_X15Y16         CARRY4 (Prop_carry4_CI_CO[0])
-                                                      0.271    19.257 r  even_add_product0_i_12/CO[0]
-                         net (fo=16, routed)          0.771    20.028    even_add_product0_i_12_n_3
-    SLICE_X19Y14         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.923    20.951 f  even_add_product0_i_11/CO[3]
-                         net (fo=9, routed)           0.829    21.779    even_matmul_value1
-    SLICE_X19Y11         LUT6 (Prop_lut6_I3_O)        0.124    21.903 r  even_add_product0_i_1/O
-                         net (fo=32, routed)          0.812    22.715    even_add_centered_extended[8]
-    DSP48_X1Y4           DSP48E1 (Prop_dsp48e1_A[19]_PCOUT[47])
-                                                      4.036    26.751 r  even_add_product0/PCOUT[47]
-                         net (fo=1, routed)           0.002    26.753    even_add_product0_n_106
-    DSP48_X1Y5           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[0])
-                                                      1.518    28.271 r  even_add_product0__0/P[0]
-                         net (fo=2, routed)           0.661    28.932    even_add_product0__0_n_105
-    SLICE_X18Y9          LUT4 (Prop_lut4_I0_O)        0.124    29.056 r  even_output_register[0]_i_38/O
-                         net (fo=1, routed)           0.000    29.056    even_output_register[0]_i_38_n_0
-    SLICE_X18Y9          CARRY4 (Prop_carry4_S[3]_CO[3])
-                                                      0.376    29.432 r  even_output_register_reg[0]_i_24/CO[3]
-                         net (fo=1, routed)           0.000    29.432    even_output_register_reg[0]_i_24_n_0
-    SLICE_X18Y10         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.117    29.549 r  even_output_register_reg[0]_i_22/CO[3]
-                         net (fo=1, routed)           0.000    29.549    even_output_register_reg[0]_i_22_n_0
-    SLICE_X18Y11         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.117    29.666 r  even_output_register_reg[0]_i_23/CO[3]
-                         net (fo=1, routed)           0.000    29.666    even_output_register_reg[0]_i_23_n_0
-    SLICE_X18Y12         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.117    29.783 r  even_output_register_reg[0]_i_21/CO[3]
-                         net (fo=1, routed)           0.000    29.783    even_output_register_reg[0]_i_21_n_0
-    SLICE_X18Y13         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.117    29.900 r  even_output_register_reg[4]_i_9/CO[3]
-                         net (fo=1, routed)           0.000    29.900    even_output_register_reg[4]_i_9_n_0
-    SLICE_X18Y14         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.117    30.017 r  even_output_register_reg[4]_i_4/CO[3]
-                         net (fo=1, routed)           0.000    30.017    even_output_register_reg[4]_i_4_n_0
-    SLICE_X18Y15         CARRY4 (Prop_carry4_CI_O[1])
-                                                      0.323    30.340 f  even_output_register_reg[4]_i_3/O[1]
-                         net (fo=14, routed)          0.869    31.209    even_output_register_reg[4]_i_3_n_6
-    SLICE_X19Y16         LUT5 (Prop_lut5_I1_O)        0.306    31.515 r  even_output_register[7]_i_9/O
-                         net (fo=1, routed)           0.285    31.800    even_output_register[7]_i_9_n_0
-    SLICE_X17Y16         LUT6 (Prop_lut6_I0_O)        0.124    31.924 r  even_output_register[7]_i_4/O
-                         net (fo=2, routed)           0.165    32.089    even_output_register[7]_i_4_n_0
-    SLICE_X17Y16         LUT2 (Prop_lut2_I0_O)        0.124    32.213 r  even_output_register[5]_i_4/O
-                         net (fo=10, routed)          0.515    32.728    even_output_register[5]_i_4_n_0
-    SLICE_X16Y14         CARRY4 (Prop_carry4_DI[1]_CO[3])
-                                                      0.520    33.248 r  even_output_register_reg[5]_i_9/CO[3]
-                         net (fo=1, routed)           0.000    33.248    even_output_register_reg[5]_i_9_n_0
-    SLICE_X16Y15         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.117    33.365 r  even_output_register_reg[5]_i_3/CO[3]
-                         net (fo=1, routed)           0.000    33.365    even_output_register_reg[5]_i_3_n_0
-    SLICE_X16Y16         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.117    33.482 r  even_output_register_reg[5]_i_2/CO[3]
-                         net (fo=2, routed)           0.623    34.105    even_output_register_reg[5]_i_2_n_0
-    SLICE_X16Y17         LUT4 (Prop_lut4_I3_O)        0.124    34.229 r  even_output_register[7]_i_8/O
-                         net (fo=7, routed)           0.618    34.847    even_output_register[7]_i_8_n_0
-    SLICE_X17Y17         LUT5 (Prop_lut5_I4_O)        0.124    34.971 r  even_output_register[0]_i_1/O
-                         net (fo=1, routed)           0.000    34.971    even_output_register[0]_i_1_n_0
-    SLICE_X17Y17         FDRE                                         r  even_output_register_reg[0]/D
+    SLICE_X21Y12         FDRE (Prop_fdre_C_Q)         0.456     5.534 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.173     5.708    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y12         LUT1 (Prop_lut1_I0_O)        0.124     5.832 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.330     6.161    p_1_out__3_i_39_n_0
+    SLICE_X20Y13         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.756 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.756    p_1_out__3_i_26_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     6.873 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     6.873    p_1_out__3_i_25_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     6.990 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     6.990    p_1_out__3_i_24_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315     7.305 r  p_1_out__3_i_23/O[3]
+                         net (fo=1, routed)           0.671     7.976    float32_matmul_requantize0_product1[16]
+    SLICE_X21Y24         LUT3 (Prop_lut3_I0_O)        0.307     8.283 r  p_1_out__3_i_1/O
+                         net (fo=1, routed)           0.377     8.660    p_1_out__3_i_1_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[16]_PCOUT[47])
+                                                      3.851    12.511 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.513    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.031 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           0.983    15.014    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.651 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.651    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    15.768 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    15.768    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    16.007 f  even_matmul_value_stage_reg[7]_i_419/O[2]
+                         net (fo=11, routed)          0.887    16.894    even_matmul_value_stage_reg[7]_i_419_n_5
+    SLICE_X17Y18         LUT5 (Prop_lut5_I0_O)        0.301    17.195 r  even_matmul_value_stage[7]_i_282/O
+                         net (fo=6, routed)           0.492    17.688    even_matmul_value_stage[7]_i_282_n_0
+    SLICE_X15Y16         LUT5 (Prop_lut5_I4_O)        0.124    17.812 f  even_matmul_value_stage[7]_i_443/O
+                         net (fo=6, routed)           0.681    18.493    even_matmul_value_stage[7]_i_443_n_0
+    SLICE_X17Y17         LUT6 (Prop_lut6_I5_O)        0.124    18.617 f  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.521    19.138    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X14Y17         LUT6 (Prop_lut6_I4_O)        0.124    19.262 r  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.557    19.818    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X13Y16         CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.526    20.344 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.344    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X13Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    20.458 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.458    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X13Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    20.572 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    20.572    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X13Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.228    20.800 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.408    21.208    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X14Y19         LUT6 (Prop_lut6_I5_O)        0.313    21.521 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=100, routed)         1.011    22.532    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X15Y24         LUT6 (Prop_lut6_I2_O)        0.124    22.656 r  even_matmul_value_stage[7]_i_253/O
+                         net (fo=6, routed)           0.971    23.627    even_matmul_value_stage[7]_i_253_n_0
+    SLICE_X10Y27         LUT6 (Prop_lut6_I0_O)        0.124    23.751 r  even_matmul_value_stage[7]_i_143/O
+                         net (fo=2, routed)           0.794    24.545    even_matmul_value_stage[7]_i_143_n_0
+    SLICE_X10Y26         LUT6 (Prop_lut6_I3_O)        0.124    24.669 f  even_matmul_value_stage[7]_i_66/O
+                         net (fo=55, routed)          0.447    25.116    even_matmul_value_stage[7]_i_651_n_0
+    SLICE_X9Y26          LUT2 (Prop_lut2_I0_O)        0.124    25.240 r  even_matmul_value_stage[7]_i_761/O
+                         net (fo=6, routed)           0.453    25.693    even_matmul_value_stage[7]_i_761_n_0
+    SLICE_X8Y25          LUT3 (Prop_lut3_I2_O)        0.124    25.817 r  even_matmul_value_stage[7]_i_763/O
+                         net (fo=4, routed)           0.567    26.384    even_matmul_value_stage[7]_i_763_n_0
+    SLICE_X9Y18          LUT6 (Prop_lut6_I2_O)        0.124    26.508 r  even_matmul_value_stage[7]_i_737/O
+                         net (fo=2, routed)           0.664    27.172    even_matmul_value_stage[7]_i_737_n_0
+    SLICE_X8Y18          LUT6 (Prop_lut6_I3_O)        0.124    27.296 r  even_matmul_value_stage[7]_i_663/O
+                         net (fo=1, routed)           0.000    27.296    even_matmul_value_stage[7]_i_663_n_0
+    SLICE_X8Y18          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    27.829 r  even_matmul_value_stage_reg[7]_i_525/CO[3]
+                         net (fo=1, routed)           0.000    27.829    even_matmul_value_stage_reg[7]_i_525_n_0
+    SLICE_X8Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.946 r  even_matmul_value_stage_reg[7]_i_427/CO[3]
+                         net (fo=1, routed)           0.000    27.946    even_matmul_value_stage_reg[7]_i_427_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.063 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.063    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.180 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.180    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    28.419 r  even_matmul_value_stage_reg[7]_i_234/O[2]
+                         net (fo=3, routed)           0.871    29.290    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X7Y19          LUT6 (Prop_lut6_I4_O)        0.301    29.591 r  even_matmul_value_stage[7]_i_134/O
+                         net (fo=1, routed)           0.481    30.072    even_matmul_value_stage[7]_i_134_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.507    30.579 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.292    31.870    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X2Y21          LUT6 (Prop_lut6_I2_O)        0.124    31.994 r  even_matmul_value_stage[7]_i_30/O
+                         net (fo=63, routed)          1.115    33.109    even_matmul_value_stage[7]_i_30_n_0
+    SLICE_X2Y20          LUT6 (Prop_lut6_I1_O)        0.124    33.233 r  even_matmul_value_stage[7]_i_172/O
+                         net (fo=4, routed)           0.697    33.930    even_matmul_value_stage[7]_i_172_n_0
+    SLICE_X2Y22          LUT6 (Prop_lut6_I5_O)        0.124    34.054 r  even_matmul_value_stage[7]_i_302/O
+                         net (fo=2, routed)           0.785    34.839    even_matmul_value_stage[7]_i_302_n_0
+    SLICE_X4Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.963 f  even_matmul_value_stage[7]_i_491/O
+                         net (fo=6, routed)           0.808    35.771    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[9]
+    SLICE_X1Y24          LUT6 (Prop_lut6_I4_O)        0.124    35.895 r  even_matmul_value_stage[3]_i_244/O
+                         net (fo=2, routed)           0.627    36.522    even_matmul_value_stage[3]_i_244_n_0
+    SLICE_X2Y23          LUT3 (Prop_lut3_I0_O)        0.124    36.646 r  even_matmul_value_stage[3]_i_222/O
+                         net (fo=2, routed)           0.497    37.143    even_matmul_value_stage[3]_i_222_n_0
+    SLICE_X7Y23          LUT5 (Prop_lut5_I4_O)        0.124    37.267 r  even_matmul_value_stage[3]_i_179/O
+                         net (fo=1, routed)           0.000    37.267    even_matmul_value_stage[3]_i_179_n_0
+    SLICE_X7Y23          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.817 r  even_matmul_value_stage_reg[3]_i_137/CO[3]
+                         net (fo=1, routed)           0.000    37.817    even_matmul_value_stage_reg[3]_i_137_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.931 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.940    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    38.162 r  even_matmul_value_stage_reg[3]_i_88/O[0]
+                         net (fo=3, routed)           0.836    38.997    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[16]
+    SLICE_X2Y24          LUT6 (Prop_lut6_I2_O)        0.299    39.296 r  even_matmul_value_stage[3]_i_40/O
+                         net (fo=1, routed)           0.592    39.888    even_matmul_value_stage[3]_i_40_n_0
+    SLICE_X6Y24          CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    40.438 r  even_matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.009    40.447    even_matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.564 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.447    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X5Y25          LUT3 (Prop_lut3_I0_O)        0.124    41.571 r  even_matmul_value_stage[7]_i_29/O
+                         net (fo=31, routed)          0.368    41.939    even_matmul_value_stage[7]_i_29_n_0
+    SLICE_X2Y25          LUT5 (Prop_lut5_I4_O)        0.124    42.063 r  even_matmul_value_stage[3]_i_5/O
+                         net (fo=1, routed)           0.000    42.063    even_matmul_value_stage[3]_i_5_n_0
+    SLICE_X2Y25          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.596 r  even_matmul_value_stage_reg[3]_i_2/CO[3]
+                         net (fo=1, routed)           0.000    42.596    even_matmul_value_stage_reg[3]_i_2_n_0
+    SLICE_X2Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.713 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.713    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X2Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.830 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.830    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X2Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.947 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.947    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X2Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.064 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.064    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X2Y30          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.181 r  even_matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.181    even_matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X2Y31          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.298 r  even_matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.000    43.298    even_matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X2Y32          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    43.621 f  even_matmul_value_stage_reg[7]_i_4/O[1]
+                         net (fo=2, routed)           0.785    44.406    even_matmul_value_stage_reg[7]_i_4_n_6
+    SLICE_X3Y29          LUT2 (Prop_lut2_I1_O)        0.306    44.712 r  even_matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.712    even_matmul_value_stage[7]_i_21_n_0
+    SLICE_X3Y29          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.282 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.433    45.715    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X1Y28          LUT2 (Prop_lut2_I1_O)        0.313    46.028 r  even_matmul_value_stage[0]_i_1/O
+                         net (fo=1, routed)           0.000    46.028    even_matmul_value_stage[0]_i_1_n_0
+    SLICE_X1Y28          FDRE                                         r  even_matmul_value_stage_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock core_clk rise edge)
@@ -361,16 +418,16 @@ Slack (MET) :             0.074ns  (required time - arrival time)
     U7                   IBUF (Prop_ibuf_I_O)         0.924    30.924 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.972    32.896    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    32.987 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         1.569    34.556    clk_IBUF_BUFG
-    SLICE_X17Y17         FDRE                                         r  even_output_register_reg[0]/C
-                         clock pessimism              0.494    35.050    
-                         clock uncertainty           -0.035    35.015    
-    SLICE_X17Y17         FDRE (Setup_fdre_C_D)        0.029    35.044    even_output_register_reg[0]
+                         net (fo=125, routed)         1.644    34.631    clk_IBUF_BUFG
+    SLICE_X1Y28          FDRE                                         r  even_matmul_value_stage_reg[0]/C
+                         clock pessimism              0.458    35.089    
+                         clock uncertainty           -0.035    35.054    
+    SLICE_X1Y28          FDRE (Setup_fdre_C_D)        0.032    35.086    even_matmul_value_stage_reg[0]
   -------------------------------------------------------------------
-                         required time                         35.044    
-                         arrival time                         -34.971    
+                         required time                         35.086    
+                         arrival time                         -46.028    
   -------------------------------------------------------------------
-                         slack                                  0.074    
+                         slack                                -10.942    
 
 
 
@@ -378,20 +435,20 @@ Slack (MET) :             0.074ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.127ns  (arrival time - required time)
-  Source:                 input_load_index_reg[1]/C
+Slack (MET) :             0.212ns  (arrival time - required time)
+  Source:                 input_index_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
-  Destination:            input_memory_reg/ADDRARDADDR[5]
-                            (rising edge-triggered cell RAMB18E1 clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
+  Destination:            input_index_reg[5]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
   Path Group:             core_clk
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (core_clk rise@0.000ns - core_clk rise@0.000ns)
-  Data Path Delay:        0.368ns  (logic 0.141ns (38.356%)  route 0.227ns (61.644%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.057ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.127ns
-    Source Clock Delay      (SCD):    1.568ns
-    Clock Pessimism Removal (CPR):    0.501ns
+  Data Path Delay:        0.349ns  (logic 0.209ns (59.963%)  route 0.140ns (40.037%))
+  Logic Levels:           1  (LUT6=1)
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.117ns
+    Source Clock Delay      (SCD):    1.598ns
+    Clock Pessimism Removal (CPR):    0.503ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -402,12 +459,14 @@ Slack (MET) :             0.127ns  (arrival time - required time)
     U7                   IBUF (Prop_ibuf_I_O)         0.286     0.286 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.663     0.949    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.975 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         0.593     1.568    clk_IBUF_BUFG
-    SLICE_X23Y6          FDRE                                         r  input_load_index_reg[1]/C
+                         net (fo=125, routed)         0.623     1.598    clk_IBUF_BUFG
+    SLICE_X0Y3           FDRE                                         r  input_index_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X23Y6          FDRE (Prop_fdre_C_Q)         0.141     1.709 r  input_load_index_reg[1]/Q
-                         net (fo=7, routed)           0.227     1.936    p_1_in[1]
-    RAMB18_X1Y2          RAMB18E1                                     r  input_memory_reg/ADDRARDADDR[5]
+    SLICE_X0Y3           FDRE (Prop_fdre_C_Q)         0.164     1.762 r  input_index_reg[1]/Q
+                         net (fo=8, routed)           0.140     1.902    input_index_reg_n_0_[1]
+    SLICE_X2Y3           LUT6 (Prop_lut6_I3_O)        0.045     1.947 r  input_index[5]_i_1/O
+                         net (fo=1, routed)           0.000     1.947    input_index0[5]
+    SLICE_X2Y3           FDRE                                         r  input_index_reg[5]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock core_clk rise edge)
@@ -417,16 +476,15 @@ Slack (MET) :             0.127ns  (arrival time - required time)
     U7                   IBUF (Prop_ibuf_I_O)         0.476     0.476 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.719     1.195    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.224 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         0.902     2.127    clk_IBUF_BUFG
-    RAMB18_X1Y2          RAMB18E1                                     r  input_memory_reg/CLKARDCLK
-                         clock pessimism             -0.501     1.626    
-    RAMB18_X1Y2          RAMB18E1 (Hold_ramb18e1_CLKARDCLK_ADDRARDADDR[5])
-                                                      0.183     1.809    input_memory_reg
+                         net (fo=125, routed)         0.893     2.117    clk_IBUF_BUFG
+    SLICE_X2Y3           FDRE                                         r  input_index_reg[5]/C
+                         clock pessimism             -0.503     1.614    
+    SLICE_X2Y3           FDRE (Hold_fdre_C_D)         0.121     1.735    input_index_reg[5]
   -------------------------------------------------------------------
-                         required time                         -1.809    
-                         arrival time                           1.936    
+                         required time                         -1.735    
+                         arrival time                           1.947    
   -------------------------------------------------------------------
-                         slack                                  0.127    
+                         slack                                  0.212    
 
 
 
@@ -440,9 +498,9 @@ Period(ns):         30.000
 Sources:            { clk }
 
 Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location     Pin
-Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.944         30.000      27.056     RAMB18_X1Y2  input_memory_reg/CLKARDCLK
-Low Pulse Width   Slow    FDRE/C              n/a            0.500         15.000      14.500     SLICE_X18Y4  FSM_sequential_state_reg[0]/C
-High Pulse Width  Slow    FDRE/C              n/a            0.500         15.000      14.500     SLICE_X18Y4  FSM_sequential_state_reg[0]/C
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.944         30.000      27.056     RAMB18_X0Y2  input_memory_reg/CLKARDCLK
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         15.000      14.500     SLICE_X3Y2   FSM_sequential_state_reg[0]/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         15.000      14.500     SLICE_X3Y2   FSM_sequential_state_reg[0]/C
 
 
 
@@ -461,11 +519,11 @@ Max Delay Paths
 Slack:                    inf
   Source:                 reset
                             (input port)
-  Destination:            input_ready
+  Destination:            output_valid
                             (output port)
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        8.145ns  (logic 3.789ns (46.512%)  route 4.357ns (53.488%))
+  Data Path Delay:        8.097ns  (logic 4.011ns (49.534%)  route 4.086ns (50.466%))
   Logic Levels:           3  (IBUF=1 LUT4=1 OBUF=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -473,12 +531,12 @@ Slack:                    inf
     U8                                                0.000     0.000 f  reset (IN)
                          net (fo=0)                   0.000     0.000    reset
     U8                   IBUF (Prop_ibuf_I_O)         1.004     1.004 f  reset_IBUF_inst/O
-                         net (fo=10, routed)          1.984     2.988    reset_IBUF
-    SLICE_X14Y16         LUT4 (Prop_lut4_I3_O)        0.124     3.112 r  input_ready_OBUF_inst_i_1/O
-                         net (fo=2, routed)           2.373     5.485    input_ready_OBUF
-    Y7                   OBUF (Prop_obuf_I_O)         2.661     8.145 r  input_ready_OBUF_inst/O
-                         net (fo=0)                   0.000     8.145    input_ready
-    Y7                                                                r  input_ready (OUT)
+                         net (fo=13, routed)          1.521     2.525    reset_IBUF
+    SLICE_X1Y3           LUT4 (Prop_lut4_I0_O)        0.150     2.675 r  output_valid_OBUF_inst_i_1/O
+                         net (fo=1, routed)           2.565     5.240    output_valid_OBUF
+    U10                  OBUF (Prop_obuf_I_O)         2.857     8.097 r  output_valid_OBUF_inst/O
+                         net (fo=0)                   0.000     8.097    output_valid
+    U10                                                               r  output_valid (OUT)
   -------------------------------------------------------------------    -------------------
 
 
@@ -490,11 +548,11 @@ Min Delay Paths
 Slack:                    inf
   Source:                 reset
                             (input port)
-  Destination:            output_valid
+  Destination:            input_ready
                             (output port)
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        2.809ns  (logic 1.449ns (51.571%)  route 1.360ns (48.429%))
+  Data Path Delay:        2.761ns  (logic 1.455ns (52.674%)  route 1.307ns (47.326%))
   Logic Levels:           3  (IBUF=1 LUT4=1 OBUF=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -502,12 +560,12 @@ Slack:                    inf
     U8                                                0.000     0.000 f  reset (IN)
                          net (fo=0)                   0.000     0.000    reset
     U8                   IBUF (Prop_ibuf_I_O)         0.232     0.232 f  reset_IBUF_inst/O
-                         net (fo=10, routed)          0.747     0.980    reset_IBUF
-    SLICE_X9Y21          LUT4 (Prop_lut4_I0_O)        0.045     1.025 r  output_valid_OBUF_inst_i_1/O
-                         net (fo=1, routed)           0.613     1.638    output_valid_OBUF
-    U10                  OBUF (Prop_obuf_I_O)         1.171     2.809 r  output_valid_OBUF_inst/O
-                         net (fo=0)                   0.000     2.809    output_valid
-    U10                                                               r  output_valid (OUT)
+                         net (fo=13, routed)          0.839     1.071    reset_IBUF
+    SLICE_X0Y25          LUT4 (Prop_lut4_I0_O)        0.045     1.116 r  input_ready_OBUF_inst_i_1/O
+                         net (fo=2, routed)           0.468     1.584    input_ready_OBUF
+    Y7                   OBUF (Prop_obuf_I_O)         1.177     2.761 r  input_ready_OBUF_inst/O
+                         net (fo=0)                   0.000     2.761    input_ready
+    Y7                                                                r  input_ready (OUT)
   -------------------------------------------------------------------    -------------------
 
 
@@ -527,14 +585,14 @@ Min Delay            10 Endpoints
 Max Delay Paths
 --------------------------------------------------------------------------------------
 Slack:                    inf
-  Source:                 FSM_sequential_state_reg[1]/C
+  Source:                 output_phase_reg/C
                             (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
-  Destination:            output_valid
+  Destination:            output_data[1]
                             (output port)
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        7.892ns  (logic 3.297ns (41.776%)  route 4.595ns (58.224%))
-  Logic Levels:           2  (LUT4=1 OBUF=1)
+  Data Path Delay:        8.738ns  (logic 3.474ns (39.754%)  route 5.264ns (60.246%))
+  Logic Levels:           2  (LUT3=1 OBUF=1)
   Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.050ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -550,16 +608,16 @@ Slack:                    inf
     U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.171     3.229    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         1.753     5.083    clk_IBUF_BUFG
-    SLICE_X18Y4          FDRE                                         r  FSM_sequential_state_reg[1]/C
+                         net (fo=125, routed)         1.835     5.165    clk_IBUF_BUFG
+    SLICE_X1Y3           FDRE                                         r  output_phase_reg/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X18Y4          FDRE (Prop_fdre_C_Q)         0.518     5.601 f  FSM_sequential_state_reg[1]/Q
-                         net (fo=26, routed)          2.424     8.025    state__0[1]
-    SLICE_X9Y21          LUT4 (Prop_lut4_I2_O)        0.124     8.149 r  output_valid_OBUF_inst_i_1/O
-                         net (fo=1, routed)           2.171    10.320    output_valid_OBUF
-    U10                  OBUF (Prop_obuf_I_O)         2.655    12.975 r  output_valid_OBUF_inst/O
-                         net (fo=0)                   0.000    12.975    output_valid
-    U10                                                               r  output_valid (OUT)
+    SLICE_X1Y3           FDRE (Prop_fdre_C_Q)         0.456     5.621 r  output_phase_reg/Q
+                         net (fo=15, routed)          2.854     8.475    output_phase_reg_n_0
+    SLICE_X18Y25         LUT3 (Prop_lut3_I1_O)        0.150     8.625 r  output_data_OBUF[1]_inst_i_1/O
+                         net (fo=1, routed)           2.411    11.036    output_data_OBUF[1]
+    W9                   OBUF (Prop_obuf_I_O)         2.868    13.904 r  output_data_OBUF[1]_inst/O
+                         net (fo=0)                   0.000    13.904    output_data[1]
+    W9                                                                r  output_data[1] (OUT)
   -------------------------------------------------------------------    -------------------
 
 
@@ -569,13 +627,13 @@ Slack:                    inf
 Min Delay Paths
 --------------------------------------------------------------------------------------
 Slack:                    inf
-  Source:                 odd_output_register_reg[2]/C
+  Source:                 even_output_register_reg[4]/C
                             (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
-  Destination:            output_data[2]
+  Destination:            output_data[4]
                             (output port)
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        2.055ns  (logic 1.424ns (69.296%)  route 0.631ns (30.704%))
+  Data Path Delay:        2.267ns  (logic 1.440ns (63.518%)  route 0.827ns (36.482%))
   Logic Levels:           2  (LUT3=1 OBUF=1)
   Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.050ns
@@ -592,16 +650,16 @@ Slack:                    inf
     U7                   IBUF (Prop_ibuf_I_O)         0.286     0.286 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.663     0.949    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.975 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         0.586     1.561    clk_IBUF_BUFG
-    SLICE_X9Y19          FDRE                                         r  odd_output_register_reg[2]/C
+                         net (fo=125, routed)         0.580     1.555    clk_IBUF_BUFG
+    SLICE_X16Y25         FDRE                                         r  even_output_register_reg[4]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X9Y19          FDRE (Prop_fdre_C_Q)         0.128     1.689 r  odd_output_register_reg[2]/Q
-                         net (fo=1, routed)           0.148     1.837    odd_output_register[2]
-    SLICE_X10Y18         LUT3 (Prop_lut3_I0_O)        0.098     1.935 r  output_data_OBUF[2]_inst_i_1/O
-                         net (fo=1, routed)           0.483     2.418    output_data_OBUF[2]
-    W10                  OBUF (Prop_obuf_I_O)         1.198     3.616 r  output_data_OBUF[2]_inst/O
-                         net (fo=0)                   0.000     3.616    output_data[2]
-    W10                                                               r  output_data[2] (OUT)
+    SLICE_X16Y25         FDRE (Prop_fdre_C_Q)         0.164     1.719 r  even_output_register_reg[4]/Q
+                         net (fo=1, routed)           0.142     1.861    even_output_register[4]
+    SLICE_X17Y25         LUT3 (Prop_lut3_I2_O)        0.045     1.906 r  output_data_OBUF[4]_inst_i_1/O
+                         net (fo=1, routed)           0.685     2.591    output_data_OBUF[4]
+    V8                   OBUF (Prop_obuf_I_O)         1.231     3.822 r  output_data_OBUF[4]_inst/O
+                         net (fo=0)                   0.000     3.822    output_data[4]
+    V8                                                                r  output_data[4] (OUT)
   -------------------------------------------------------------------    -------------------
 
 
@@ -613,24 +671,24 @@ Path Group:  (none)
 From Clock:  
   To Clock:  core_clk
 
-Max Delay           149 Endpoints
-Min Delay           149 Endpoints
+Max Delay           146 Endpoints
+Min Delay           146 Endpoints
 --------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
 Slack:                    inf
-  Source:                 reset
+  Source:                 input_valid
                             (input port)
   Destination:            even_accumulator_reg[28]/R
                             (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
   Path Group:             (none)
   Path Type:              Setup (Max at Slow Process Corner)
-  Data Path Delay:        8.294ns  (logic 1.252ns (15.093%)  route 7.042ns (84.907%))
-  Logic Levels:           3  (IBUF=1 LUT6=2)
-  Clock Path Skew:        4.558ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.558ns
+  Data Path Delay:        7.687ns  (logic 1.390ns (18.086%)  route 6.297ns (81.914%))
+  Logic Levels:           4  (IBUF=1 LUT2=1 LUT4=1 LUT5=1)
+  Clock Path Skew:        4.552ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.552ns
     Source Clock Delay      (SCD):    0.000ns
     Clock Pessimism Removal (CPR):    0.000ns
   Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
@@ -641,15 +699,17 @@ Slack:                    inf
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    U8                                                0.000     0.000 r  reset (IN)
-                         net (fo=0)                   0.000     0.000    reset
-    U8                   IBUF (Prop_ibuf_I_O)         1.004     1.004 r  reset_IBUF_inst/O
-                         net (fo=10, routed)          3.529     4.533    reset_IBUF
-    SLICE_X22Y6          LUT6 (Prop_lut6_I0_O)        0.124     4.657 r  output_index[1]_i_1/O
-                         net (fo=15, routed)          0.826     5.483    output_index[1]_i_1_n_0
-    SLICE_X18Y4          LUT6 (Prop_lut6_I5_O)        0.124     5.607 r  odd_matmul_product_i_2/O
-                         net (fo=70, routed)          2.687     8.294    clear
-    SLICE_X10Y16         FDRE                                         r  even_accumulator_reg[28]/R
+    Y11                                               0.000     0.000 r  input_valid (IN)
+                         net (fo=0)                   0.000     0.000    input_valid
+    Y11                  IBUF (Prop_ibuf_I_O)         1.018     1.018 r  input_valid_IBUF_inst/O
+                         net (fo=5, routed)           1.539     2.557    input_valid_IBUF
+    SLICE_X0Y4           LUT4 (Prop_lut4_I0_O)        0.124     2.681 r  input_index[1]_i_5/O
+                         net (fo=4, routed)           0.958     3.639    input_index[1]_i_5_n_0
+    SLICE_X1Y2           LUT5 (Prop_lut5_I4_O)        0.124     3.763 r  output_index[1]_i_1/O
+                         net (fo=7, routed)           0.459     4.222    output_index[1]_i_1_n_0
+    SLICE_X1Y2           LUT2 (Prop_lut2_I0_O)        0.124     4.346 r  odd_accumulator[0]_i_1/O
+                         net (fo=65, routed)          3.341     7.687    odd_accumulator[0]_i_1_n_0
+    SLICE_X21Y20         FDRE                                         r  even_accumulator_reg[28]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock core_clk rise edge)
@@ -659,8 +719,8 @@ Slack:                    inf
     U7                   IBUF (Prop_ibuf_I_O)         0.924     0.924 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.972     2.896    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     2.987 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         1.571     4.558    clk_IBUF_BUFG
-    SLICE_X10Y16         FDRE                                         r  even_accumulator_reg[28]/C
+                         net (fo=125, routed)         1.565     4.552    clk_IBUF_BUFG
+    SLICE_X21Y20         FDRE                                         r  even_accumulator_reg[28]/C
 
 
 
@@ -669,26 +729,26 @@ Slack:                    inf
 Min Delay Paths
 --------------------------------------------------------------------------------------
 Slack:                    inf
-  Source:                 input_data[0]
+  Source:                 input_data[1]
                             (input port)
-  Destination:            input_memory_reg/DIADI[0]
+  Destination:            input_memory_reg/DIADI[1]
                             (rising edge-triggered cell RAMB18E1 clocked by core_clk  {rise@0.000ns fall@15.000ns period=30.000ns})
   Path Group:             (none)
   Path Type:              Hold (Min at Fast Process Corner)
-  Data Path Delay:        0.872ns  (logic 0.185ns (21.185%)  route 0.687ns (78.815%))
+  Data Path Delay:        0.666ns  (logic 0.179ns (26.935%)  route 0.487ns (73.065%))
   Logic Levels:           1  (IBUF=1)
-  Clock Path Skew:        2.127ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.127ns
+  Clock Path Skew:        2.129ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.129ns
     Source Clock Delay      (SCD):    0.000ns
     Clock Pessimism Removal (CPR):    -0.000ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    W6                                                0.000     0.000 r  input_data[0] (IN)
-                         net (fo=0)                   0.000     0.000    input_data[0]
-    W6                   IBUF (Prop_ibuf_I_O)         0.185     0.185 r  input_data_IBUF[0]_inst/O
-                         net (fo=1, routed)           0.687     0.872    input_data_IBUF[0]
-    RAMB18_X1Y2          RAMB18E1                                     r  input_memory_reg/DIADI[0]
+    V6                                                0.000     0.000 r  input_data[1] (IN)
+                         net (fo=0)                   0.000     0.000    input_data[1]
+    V6                   IBUF (Prop_ibuf_I_O)         0.179     0.179 r  input_data_IBUF[1]_inst/O
+                         net (fo=1, routed)           0.487     0.666    input_data_IBUF[1]
+    RAMB18_X0Y2          RAMB18E1                                     r  input_memory_reg/DIADI[1]
   -------------------------------------------------------------------    -------------------
 
                          (clock core_clk rise edge)
@@ -698,8 +758,8 @@ Slack:                    inf
     U7                   IBUF (Prop_ibuf_I_O)         0.476     0.476 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.719     1.195    clk_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.224 r  clk_IBUF_BUFG_inst/O
-                         net (fo=123, routed)         0.902     2.127    clk_IBUF_BUFG
-    RAMB18_X1Y2          RAMB18E1                                     r  input_memory_reg/CLKARDCLK
+                         net (fo=125, routed)         0.904     2.129    clk_IBUF_BUFG
+    RAMB18_X0Y2          RAMB18E1                                     r  input_memory_reg/CLKARDCLK
 
 
 

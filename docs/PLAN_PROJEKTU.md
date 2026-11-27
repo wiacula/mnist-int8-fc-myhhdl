@@ -155,19 +155,26 @@ Dodać wykresy lub krótki rozdział opisujący:
   12.0 z MyHDL 0.11.52. Dla wejścia zerowego, maksymalnego i losowego wszystkie
   bajty wyjścia zgadzają się bit w bit z wzorcem Pythonowym; sprawdzono też
   zatrzymanie odbioru wyników.
+- Rejestr po requantyzacji wykorzystuje istniejący stan `REQUANTIZE`, więc
+  liczba cykli na obraz się nie zmieniła.
 - Pierwszy raport Vivado pokazał, że pierwotny ROM wag był realizowany w LUT;
   sama wskazówka `rom_style` nie zmieniła mapowania.
 - ROM wag rozdzielono na dwa banki i zmieniono ich inicjalizację na pliki
   `$readmemh`. Ponowna synteza Vivado potwierdziła dwa banki wag w BRAM oraz
   osobną BRAM dla bufora wejściowego: 3 x RAMB18E1 łącznie.
-- Historyczne raporty syntezy i timingu dotyczą RTL sprzed zmiany
-  requantyzacji; trzeba ponownie wykonać syntezę i timing aktualnego RTL.
+- Syntezę P=1/P=2 i sweep routingu/timingu 10, 29, 30, 35, 40 i 45 ns
+  wykonano w Vivado 2026.2 dla aktualnego RTL.
+- Przy 45 ns oba warianty spełniają podstawowe kryterium zamknięcia timingu
+  WNS >= 0 ns i TNS = 0: P=1 ma WNS 1.108 ns, a P=2 ma WNS 0.596 ns.
+  Przy 40 ns (25 MHz) timing nadal nie jest zamknięty. Zapas 5 ns nie jest
+  wymagany, ale też nie został osiągnięty.
+- Rejestr po requantyzacji poprawił WNS przy 40 ns o około 13 ns względem
+  poprzedniej wersji, bez zmiany liczby cykli.
 
 Następny krok:
 
-1. Przenieść aktualne źródła RTL i pliki `.mem` do projektu Vivado.
-2. Ponownie uruchomić syntezę P=1 i P=2 oraz zachować raporty.
-3. Dodać constraints zegara i ponowić analizę timingową, jeśli wymagane są
-   aktualne wyniki czasowe.
-4. Sprawdzić wymagania prowadzącego dotyczące RTL testbenchu i wariantu
-   równoległego.
+1. Sprawdzić wymagania prowadzącego dotyczące docelowego zegara, zapasu
+   timingowego, RTL testbenchu i wariantu równoległego.
+2. Przenieść aktualne źródła RTL i pliki `.mem` do projektu kursowego Vivado.
+3. Jeśli wymagany zegar lub zapas jest większy niż obecny wynik, optymalizować
+   ścieżkę z akumulatora do rejestru pośredniego requantyzacji i ponowić timing.

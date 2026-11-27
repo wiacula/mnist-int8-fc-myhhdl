@@ -68,9 +68,12 @@ rounding using integer logic. The evaluator also identifies and simulates the
 near-half rounding case at sample 4951; P=1 and P=2 both match ONNX Runtime on
 that sample and ten evenly spaced examples.
 
-The timing figures below and in the implementation report were measured before
-this requantizer change. Re-run Vivado synthesis and routed timing before
-treating the previous 25 MHz result as valid for the updated hardware.
+Vivado synthesis and the routed timing sweep were rerun for the current RTL
+with the float32-compatible requantizer. Both designs meet the standard timing
+closure criterion (WNS >= 0 ns, TNS = 0) at a 45 ns period (22.222 MHz); at
+40 ns (25 MHz), timing is not closed. The remaining slack at 45 ns is 1.108 ns
+for P=1 and 0.596 ns for P=2. See the
+[timing and implementation results](reports/parallel_implementation_results.md).
 
 Generate Verilog with:
 
@@ -120,12 +123,11 @@ vivado -mode batch -source scripts/vivado_synth.tcl \
 ```
 
 For a routed timing analysis, provide a clock period in nanoseconds. The
-project has no fixed clock requirement. The previous timing sweep selected a
-25 MHz target (40 ns), but it predates the float32-compatible requantizer and
-must be rerun before using it as a timing claim for the current design. See the
+project has no fixed clock requirement. The latest sweep covers periods from
+10 ns to 40 ns, but neither implementation meets timing at any tested point.
+Do not treat 25 MHz (40 ns) as a supported clock target. See the
 [timing and implementation results](reports/parallel_implementation_results.md)
-for the sweep and selection method. For example, analyze the serial version at
-25 MHz:
+for the reports and results. For example, analyze the serial version at 25 MHz:
 
 ```bash
 vivado -mode batch -source scripts/vivado_timing.tcl \

@@ -1,0 +1,1857 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2026.2 (win64) Build 6713330 Sat Nov 07 01:26:36 MST 2026
+| Date         : Fri Nov 27 19:10:20 2026
+| Host         : tomasz running 64-bit major release  (build 9200)
+| Command      : report_timing -delay_type max -max_paths 10 -file C:/Users/tomas/Desktop/ESL_projekt/mnist-int8-fc-myhhdl-1/build/vivado_reports_current_20261127/vivado_timing_serial_35ns_paths.rpt
+| Design       : mnist_fc_serial
+| Device       : 7z020-clg400
+| Speed File   : -1  PRODUCTION 1.12 2019-11-22
+| Design State : Routed
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (VIOLATED) :        -5.977ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[4]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        41.020ns  (logic 17.506ns (42.676%)  route 23.514ns (57.324%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.626ns = ( 39.626 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.523    45.792    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X2Y24          LUT2 (Prop_lut2_I1_O)        0.313    46.105 r  matmul_value_stage[4]_i_1/O
+                         net (fo=1, routed)           0.000    46.105    matmul_value_stage[4]_i_1_n_0
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[4]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.639    39.626    clk_IBUF_BUFG
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[4]/C
+                         clock pessimism              0.458    40.084    
+                         clock uncertainty           -0.035    40.049    
+    SLICE_X2Y24          FDRE (Setup_fdre_C_D)        0.079    40.128    matmul_value_stage_reg[4]
+  -------------------------------------------------------------------
+                         required time                         40.128    
+                         arrival time                         -46.105    
+  -------------------------------------------------------------------
+                         slack                                 -5.977    
+
+Slack (VIOLATED) :        -5.973ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[0]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        41.016ns  (logic 17.506ns (42.681%)  route 23.510ns (57.319%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.626ns = ( 39.626 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.519    45.788    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X2Y24          LUT2 (Prop_lut2_I1_O)        0.313    46.101 r  matmul_value_stage[0]_i_1/O
+                         net (fo=1, routed)           0.000    46.101    matmul_value_stage[0]_i_1_n_0
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.639    39.626    clk_IBUF_BUFG
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[0]/C
+                         clock pessimism              0.458    40.084    
+                         clock uncertainty           -0.035    40.049    
+    SLICE_X2Y24          FDRE (Setup_fdre_C_D)        0.079    40.128    matmul_value_stage_reg[0]
+  -------------------------------------------------------------------
+                         required time                         40.128    
+                         arrival time                         -46.101    
+  -------------------------------------------------------------------
+                         slack                                 -5.973    
+
+Slack (VIOLATED) :        -5.933ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[5]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        41.015ns  (logic 17.501ns (42.669%)  route 23.514ns (57.331%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.626ns = ( 39.626 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.523    45.792    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X2Y24          LUT2 (Prop_lut2_I1_O)        0.308    46.100 r  matmul_value_stage[5]_i_1/O
+                         net (fo=1, routed)           0.000    46.100    matmul_value_stage[5]_i_1_n_0
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[5]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.639    39.626    clk_IBUF_BUFG
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[5]/C
+                         clock pessimism              0.458    40.084    
+                         clock uncertainty           -0.035    40.049    
+    SLICE_X2Y24          FDRE (Setup_fdre_C_D)        0.118    40.167    matmul_value_stage_reg[5]
+  -------------------------------------------------------------------
+                         required time                         40.167    
+                         arrival time                         -46.100    
+  -------------------------------------------------------------------
+                         slack                                 -5.933    
+
+Slack (VIOLATED) :        -5.927ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        41.009ns  (logic 17.499ns (42.671%)  route 23.510ns (57.329%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.626ns = ( 39.626 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.519    45.788    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X2Y24          LUT2 (Prop_lut2_I1_O)        0.306    46.094 r  matmul_value_stage[1]_i_1/O
+                         net (fo=1, routed)           0.000    46.094    matmul_value_stage[1]_i_1_n_0
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.639    39.626    clk_IBUF_BUFG
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[1]/C
+                         clock pessimism              0.458    40.084    
+                         clock uncertainty           -0.035    40.049    
+    SLICE_X2Y24          FDRE (Setup_fdre_C_D)        0.118    40.167    matmul_value_stage_reg[1]
+  -------------------------------------------------------------------
+                         required time                         40.167    
+                         arrival time                         -46.094    
+  -------------------------------------------------------------------
+                         slack                                 -5.927    
+
+Slack (VIOLATED) :        -5.905ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.953ns  (logic 17.506ns (42.747%)  route 23.447ns (57.253%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.002ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.628ns = ( 39.628 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.455    45.724    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X0Y23          LUT2 (Prop_lut2_I1_O)        0.313    46.037 r  matmul_value_stage[6]_i_1/O
+                         net (fo=1, routed)           0.000    46.037    matmul_value_stage[6]_i_1_n_0
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.641    39.628    clk_IBUF_BUFG
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[6]/C
+                         clock pessimism              0.458    40.086    
+                         clock uncertainty           -0.035    40.051    
+    SLICE_X0Y23          FDRE (Setup_fdre_C_D)        0.081    40.132    matmul_value_stage_reg[6]
+  -------------------------------------------------------------------
+                         required time                         40.132    
+                         arrival time                         -46.037    
+  -------------------------------------------------------------------
+                         slack                                 -5.905    
+
+Slack (VIOLATED) :        -5.898ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[2]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.942ns  (logic 17.506ns (42.758%)  route 23.436ns (57.242%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.002ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.628ns = ( 39.628 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.444    45.713    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X0Y23          LUT2 (Prop_lut2_I1_O)        0.313    46.026 r  matmul_value_stage[2]_i_1/O
+                         net (fo=1, routed)           0.000    46.026    matmul_value_stage[2]_i_1_n_0
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.641    39.628    clk_IBUF_BUFG
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[2]/C
+                         clock pessimism              0.458    40.086    
+                         clock uncertainty           -0.035    40.051    
+    SLICE_X0Y23          FDRE (Setup_fdre_C_D)        0.077    40.128    matmul_value_stage_reg[2]
+  -------------------------------------------------------------------
+                         required time                         40.128    
+                         arrival time                         -46.026    
+  -------------------------------------------------------------------
+                         slack                                 -5.898    
+
+Slack (VIOLATED) :        -5.861ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.946ns  (logic 17.499ns (42.737%)  route 23.447ns (57.263%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.002ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.628ns = ( 39.628 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.455    45.724    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X0Y23          LUT2 (Prop_lut2_I1_O)        0.306    46.030 r  matmul_value_stage[7]_i_3/O
+                         net (fo=1, routed)           0.000    46.030    matmul_value_stage[7]_i_3_n_0
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.641    39.628    clk_IBUF_BUFG
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[7]/C
+                         clock pessimism              0.458    40.086    
+                         clock uncertainty           -0.035    40.051    
+    SLICE_X0Y23          FDRE (Setup_fdre_C_D)        0.118    40.169    matmul_value_stage_reg[7]
+  -------------------------------------------------------------------
+                         required time                         40.169    
+                         arrival time                         -46.030    
+  -------------------------------------------------------------------
+                         slack                                 -5.861    
+
+Slack (VIOLATED) :        -5.849ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[3]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.934ns  (logic 17.498ns (42.747%)  route 23.436ns (57.253%))
+  Logic Levels:           52  (CARRY4=24 DSP48E1=2 LUT1=1 LUT2=2 LUT3=2 LUT5=10 LUT6=11)
+  Clock Path Skew:        0.002ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.628ns = ( 39.628 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.664 f  matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.736    44.400    matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X1Y24          LUT2 (Prop_lut2_I0_O)        0.299    44.699 r  matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.699    matmul_value_stage[7]_i_21_n_0
+    SLICE_X1Y24          CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    45.269 r  matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.444    45.713    matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X0Y23          LUT2 (Prop_lut2_I1_O)        0.305    46.018 r  matmul_value_stage[3]_i_1/O
+                         net (fo=1, routed)           0.000    46.018    matmul_value_stage[3]_i_1_n_0
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[3]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.641    39.628    clk_IBUF_BUFG
+    SLICE_X0Y23          FDRE                                         r  matmul_value_stage_reg[3]/C
+                         clock pessimism              0.458    40.086    
+                         clock uncertainty           -0.035    40.051    
+    SLICE_X0Y23          FDRE (Setup_fdre_C_D)        0.118    40.169    matmul_value_stage_reg[3]
+  -------------------------------------------------------------------
+                         required time                         40.169    
+                         arrival time                         -46.018    
+  -------------------------------------------------------------------
+                         slack                                 -5.849    
+
+Slack (VIOLATED) :        -5.700ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[0]/R
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.141ns  (logic 16.721ns (41.656%)  route 23.420ns (58.344%))
+  Logic Levels:           50  (CARRY4=23 DSP48E1=2 LUT1=1 LUT3=2 LUT5=11 LUT6=11)
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.626ns = ( 39.626 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.313    43.755 r  matmul_value_stage_reg[7]_i_4/O[3]
+                         net (fo=3, routed)           0.539    44.294    matmul_value_stage_reg[7]_i_4_n_4
+    SLICE_X2Y24          LUT5 (Prop_lut5_I4_O)        0.306    44.600 r  matmul_value_stage[7]_i_1/O
+                         net (fo=8, routed)           0.625    45.225    p_1_in
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[0]/R
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.639    39.626    clk_IBUF_BUFG
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[0]/C
+                         clock pessimism              0.458    40.084    
+                         clock uncertainty           -0.035    40.049    
+    SLICE_X2Y24          FDRE (Setup_fdre_C_R)       -0.524    39.525    matmul_value_stage_reg[0]
+  -------------------------------------------------------------------
+                         required time                         39.525    
+                         arrival time                         -45.225    
+  -------------------------------------------------------------------
+                         slack                                 -5.700    
+
+Slack (VIOLATED) :        -5.700ns  (required time - arrival time)
+  Source:                 accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Destination:            matmul_value_stage_reg[1]/R
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@17.500ns period=35.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            35.000ns  (core_clk rise@35.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.141ns  (logic 16.721ns (41.656%)  route 23.420ns (58.344%))
+  Logic Levels:           50  (CARRY4=23 DSP48E1=2 LUT1=1 LUT3=2 LUT5=11 LUT6=11)
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.626ns = ( 39.626 - 35.000 ) 
+    Source Clock Delay      (SCD):    5.084ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.754     5.084    clk_IBUF_BUFG
+    SLICE_X10Y3          FDRE                                         r  accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y3          FDRE (Prop_fdre_C_Q)         0.518     5.602 f  accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.163     5.766    accumulator_reg_n_0_[0]
+    SLICE_X11Y3          LUT1 (Prop_lut1_I0_O)        0.124     5.890 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.222    p_1_out__0_i_39_n_0
+    SLICE_X10Y5          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.817 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.817    p_1_out__0_i_26_n_0
+    SLICE_X10Y6          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.056 r  p_1_out__0_i_25/O[2]
+                         net (fo=1, routed)           0.647     7.702    float32_matmul_requantize0_product1[7]
+    SLICE_X11Y5          LUT3 (Prop_lut3_I0_O)        0.301     8.003 r  p_1_out__0_i_10/O
+                         net (fo=1, routed)           0.519     8.523    p_1_out__0_i_10_n_0
+    DSP48_X0Y2           DSP48E1 (Prop_dsp48e1_B[7]_PCOUT[47])
+                                                      3.851    12.374 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.376    p_1_out__0_n_106
+    DSP48_X0Y3           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    13.894 r  p_1_out__1/P[16]
+                         net (fo=1, routed)           0.916    14.810    p_1_out__1_n_89
+    SLICE_X11Y8          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.656    15.466 r  matmul_value_stage_reg[7]_i_158/CO[3]
+                         net (fo=1, routed)           0.000    15.466    matmul_value_stage_reg[7]_i_158_n_0
+    SLICE_X11Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.580 r  matmul_value_stage_reg[7]_i_275/CO[3]
+                         net (fo=1, routed)           0.000    15.580    matmul_value_stage_reg[7]_i_275_n_0
+    SLICE_X11Y10         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    15.819 f  matmul_value_stage_reg[7]_i_411/O[2]
+                         net (fo=10, routed)          1.170    16.989    matmul_value_stage_reg[7]_i_411_n_5
+    SLICE_X11Y4          LUT5 (Prop_lut5_I2_O)        0.302    17.291 f  matmul_value_stage[7]_i_274/O
+                         net (fo=4, routed)           0.565    17.856    matmul_value_stage[7]_i_274_n_0
+    SLICE_X11Y3          LUT5 (Prop_lut5_I0_O)        0.124    17.980 f  matmul_value_stage[7]_i_157/O
+                         net (fo=8, routed)           0.662    18.641    matmul_value_stage[7]_i_157_n_0
+    SLICE_X9Y3           LUT6 (Prop_lut6_I3_O)        0.124    18.765 r  matmul_value_stage[7]_i_69_comp_1/O
+                         net (fo=3, routed)           0.479    19.245    matmul_value_stage[7]_i_69_n_0
+    SLICE_X9Y4           LUT5 (Prop_lut5_I3_O)        0.124    19.369 r  matmul_value_stage[7]_i_251/O
+                         net (fo=11, routed)          0.825    20.193    matmul_value_stage[7]_i_251_n_0
+    SLICE_X8Y9           CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.550    20.743 r  matmul_value_stage_reg[7]_i_675/CO[3]
+                         net (fo=1, routed)           0.000    20.743    matmul_value_stage_reg[7]_i_675_n_0
+    SLICE_X8Y10          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.860 r  matmul_value_stage_reg[7]_i_531/CO[3]
+                         net (fo=1, routed)           0.000    20.860    matmul_value_stage_reg[7]_i_531_n_0
+    SLICE_X8Y11          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.977 r  matmul_value_stage_reg[7]_i_396/CO[3]
+                         net (fo=1, routed)           0.000    20.977    matmul_value_stage_reg[7]_i_396_n_0
+    SLICE_X8Y12          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.206 r  matmul_value_stage_reg[7]_i_248/CO[2]
+                         net (fo=19, routed)          0.737    21.943    matmul_value_stage_reg[7]_i_248_n_1
+    SLICE_X8Y8           LUT6 (Prop_lut6_I0_O)        0.310    22.253 r  matmul_value_stage[7]_i_288/O
+                         net (fo=109, routed)         0.682    22.935    matmul_value_stage[7]_i_288_n_0
+    SLICE_X9Y6           LUT6 (Prop_lut6_I2_O)        0.124    23.059 r  matmul_value_stage[7]_i_710/O
+                         net (fo=3, routed)           1.183    24.242    matmul_value_stage[7]_i_710_n_0
+    SLICE_X9Y2           LUT6 (Prop_lut6_I0_O)        0.124    24.366 r  matmul_value_stage[7]_i_617/O
+                         net (fo=3, routed)           0.915    25.281    matmul_value_stage[7]_i_617_n_0
+    SLICE_X9Y16          LUT6 (Prop_lut6_I5_O)        0.124    25.405 f  matmul_value_stage[7]_i_449/O
+                         net (fo=3, routed)           0.987    26.392    matmul_value_stage[7]_i_477_n_0
+    SLICE_X12Y16         LUT6 (Prop_lut6_I5_O)        0.124    26.516 r  matmul_value_stage[7]_i_670/O
+                         net (fo=4, routed)           1.110    27.625    matmul_value_stage[7]_i_670_n_0
+    SLICE_X6Y15          LUT6 (Prop_lut6_I3_O)        0.124    27.749 r  matmul_value_stage[7]_i_647/O
+                         net (fo=2, routed)           0.602    28.351    matmul_value_stage[7]_i_647_n_0
+    SLICE_X7Y15          LUT5 (Prop_lut5_I2_O)        0.124    28.475 r  matmul_value_stage[7]_i_502/O
+                         net (fo=1, routed)           0.000    28.475    matmul_value_stage[7]_i_502_n_0
+    SLICE_X7Y15          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    28.876 r  matmul_value_stage_reg[7]_i_376/CO[3]
+                         net (fo=1, routed)           0.000    28.876    matmul_value_stage_reg[7]_i_376_n_0
+    SLICE_X7Y16          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    29.115 r  matmul_value_stage_reg[7]_i_238/O[2]
+                         net (fo=2, routed)           0.689    29.804    float32_matmul_requantize0_round_float32_product.normalized30_in[26]
+    SLICE_X8Y17          LUT5 (Prop_lut5_I3_O)        0.302    30.106 r  matmul_value_stage[7]_i_138/O
+                         net (fo=1, routed)           0.549    30.654    matmul_value_stage[7]_i_138_n_0
+    SLICE_X8Y16          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.520    31.174 r  matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=54, routed)          1.117    32.291    float32_matmul_requantize0_round_float32_product.normalized21_in
+    SLICE_X10Y19         LUT6 (Prop_lut6_I2_O)        0.124    32.415 r  matmul_value_stage[7]_i_28/O
+                         net (fo=64, routed)          1.049    33.465    matmul_value_stage[7]_i_28_n_0
+    SLICE_X10Y22         LUT5 (Prop_lut5_I2_O)        0.124    33.589 r  matmul_value_stage[7]_i_337/O
+                         net (fo=4, routed)           0.840    34.429    matmul_value_stage[7]_i_337_n_0
+    SLICE_X8Y22          LUT6 (Prop_lut6_I0_O)        0.124    34.553 r  matmul_value_stage[7]_i_328/O
+                         net (fo=2, routed)           0.952    35.505    matmul_value_stage[7]_i_328_n_0
+    SLICE_X5Y21          LUT6 (Prop_lut6_I3_O)        0.124    35.629 f  matmul_value_stage[7]_i_192/O
+                         net (fo=4, routed)           0.592    36.221    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[18]
+    SLICE_X7Y18          LUT5 (Prop_lut5_I4_O)        0.124    36.345 r  matmul_value_stage[3]_i_202/O
+                         net (fo=4, routed)           0.755    37.100    matmul_value_stage[3]_i_202_n_0
+    SLICE_X1Y18          LUT6 (Prop_lut6_I1_O)        0.124    37.224 r  matmul_value_stage[3]_i_186/O
+                         net (fo=2, routed)           0.654    37.878    matmul_value_stage[3]_i_186_n_0
+    SLICE_X4Y18          LUT5 (Prop_lut5_I2_O)        0.124    38.002 r  matmul_value_stage[3]_i_146/O
+                         net (fo=1, routed)           0.000    38.002    matmul_value_stage[3]_i_146_n_0
+    SLICE_X4Y18          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.376    38.378 r  matmul_value_stage_reg[3]_i_85/CO[3]
+                         net (fo=1, routed)           0.000    38.378    matmul_value_stage_reg[3]_i_85_n_0
+    SLICE_X4Y19          CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    38.701 r  matmul_value_stage_reg[3]_i_83/O[1]
+                         net (fo=3, routed)           0.822    39.523    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[21]
+    SLICE_X1Y18          LUT5 (Prop_lut5_I0_O)        0.306    39.829 r  matmul_value_stage[3]_i_37/O
+                         net (fo=1, routed)           0.322    40.151    matmul_value_stage[3]_i_37_n_0
+    SLICE_X2Y18          CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.404    40.555 r  matmul_value_stage_reg[3]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    40.555    matmul_value_stage_reg[3]_i_16_n_0
+    SLICE_X2Y19          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.672 r  matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.883    41.554    float32_matmul_requantize0_round_float32_product.rounded_magnitude22_in
+    SLICE_X1Y19          LUT3 (Prop_lut3_I0_O)        0.124    41.678 r  matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.529    42.207    matmul_value_stage[7]_i_30_n_0
+    SLICE_X3Y19          LUT5 (Prop_lut5_I3_O)        0.124    42.331 r  matmul_value_stage[7]_i_15/O
+                         net (fo=1, routed)           0.000    42.331    matmul_value_stage[7]_i_15_n_0
+    SLICE_X3Y19          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    42.863 r  matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.863    matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X3Y20          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.977 r  matmul_value_stage_reg[7]_i_186/CO[3]
+                         net (fo=1, routed)           0.000    42.977    matmul_value_stage_reg[7]_i_186_n_0
+    SLICE_X3Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.091 r  matmul_value_stage_reg[7]_i_109/CO[3]
+                         net (fo=1, routed)           0.000    43.091    matmul_value_stage_reg[7]_i_109_n_0
+    SLICE_X3Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.205 r  matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    43.205    matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X3Y23          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.319 r  matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    43.319    matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X3Y24          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    43.433 r  matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.009    43.442    matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X3Y25          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.313    43.755 r  matmul_value_stage_reg[7]_i_4/O[3]
+                         net (fo=3, routed)           0.539    44.294    matmul_value_stage_reg[7]_i_4_n_4
+    SLICE_X2Y24          LUT5 (Prop_lut5_I4_O)        0.306    44.600 r  matmul_value_stage[7]_i_1/O
+                         net (fo=8, routed)           0.625    45.225    p_1_in
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[1]/R
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     35.000    35.000 r  
+    U7                                                0.000    35.000 r  clk (IN)
+                         net (fo=0)                   0.000    35.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    35.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    37.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    37.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=77, routed)          1.639    39.626    clk_IBUF_BUFG
+    SLICE_X2Y24          FDRE                                         r  matmul_value_stage_reg[1]/C
+                         clock pessimism              0.458    40.084    
+                         clock uncertainty           -0.035    40.049    
+    SLICE_X2Y24          FDRE (Setup_fdre_C_R)       -0.524    39.525    matmul_value_stage_reg[1]
+  -------------------------------------------------------------------
+                         required time                         39.525    
+                         arrival time                         -45.225    
+  -------------------------------------------------------------------
+                         slack                                 -5.700    
+
+
+
+

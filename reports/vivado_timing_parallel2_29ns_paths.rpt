@@ -1,0 +1,2109 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2026.2 (win64) Build 6713330 Sat Nov 07 01:26:36 MST 2026
+| Date         : Fri Nov 27 18:54:32 2026
+| Host         : tomasz running 64-bit major release  (build 9200)
+| Command      : report_timing -delay_type max -max_paths 10 -file C:/Users/tomas/Desktop/ESL_projekt/mnist-int8-fc-myhhdl-1/build/vivado_reports_current_20261127/vivado_timing_parallel2_29ns_paths.rpt
+| Design       : mnist_fc_parallel2
+| Device       : 7z020-clg400
+| Speed File   : -1  PRODUCTION 1.12 2019-11-22
+| Design State : Routed
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (VIOLATED) :        -11.901ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[2]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.910ns  (logic 18.666ns (45.627%)  route 22.244ns (54.373%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.013ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.632ns = ( 33.632 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.628    45.678    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X1Y29          LUT2 (Prop_lut2_I1_O)        0.310    45.988 r  even_matmul_value_stage[2]_i_1/O
+                         net (fo=1, routed)           0.000    45.988    even_matmul_value_stage[2]_i_1_n_0
+    SLICE_X1Y29          FDRE                                         r  even_matmul_value_stage_reg[2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.645    33.632    clk_IBUF_BUFG
+    SLICE_X1Y29          FDRE                                         r  even_matmul_value_stage_reg[2]/C
+                         clock pessimism              0.458    34.090    
+                         clock uncertainty           -0.035    34.055    
+    SLICE_X1Y29          FDRE (Setup_fdre_C_D)        0.032    34.087    even_matmul_value_stage_reg[2]
+  -------------------------------------------------------------------
+                         required time                         34.087    
+                         arrival time                         -45.988    
+  -------------------------------------------------------------------
+                         slack                                -11.901    
+
+Slack (VIOLATED) :        -11.851ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[3]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.903ns  (logic 18.659ns (45.617%)  route 22.244ns (54.383%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.013ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.632ns = ( 33.632 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.628    45.678    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X1Y29          LUT2 (Prop_lut2_I1_O)        0.303    45.981 r  even_matmul_value_stage[3]_i_1/O
+                         net (fo=1, routed)           0.000    45.981    even_matmul_value_stage[3]_i_1_n_0
+    SLICE_X1Y29          FDRE                                         r  even_matmul_value_stage_reg[3]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.645    33.632    clk_IBUF_BUFG
+    SLICE_X1Y29          FDRE                                         r  even_matmul_value_stage_reg[3]/C
+                         clock pessimism              0.458    34.090    
+                         clock uncertainty           -0.035    34.055    
+    SLICE_X1Y29          FDRE (Setup_fdre_C_D)        0.075    34.130    even_matmul_value_stage_reg[3]
+  -------------------------------------------------------------------
+                         required time                         34.130    
+                         arrival time                         -45.981    
+  -------------------------------------------------------------------
+                         slack                                -11.851    
+
+Slack (VIOLATED) :        -11.714ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[4]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.722ns  (logic 18.666ns (45.838%)  route 22.056ns (54.162%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.012ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.631ns = ( 33.631 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.440    45.489    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X3Y28          LUT2 (Prop_lut2_I1_O)        0.310    45.799 r  even_matmul_value_stage[4]_i_1/O
+                         net (fo=1, routed)           0.000    45.799    even_matmul_value_stage[4]_i_1_n_0
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[4]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.644    33.631    clk_IBUF_BUFG
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[4]/C
+                         clock pessimism              0.458    34.089    
+                         clock uncertainty           -0.035    34.054    
+    SLICE_X3Y28          FDRE (Setup_fdre_C_D)        0.031    34.085    even_matmul_value_stage_reg[4]
+  -------------------------------------------------------------------
+                         required time                         34.085    
+                         arrival time                         -45.799    
+  -------------------------------------------------------------------
+                         slack                                -11.714    
+
+Slack (VIOLATED) :        -11.713ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[0]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.719ns  (logic 18.666ns (45.841%)  route 22.053ns (54.159%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.012ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.631ns = ( 33.631 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.437    45.486    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X1Y28          LUT2 (Prop_lut2_I1_O)        0.310    45.796 r  even_matmul_value_stage[0]_i_1/O
+                         net (fo=1, routed)           0.000    45.796    even_matmul_value_stage[0]_i_1_n_0
+    SLICE_X1Y28          FDRE                                         r  even_matmul_value_stage_reg[0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.644    33.631    clk_IBUF_BUFG
+    SLICE_X1Y28          FDRE                                         r  even_matmul_value_stage_reg[0]/C
+                         clock pessimism              0.458    34.089    
+                         clock uncertainty           -0.035    34.054    
+    SLICE_X1Y28          FDRE (Setup_fdre_C_D)        0.029    34.083    even_matmul_value_stage_reg[0]
+  -------------------------------------------------------------------
+                         required time                         34.083    
+                         arrival time                         -45.796    
+  -------------------------------------------------------------------
+                         slack                                -11.713    
+
+Slack (VIOLATED) :        -11.712ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.721ns  (logic 18.666ns (45.839%)  route 22.055ns (54.161%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.012ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.631ns = ( 33.631 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.439    45.488    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X3Y28          LUT2 (Prop_lut2_I1_O)        0.310    45.798 r  even_matmul_value_stage[6]_i_1/O
+                         net (fo=1, routed)           0.000    45.798    even_matmul_value_stage[6]_i_1_n_0
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.644    33.631    clk_IBUF_BUFG
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[6]/C
+                         clock pessimism              0.458    34.089    
+                         clock uncertainty           -0.035    34.054    
+    SLICE_X3Y28          FDRE (Setup_fdre_C_D)        0.032    34.086    even_matmul_value_stage_reg[6]
+  -------------------------------------------------------------------
+                         required time                         34.086    
+                         arrival time                         -45.798    
+  -------------------------------------------------------------------
+                         slack                                -11.712    
+
+Slack (VIOLATED) :        -11.666ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[5]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.718ns  (logic 18.662ns (45.832%)  route 22.056ns (54.168%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.012ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.631ns = ( 33.631 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.440    45.489    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X3Y28          LUT2 (Prop_lut2_I1_O)        0.306    45.795 r  even_matmul_value_stage[5]_i_1/O
+                         net (fo=1, routed)           0.000    45.795    even_matmul_value_stage[5]_i_1_n_0
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[5]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.644    33.631    clk_IBUF_BUFG
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[5]/C
+                         clock pessimism              0.458    34.089    
+                         clock uncertainty           -0.035    34.054    
+    SLICE_X3Y28          FDRE (Setup_fdre_C_D)        0.075    34.129    even_matmul_value_stage_reg[5]
+  -------------------------------------------------------------------
+                         required time                         34.129    
+                         arrival time                         -45.795    
+  -------------------------------------------------------------------
+                         slack                                -11.666    
+
+Slack (VIOLATED) :        -11.662ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.714ns  (logic 18.659ns (45.830%)  route 22.055ns (54.170%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.012ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.631ns = ( 33.631 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.439    45.488    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X3Y28          LUT2 (Prop_lut2_I1_O)        0.303    45.791 r  even_matmul_value_stage[7]_i_3/O
+                         net (fo=1, routed)           0.000    45.791    even_matmul_value_stage[7]_i_3_n_0
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.644    33.631    clk_IBUF_BUFG
+    SLICE_X3Y28          FDRE                                         r  even_matmul_value_stage_reg[7]/C
+                         clock pessimism              0.458    34.089    
+                         clock uncertainty           -0.035    34.054    
+    SLICE_X3Y28          FDRE (Setup_fdre_C_D)        0.075    34.129    even_matmul_value_stage_reg[7]
+  -------------------------------------------------------------------
+                         required time                         34.129    
+                         arrival time                         -45.791    
+  -------------------------------------------------------------------
+                         slack                                -11.662    
+
+Slack (VIOLATED) :        -11.661ns  (required time - arrival time)
+  Source:                 even_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            even_matmul_value_stage_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.713ns  (logic 18.660ns (45.833%)  route 22.053ns (54.167%))
+  Logic Levels:           60  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=3 LUT3=2 LUT4=3 LUT5=4 LUT6=14)
+  Clock Path Skew:        0.012ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.631ns = ( 33.631 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.077ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.747     5.077    clk_IBUF_BUFG
+    SLICE_X21Y13         FDRE                                         r  even_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X21Y13         FDRE (Prop_fdre_C_Q)         0.456     5.533 f  even_accumulator_reg[0]/Q
+                         net (fo=2, routed)           0.177     5.711    even_accumulator_reg_n_0_[0]
+    SLICE_X20Y13         LUT1 (Prop_lut1_I0_O)        0.124     5.835 r  p_1_out__3_i_39/O
+                         net (fo=1, routed)           0.474     6.309    p_1_out__3_i_39_n_0
+    SLICE_X20Y14         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.904 r  p_1_out__3_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.904    p_1_out__3_i_26_n_0
+    SLICE_X20Y15         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.021 r  p_1_out__3_i_25/CO[3]
+                         net (fo=1, routed)           0.000     7.021    p_1_out__3_i_25_n_0
+    SLICE_X20Y16         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.138 r  p_1_out__3_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.138    p_1_out__3_i_24_n_0
+    SLICE_X20Y17         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.377 r  p_1_out__3_i_23/O[2]
+                         net (fo=1, routed)           0.301     7.679    float32_matmul_requantize0_product1[15]
+    SLICE_X23Y17         LUT3 (Prop_lut3_I0_O)        0.301     7.980 r  p_1_out__3_i_2/O
+                         net (fo=1, routed)           0.860     8.840    p_1_out__3_i_2_n_0
+    DSP48_X1Y8           DSP48E1 (Prop_dsp48e1_B[15]_PCOUT[47])
+                                                      3.851    12.691 r  p_1_out__3/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.693    p_1_out__3_n_106
+    DSP48_X1Y9           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[16])
+                                                      1.518    14.211 r  p_1_out__4/P[16]
+                         net (fo=1, routed)           1.107    15.318    p_1_out__4_n_89
+    SLICE_X16Y17         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.637    15.955 r  even_matmul_value_stage_reg[7]_i_417/CO[3]
+                         net (fo=1, routed)           0.000    15.955    even_matmul_value_stage_reg[7]_i_417_n_0
+    SLICE_X16Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.072 r  even_matmul_value_stage_reg[7]_i_418/CO[3]
+                         net (fo=1, routed)           0.000    16.072    even_matmul_value_stage_reg[7]_i_418_n_0
+    SLICE_X16Y19         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.189 r  even_matmul_value_stage_reg[7]_i_419/CO[3]
+                         net (fo=1, routed)           0.000    16.189    even_matmul_value_stage_reg[7]_i_419_n_0
+    SLICE_X16Y20         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.306 r  even_matmul_value_stage_reg[7]_i_271/CO[3]
+                         net (fo=1, routed)           0.000    16.306    even_matmul_value_stage_reg[7]_i_271_n_0
+    SLICE_X16Y21         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323    16.629 r  even_matmul_value_stage_reg[7]_i_151/O[1]
+                         net (fo=7, routed)           1.146    17.775    even_matmul_value_stage_reg[7]_i_151_n_6
+    SLICE_X17Y17         LUT6 (Prop_lut6_I2_O)        0.306    18.081 r  even_matmul_value_stage[7]_i_280/O
+                         net (fo=7, routed)           0.515    18.596    even_matmul_value_stage[7]_i_280_n_0
+    SLICE_X16Y15         LUT4 (Prop_lut4_I3_O)        0.124    18.720 f  even_matmul_value_stage[7]_i_413/O
+                         net (fo=5, routed)           0.196    18.916    even_matmul_value_stage[7]_i_413_n_0
+    SLICE_X16Y15         LUT6 (Prop_lut6_I4_O)        0.124    19.040 r  even_matmul_value_stage[7]_i_399/O
+                         net (fo=3, routed)           0.603    19.643    even_matmul_value_stage[7]_i_399_n_0
+    SLICE_X16Y16         LUT6 (Prop_lut6_I4_O)        0.124    19.767 f  even_matmul_value_stage[7]_i_249/O
+                         net (fo=8, routed)           0.385    20.152    even_matmul_value_stage[7]_i_249_n_0
+    SLICE_X14Y16         LUT2 (Prop_lut2_I1_O)        0.124    20.276 r  even_matmul_value_stage[7]_i_753/O
+                         net (fo=1, routed)           0.000    20.276    even_matmul_value_stage[7]_i_753_n_0
+    SLICE_X14Y16         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    20.789 r  even_matmul_value_stage_reg[7]_i_687/CO[3]
+                         net (fo=1, routed)           0.000    20.789    even_matmul_value_stage_reg[7]_i_687_n_0
+    SLICE_X14Y17         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.906 r  even_matmul_value_stage_reg[7]_i_546/CO[3]
+                         net (fo=1, routed)           0.000    20.906    even_matmul_value_stage_reg[7]_i_546_n_0
+    SLICE_X14Y18         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.023 r  even_matmul_value_stage_reg[7]_i_400/CO[3]
+                         net (fo=1, routed)           0.000    21.023    even_matmul_value_stage_reg[7]_i_400_n_0
+    SLICE_X14Y19         CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    21.252 f  even_matmul_value_stage_reg[7]_i_246/CO[2]
+                         net (fo=13, routed)          0.413    21.665    even_matmul_value_stage_reg[7]_i_246_n_1
+    SLICE_X13Y19         LUT6 (Prop_lut6_I5_O)        0.310    21.975 r  even_matmul_value_stage[7]_i_165/O
+                         net (fo=103, routed)         1.094    23.069    even_matmul_value_stage[7]_i_165_n_0
+    SLICE_X13Y23         LUT6 (Prop_lut6_I2_O)        0.124    23.193 r  even_matmul_value_stage[7]_i_509/O
+                         net (fo=5, routed)           0.862    24.055    even_matmul_value_stage[7]_i_509_n_0
+    SLICE_X13Y25         LUT6 (Prop_lut6_I5_O)        0.124    24.179 r  even_matmul_value_stage[7]_i_610/O
+                         net (fo=1, routed)           0.694    24.873    even_matmul_value_stage[7]_i_610_n_0
+    SLICE_X11Y20         LUT6 (Prop_lut6_I4_O)        0.124    24.997 f  even_matmul_value_stage[7]_i_467/O
+                         net (fo=5, routed)           0.932    25.929    even_matmul_value_stage[7]_i_606_n_0
+    SLICE_X10Y25         LUT4 (Prop_lut4_I0_O)        0.124    26.053 r  even_matmul_value_stage[7]_i_741/O
+                         net (fo=4, routed)           0.826    26.878    even_matmul_value_stage[7]_i_741_n_0
+    SLICE_X9Y24          LUT6 (Prop_lut6_I3_O)        0.124    27.002 r  even_matmul_value_stage[7]_i_671/O
+                         net (fo=2, routed)           0.460    27.462    even_matmul_value_stage[7]_i_671_n_0
+    SLICE_X8Y20          LUT6 (Prop_lut6_I4_O)        0.124    27.586 r  even_matmul_value_stage[7]_i_534/O
+                         net (fo=1, routed)           0.000    27.586    even_matmul_value_stage[7]_i_534_n_0
+    SLICE_X8Y20          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    28.119 r  even_matmul_value_stage_reg[7]_i_388/CO[3]
+                         net (fo=1, routed)           0.000    28.119    even_matmul_value_stage_reg[7]_i_388_n_0
+    SLICE_X8Y21          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.236 r  even_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.236    even_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X8Y22          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    28.353 r  even_matmul_value_stage_reg[7]_i_234/CO[3]
+                         net (fo=1, routed)           0.000    28.353    even_matmul_value_stage_reg[7]_i_234_n_0
+    SLICE_X8Y23          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315    28.668 r  even_matmul_value_stage_reg[7]_i_227/O[3]
+                         net (fo=3, routed)           1.025    29.692    float32_matmul_requantize0_round_float32_product.normalized30_in[31]
+    SLICE_X5Y21          LUT5 (Prop_lut5_I2_O)        0.307    29.999 r  even_matmul_value_stage[7]_i_136/O
+                         net (fo=1, routed)           0.000    29.999    even_matmul_value_stage[7]_i_136_n_0
+    SLICE_X5Y21          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    30.400 r  even_matmul_value_stage_reg[7]_i_65/CO[3]
+                         net (fo=52, routed)          1.509    31.910    float32_matmul_requantize0_round_float32_product.normalized20_in
+    SLICE_X4Y18          LUT6 (Prop_lut6_I2_O)        0.124    32.034 f  even_matmul_value_stage[7]_i_321/O
+                         net (fo=4, routed)           1.043    33.077    even_matmul_value_stage[3]_i_166_n_0
+    SLICE_X1Y23          LUT6 (Prop_lut6_I3_O)        0.124    33.201 r  even_matmul_value_stage[7]_i_178/O
+                         net (fo=4, routed)           0.841    34.042    even_matmul_value_stage[7]_i_178_n_0
+    SLICE_X1Y25          LUT6 (Prop_lut6_I5_O)        0.124    34.166 r  even_matmul_value_stage[7]_i_499/O
+                         net (fo=2, routed)           0.415    34.581    even_matmul_value_stage[7]_i_499_n_0
+    SLICE_X5Y25          LUT5 (Prop_lut5_I4_O)        0.124    34.705 f  even_matmul_value_stage[7]_i_336/O
+                         net (fo=6, routed)           0.551    35.257    float32_matmul_requantize0_round_float32_product.rounded_magnitude5[12]
+    SLICE_X2Y24          LUT4 (Prop_lut4_I2_O)        0.124    35.381 r  even_matmul_value_stage[3]_i_229/O
+                         net (fo=4, routed)           0.630    36.011    even_matmul_value_stage[3]_i_229_n_0
+    SLICE_X4Y24          LUT5 (Prop_lut5_I2_O)        0.124    36.135 r  even_matmul_value_stage[3]_i_217/O
+                         net (fo=2, routed)           0.644    36.779    even_matmul_value_stage[3]_i_217_n_0
+    SLICE_X7Y24          LUT5 (Prop_lut5_I3_O)        0.124    36.903 r  even_matmul_value_stage[3]_i_170/O
+                         net (fo=1, routed)           0.000    36.903    even_matmul_value_stage[3]_i_170_n_0
+    SLICE_X7Y24          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    37.453 r  even_matmul_value_stage_reg[3]_i_111/CO[3]
+                         net (fo=1, routed)           0.009    37.462    even_matmul_value_stage_reg[3]_i_111_n_0
+    SLICE_X7Y25          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.576 r  even_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.576    even_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X7Y26          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.690 r  even_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.690    even_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X7Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.804 r  even_matmul_value_stage_reg[3]_i_52/CO[3]
+                         net (fo=1, routed)           0.000    37.804    even_matmul_value_stage_reg[3]_i_52_n_0
+    SLICE_X7Y28          CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239    38.043 r  even_matmul_value_stage_reg[3]_i_48/O[2]
+                         net (fo=3, routed)           0.599    38.642    float32_matmul_requantize0_round_float32_product.rounded_magnitude30_in[30]
+    SLICE_X6Y29          LUT6 (Prop_lut6_I4_O)        0.302    38.944 r  even_matmul_value_stage[3]_i_17/O
+                         net (fo=1, routed)           0.776    39.720    even_matmul_value_stage[3]_i_17_n_0
+    SLICE_X6Y25          CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396    40.116 r  even_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=3, routed)           1.185    41.301    float32_matmul_requantize0_round_float32_product.rounded_magnitude21_in
+    SLICE_X3Y27          LUT3 (Prop_lut3_I2_O)        0.124    41.425 r  even_matmul_value_stage[7]_i_29_comp/O
+                         net (fo=1, routed)           0.451    41.876    even_matmul_value_stage[7]_i_29_n_0_repN
+    SLICE_X4Y26          LUT6 (Prop_lut6_I5_O)        0.124    42.000 r  even_matmul_value_stage[7]_i_14_comp/O
+                         net (fo=1, routed)           0.000    42.000    even_matmul_value_stage[7]_i_14_n_0
+    SLICE_X4Y26          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.533 r  even_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.533    even_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X4Y27          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.650 r  even_matmul_value_stage_reg[7]_i_183/CO[3]
+                         net (fo=1, routed)           0.000    42.650    even_matmul_value_stage_reg[7]_i_183_n_0
+    SLICE_X4Y28          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.767 r  even_matmul_value_stage_reg[7]_i_105/CO[3]
+                         net (fo=1, routed)           0.000    42.767    even_matmul_value_stage_reg[7]_i_105_n_0
+    SLICE_X4Y29          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.884 r  even_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.884    even_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X4Y30          CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    43.103 f  even_matmul_value_stage_reg[7]_i_23/O[0]
+                         net (fo=2, routed)           0.890    43.993    even_matmul_value_stage_reg[7]_i_23_n_7
+    SLICE_X0Y28          LUT2 (Prop_lut2_I0_O)        0.295    44.288 r  even_matmul_value_stage[7]_i_48/O
+                         net (fo=1, routed)           0.000    44.288    even_matmul_value_stage[7]_i_48_n_0
+    SLICE_X0Y28          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    44.821 r  even_matmul_value_stage_reg[7]_i_16/CO[3]
+                         net (fo=1, routed)           0.000    44.821    even_matmul_value_stage_reg[7]_i_16_n_0
+    SLICE_X0Y29          CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.229    45.050 r  even_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.437    45.486    even_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X1Y28          LUT2 (Prop_lut2_I1_O)        0.304    45.790 r  even_matmul_value_stage[1]_i_1/O
+                         net (fo=1, routed)           0.000    45.790    even_matmul_value_stage[1]_i_1_n_0
+    SLICE_X1Y28          FDRE                                         r  even_matmul_value_stage_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.644    33.631    clk_IBUF_BUFG
+    SLICE_X1Y28          FDRE                                         r  even_matmul_value_stage_reg[1]/C
+                         clock pessimism              0.458    34.089    
+                         clock uncertainty           -0.035    34.054    
+    SLICE_X1Y28          FDRE (Setup_fdre_C_D)        0.075    34.129    even_matmul_value_stage_reg[1]
+  -------------------------------------------------------------------
+                         required time                         34.129    
+                         arrival time                         -45.790    
+  -------------------------------------------------------------------
+                         slack                                -11.661    
+
+Slack (VIOLATED) :        -11.497ns  (required time - arrival time)
+  Source:                 odd_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            odd_matmul_value_stage_reg[2]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.475ns  (logic 19.112ns (47.219%)  route 21.363ns (52.781%))
+  Logic Levels:           63  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=5 LUT3=5 LUT4=1 LUT5=4 LUT6=14)
+  Clock Path Skew:        -0.067ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.560ns = ( 33.560 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.085ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.755     5.085    clk_IBUF_BUFG
+    SLICE_X12Y0          FDRE                                         r  odd_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X12Y0          FDRE (Prop_fdre_C_Q)         0.518     5.603 f  odd_accumulator_reg[0]/Q
+                         net (fo=3, routed)           0.166     5.770    odd_accumulator_reg_n_0_[0]
+    SLICE_X13Y0          LUT1 (Prop_lut1_I0_O)        0.124     5.894 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.226    p_1_out__0_i_39_n_0
+    SLICE_X12Y0          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.821 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.821    p_1_out__0_i_26_n_0
+    SLICE_X12Y1          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     6.938 r  p_1_out__0_i_25/CO[3]
+                         net (fo=1, routed)           0.000     6.938    p_1_out__0_i_25_n_0
+    SLICE_X12Y2          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.055 r  p_1_out__0_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.055    p_1_out__0_i_24_n_0
+    SLICE_X12Y3          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315     7.370 r  p_1_out__0_i_23/O[3]
+                         net (fo=1, routed)           0.577     7.946    float32_matmul_requantize1_product1[16]
+    SLICE_X13Y4          LUT3 (Prop_lut3_I0_O)        0.307     8.253 r  p_1_out__0_i_1/O
+                         net (fo=1, routed)           0.401     8.655    p_1_out__0_i_1_n_0
+    DSP48_X0Y0           DSP48E1 (Prop_dsp48e1_B[16]_PCOUT[47])
+                                                      3.851    12.506 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.508    p_1_out__0_n_106
+    DSP48_X0Y1           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[21])
+                                                      1.518    14.026 r  p_1_out__1/P[21]
+                         net (fo=2, routed)           0.923    14.949    p_1_out__1_n_84
+    SLICE_X9Y4           LUT2 (Prop_lut2_I0_O)        0.124    15.073 r  odd_matmul_value_stage[7]_i_453/O
+                         net (fo=1, routed)           0.000    15.073    odd_matmul_value_stage[7]_i_453_n_0
+    SLICE_X9Y4           CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    15.623 r  odd_matmul_value_stage_reg[7]_i_278/CO[3]
+                         net (fo=1, routed)           0.000    15.623    odd_matmul_value_stage_reg[7]_i_278_n_0
+    SLICE_X9Y5           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.737 r  odd_matmul_value_stage_reg[7]_i_279/CO[3]
+                         net (fo=1, routed)           0.000    15.737    odd_matmul_value_stage_reg[7]_i_279_n_0
+    SLICE_X9Y6           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.851 r  odd_matmul_value_stage_reg[7]_i_277/CO[3]
+                         net (fo=1, routed)           0.000    15.851    odd_matmul_value_stage_reg[7]_i_277_n_0
+    SLICE_X9Y7           CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    16.073 f  odd_matmul_value_stage_reg[7]_i_165/O[0]
+                         net (fo=6, routed)           1.105    17.178    odd_matmul_value_stage_reg[7]_i_165_n_7
+    SLICE_X7Y6           LUT6 (Prop_lut6_I0_O)        0.299    17.477 f  odd_matmul_value_stage[7]_i_158/O
+                         net (fo=9, routed)           0.359    17.837    odd_matmul_value_stage[7]_i_158_n_0
+    SLICE_X4Y5           LUT6 (Prop_lut6_I0_O)        0.124    17.961 f  odd_matmul_value_stage[7]_i_579/O
+                         net (fo=1, routed)           0.582    18.542    odd_matmul_value_stage[7]_i_579_n_0
+    SLICE_X3Y5           LUT6 (Prop_lut6_I0_O)        0.124    18.666 f  odd_matmul_value_stage[7]_i_414/O
+                         net (fo=1, routed)           0.309    18.975    odd_matmul_value_stage[7]_i_414_n_0
+    SLICE_X4Y5           LUT6 (Prop_lut6_I5_O)        0.124    19.099 f  odd_matmul_value_stage[7]_i_252/O
+                         net (fo=10, routed)          0.332    19.432    odd_matmul_value_stage[7]_i_252_n_0
+    SLICE_X5Y4           LUT2 (Prop_lut2_I0_O)        0.124    19.556 r  odd_matmul_value_stage[7]_i_791/O
+                         net (fo=1, routed)           0.000    19.556    odd_matmul_value_stage[7]_i_791_n_0
+    SLICE_X5Y4           CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    20.088 r  odd_matmul_value_stage_reg[7]_i_707/CO[3]
+                         net (fo=1, routed)           0.000    20.088    odd_matmul_value_stage_reg[7]_i_707_n_0
+    SLICE_X5Y5           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    20.202 r  odd_matmul_value_stage_reg[7]_i_560/CO[3]
+                         net (fo=1, routed)           0.000    20.202    odd_matmul_value_stage_reg[7]_i_560_n_0
+    SLICE_X5Y6           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    20.316 r  odd_matmul_value_stage_reg[7]_i_403/CO[3]
+                         net (fo=1, routed)           0.000    20.316    odd_matmul_value_stage_reg[7]_i_403_n_0
+    SLICE_X5Y7           CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.228    20.544 r  odd_matmul_value_stage_reg[7]_i_250/CO[2]
+                         net (fo=103, routed)         1.294    21.838    odd_matmul_value_stage_reg[7]_i_250_n_1
+    SLICE_X9Y9           LUT6 (Prop_lut6_I4_O)        0.313    22.151 r  odd_matmul_value_stage[7]_i_419/O
+                         net (fo=1, routed)           0.433    22.584    odd_matmul_value_stage[7]_i_419_n_0
+    SLICE_X9Y9           LUT6 (Prop_lut6_I5_O)        0.124    22.708 r  odd_matmul_value_stage[7]_i_256/O
+                         net (fo=9, routed)           0.965    23.673    odd_matmul_value_stage[7]_i_256_n_0
+    SLICE_X12Y8          LUT6 (Prop_lut6_I0_O)        0.124    23.797 r  odd_matmul_value_stage[7]_i_143/O
+                         net (fo=3, routed)           0.369    24.166    odd_matmul_value_stage[7]_i_143_n_0
+    SLICE_X13Y8          LUT5 (Prop_lut5_I2_O)        0.124    24.290 f  odd_matmul_value_stage[7]_i_63/O
+                         net (fo=54, routed)          0.827    25.117    odd_matmul_value_stage[7]_i_667_n_0
+    SLICE_X13Y5          LUT2 (Prop_lut2_I1_O)        0.124    25.241 r  odd_matmul_value_stage[7]_i_838/O
+                         net (fo=6, routed)           0.450    25.691    odd_matmul_value_stage[7]_i_838_n_0
+    SLICE_X16Y5          LUT3 (Prop_lut3_I1_O)        0.124    25.815 r  odd_matmul_value_stage[7]_i_800/O
+                         net (fo=3, routed)           0.834    26.649    odd_matmul_value_stage[7]_i_800_n_0
+    SLICE_X16Y6          LUT6 (Prop_lut6_I4_O)        0.124    26.773 r  odd_matmul_value_stage[7]_i_730/O
+                         net (fo=2, routed)           0.657    27.430    odd_matmul_value_stage[7]_i_730_n_0
+    SLICE_X15Y6          LUT5 (Prop_lut5_I2_O)        0.124    27.554 r  odd_matmul_value_stage[7]_i_592/O
+                         net (fo=1, routed)           0.000    27.554    odd_matmul_value_stage[7]_i_592_n_0
+    SLICE_X15Y6          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    27.955 r  odd_matmul_value_stage_reg[7]_i_439/CO[3]
+                         net (fo=1, routed)           0.000    27.955    odd_matmul_value_stage_reg[7]_i_439_n_0
+    SLICE_X15Y7          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    28.069 r  odd_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.069    odd_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X15Y8          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    28.183 r  odd_matmul_value_stage_reg[7]_i_386/CO[3]
+                         net (fo=1, routed)           0.000    28.183    odd_matmul_value_stage_reg[7]_i_386_n_0
+    SLICE_X15Y9          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.313    28.496 r  odd_matmul_value_stage_reg[7]_i_241/O[3]
+                         net (fo=2, routed)           0.450    28.946    float32_matmul_requantize1_round_float32_product.normalized30_in[27]
+    SLICE_X13Y9          LUT3 (Prop_lut3_I0_O)        0.306    29.252 f  odd_matmul_value_stage[7]_i_245/O
+                         net (fo=2, routed)           0.449    29.701    odd_matmul_value_stage[7]_i_245_n_0
+    SLICE_X17Y8          LUT4 (Prop_lut4_I3_O)        0.124    29.825 r  odd_matmul_value_stage[7]_i_139/O
+                         net (fo=1, routed)           0.000    29.825    odd_matmul_value_stage[7]_i_139_n_0
+    SLICE_X17Y8          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    30.375 r  odd_matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=52, routed)          1.310    31.685    float32_matmul_requantize1_round_float32_product.normalized24_in
+    SLICE_X19Y8          LUT6 (Prop_lut6_I2_O)        0.124    31.809 r  odd_matmul_value_stage[7]_i_318/O
+                         net (fo=3, routed)           0.976    32.784    odd_matmul_value_stage[7]_i_318_n_0
+    SLICE_X21Y4          LUT6 (Prop_lut6_I1_O)        0.124    32.908 r  odd_matmul_value_stage[7]_i_188/O
+                         net (fo=2, routed)           0.679    33.587    odd_matmul_value_stage[7]_i_188_n_0
+    SLICE_X22Y4          LUT6 (Prop_lut6_I5_O)        0.124    33.711 r  odd_matmul_value_stage[3]_i_13/O
+                         net (fo=2, routed)           0.728    34.439    odd_matmul_value_stage[3]_i_13_n_0
+    SLICE_X22Y6          LUT6 (Prop_lut6_I5_O)        0.124    34.563 f  odd_matmul_value_stage[3]_i_7/O
+                         net (fo=11, routed)          0.891    35.455    float32_matmul_requantize1_round_float32_product.rounded_magnitude5[3]
+    SLICE_X28Y7          LUT6 (Prop_lut6_I2_O)        0.124    35.579 r  odd_matmul_value_stage[3]_i_244/O
+                         net (fo=3, routed)           0.590    36.169    odd_matmul_value_stage[3]_i_244_n_0
+    SLICE_X27Y5          LUT3 (Prop_lut3_I0_O)        0.124    36.293 r  odd_matmul_value_stage[3]_i_221/O
+                         net (fo=1, routed)           0.436    36.729    odd_matmul_value_stage[3]_i_221_n_0
+    SLICE_X24Y6          LUT6 (Prop_lut6_I4_O)        0.124    36.853 r  odd_matmul_value_stage[3]_i_174/O
+                         net (fo=1, routed)           0.000    36.853    odd_matmul_value_stage[3]_i_174_n_0
+    SLICE_X24Y6          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    37.385 r  odd_matmul_value_stage_reg[3]_i_113/CO[3]
+                         net (fo=1, routed)           0.000    37.385    odd_matmul_value_stage_reg[3]_i_113_n_0
+    SLICE_X24Y7          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.499 r  odd_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.499    odd_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X24Y8          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.613 r  odd_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.613    odd_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X24Y9          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.313    37.926 r  odd_matmul_value_stage_reg[3]_i_51/O[3]
+                         net (fo=3, routed)           0.672    38.598    float32_matmul_requantize1_round_float32_product.rounded_magnitude30_in[27]
+    SLICE_X25Y9          LUT5 (Prop_lut5_I0_O)        0.306    38.904 r  odd_matmul_value_stage[3]_i_19/O
+                         net (fo=1, routed)           0.691    39.595    odd_matmul_value_stage[3]_i_19_n_0
+    SLICE_X25Y8          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.507    40.102 r  odd_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.861    40.963    float32_matmul_requantize1_round_float32_product.rounded_magnitude25_in
+    SLICE_X21Y8          LUT3 (Prop_lut3_I0_O)        0.124    41.087 r  odd_matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.517    41.604    odd_matmul_value_stage[7]_i_30_n_0
+    SLICE_X23Y6          LUT5 (Prop_lut5_I4_O)        0.124    41.728 r  odd_matmul_value_stage[3]_i_5/O
+                         net (fo=1, routed)           0.000    41.728    odd_matmul_value_stage[3]_i_5_n_0
+    SLICE_X23Y6          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    42.278 r  odd_matmul_value_stage_reg[3]_i_2/CO[3]
+                         net (fo=1, routed)           0.000    42.278    odd_matmul_value_stage_reg[3]_i_2_n_0
+    SLICE_X23Y7          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.392 r  odd_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.392    odd_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X23Y8          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.506 r  odd_matmul_value_stage_reg[7]_i_190/CO[3]
+                         net (fo=1, routed)           0.000    42.506    odd_matmul_value_stage_reg[7]_i_190_n_0
+    SLICE_X23Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.620 r  odd_matmul_value_stage_reg[7]_i_106/CO[3]
+                         net (fo=1, routed)           0.000    42.620    odd_matmul_value_stage_reg[7]_i_106_n_0
+    SLICE_X23Y10         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.734 r  odd_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.734    odd_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X23Y11         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.848 r  odd_matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    42.848    odd_matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X23Y12         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.962 r  odd_matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.000    42.962    odd_matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X23Y13         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.184 f  odd_matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.724    43.908    odd_matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X21Y12         LUT2 (Prop_lut2_I0_O)        0.299    44.207 r  odd_matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.207    odd_matmul_value_stage[7]_i_21_n_0
+    SLICE_X21Y12         CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    44.777 r  odd_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.471    45.248    odd_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X20Y11         LUT2 (Prop_lut2_I1_O)        0.313    45.561 r  odd_matmul_value_stage[2]_i_1/O
+                         net (fo=1, routed)           0.000    45.561    odd_matmul_value_stage[2]_i_1_n_0
+    SLICE_X20Y11         FDRE                                         r  odd_matmul_value_stage_reg[2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.573    33.560    clk_IBUF_BUFG
+    SLICE_X20Y11         FDRE                                         r  odd_matmul_value_stage_reg[2]/C
+                         clock pessimism              0.458    34.018    
+                         clock uncertainty           -0.035    33.983    
+    SLICE_X20Y11         FDRE (Setup_fdre_C_D)        0.081    34.064    odd_matmul_value_stage_reg[2]
+  -------------------------------------------------------------------
+                         required time                         34.064    
+                         arrival time                         -45.561    
+  -------------------------------------------------------------------
+                         slack                                -11.497    
+
+Slack (VIOLATED) :        -11.491ns  (required time - arrival time)
+  Source:                 odd_accumulator_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Destination:            odd_matmul_value_stage_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by core_clk  {rise@0.000ns fall@14.500ns period=29.000ns})
+  Path Group:             core_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            29.000ns  (core_clk rise@29.000ns - core_clk rise@0.000ns)
+  Data Path Delay:        40.467ns  (logic 19.112ns (47.228%)  route 21.355ns (52.772%))
+  Logic Levels:           63  (CARRY4=31 DSP48E1=2 LUT1=1 LUT2=5 LUT3=5 LUT4=1 LUT5=4 LUT6=14)
+  Clock Path Skew:        -0.069ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.558ns = ( 33.558 - 29.000 ) 
+    Source Clock Delay      (SCD):    5.085ns
+    Clock Pessimism Removal (CPR):    0.458ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock core_clk rise edge)
+                                                      0.000     0.000 r  
+    U7                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         1.058     1.058 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.171     3.229    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.101     3.330 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.755     5.085    clk_IBUF_BUFG
+    SLICE_X12Y0          FDRE                                         r  odd_accumulator_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X12Y0          FDRE (Prop_fdre_C_Q)         0.518     5.603 f  odd_accumulator_reg[0]/Q
+                         net (fo=3, routed)           0.166     5.770    odd_accumulator_reg_n_0_[0]
+    SLICE_X13Y0          LUT1 (Prop_lut1_I0_O)        0.124     5.894 r  p_1_out__0_i_39/O
+                         net (fo=1, routed)           0.332     6.226    p_1_out__0_i_39_n_0
+    SLICE_X12Y0          CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595     6.821 r  p_1_out__0_i_26/CO[3]
+                         net (fo=1, routed)           0.000     6.821    p_1_out__0_i_26_n_0
+    SLICE_X12Y1          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     6.938 r  p_1_out__0_i_25/CO[3]
+                         net (fo=1, routed)           0.000     6.938    p_1_out__0_i_25_n_0
+    SLICE_X12Y2          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.055 r  p_1_out__0_i_24/CO[3]
+                         net (fo=1, routed)           0.000     7.055    p_1_out__0_i_24_n_0
+    SLICE_X12Y3          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315     7.370 r  p_1_out__0_i_23/O[3]
+                         net (fo=1, routed)           0.577     7.946    float32_matmul_requantize1_product1[16]
+    SLICE_X13Y4          LUT3 (Prop_lut3_I0_O)        0.307     8.253 r  p_1_out__0_i_1/O
+                         net (fo=1, routed)           0.401     8.655    p_1_out__0_i_1_n_0
+    DSP48_X0Y0           DSP48E1 (Prop_dsp48e1_B[16]_PCOUT[47])
+                                                      3.851    12.506 r  p_1_out__0/PCOUT[47]
+                         net (fo=1, routed)           0.002    12.508    p_1_out__0_n_106
+    DSP48_X0Y1           DSP48E1 (Prop_dsp48e1_PCIN[47]_P[21])
+                                                      1.518    14.026 r  p_1_out__1/P[21]
+                         net (fo=2, routed)           0.923    14.949    p_1_out__1_n_84
+    SLICE_X9Y4           LUT2 (Prop_lut2_I0_O)        0.124    15.073 r  odd_matmul_value_stage[7]_i_453/O
+                         net (fo=1, routed)           0.000    15.073    odd_matmul_value_stage[7]_i_453_n_0
+    SLICE_X9Y4           CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    15.623 r  odd_matmul_value_stage_reg[7]_i_278/CO[3]
+                         net (fo=1, routed)           0.000    15.623    odd_matmul_value_stage_reg[7]_i_278_n_0
+    SLICE_X9Y5           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.737 r  odd_matmul_value_stage_reg[7]_i_279/CO[3]
+                         net (fo=1, routed)           0.000    15.737    odd_matmul_value_stage_reg[7]_i_279_n_0
+    SLICE_X9Y6           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.851 r  odd_matmul_value_stage_reg[7]_i_277/CO[3]
+                         net (fo=1, routed)           0.000    15.851    odd_matmul_value_stage_reg[7]_i_277_n_0
+    SLICE_X9Y7           CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    16.073 f  odd_matmul_value_stage_reg[7]_i_165/O[0]
+                         net (fo=6, routed)           1.105    17.178    odd_matmul_value_stage_reg[7]_i_165_n_7
+    SLICE_X7Y6           LUT6 (Prop_lut6_I0_O)        0.299    17.477 f  odd_matmul_value_stage[7]_i_158/O
+                         net (fo=9, routed)           0.359    17.837    odd_matmul_value_stage[7]_i_158_n_0
+    SLICE_X4Y5           LUT6 (Prop_lut6_I0_O)        0.124    17.961 f  odd_matmul_value_stage[7]_i_579/O
+                         net (fo=1, routed)           0.582    18.542    odd_matmul_value_stage[7]_i_579_n_0
+    SLICE_X3Y5           LUT6 (Prop_lut6_I0_O)        0.124    18.666 f  odd_matmul_value_stage[7]_i_414/O
+                         net (fo=1, routed)           0.309    18.975    odd_matmul_value_stage[7]_i_414_n_0
+    SLICE_X4Y5           LUT6 (Prop_lut6_I5_O)        0.124    19.099 f  odd_matmul_value_stage[7]_i_252/O
+                         net (fo=10, routed)          0.332    19.432    odd_matmul_value_stage[7]_i_252_n_0
+    SLICE_X5Y4           LUT2 (Prop_lut2_I0_O)        0.124    19.556 r  odd_matmul_value_stage[7]_i_791/O
+                         net (fo=1, routed)           0.000    19.556    odd_matmul_value_stage[7]_i_791_n_0
+    SLICE_X5Y4           CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    20.088 r  odd_matmul_value_stage_reg[7]_i_707/CO[3]
+                         net (fo=1, routed)           0.000    20.088    odd_matmul_value_stage_reg[7]_i_707_n_0
+    SLICE_X5Y5           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    20.202 r  odd_matmul_value_stage_reg[7]_i_560/CO[3]
+                         net (fo=1, routed)           0.000    20.202    odd_matmul_value_stage_reg[7]_i_560_n_0
+    SLICE_X5Y6           CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    20.316 r  odd_matmul_value_stage_reg[7]_i_403/CO[3]
+                         net (fo=1, routed)           0.000    20.316    odd_matmul_value_stage_reg[7]_i_403_n_0
+    SLICE_X5Y7           CARRY4 (Prop_carry4_CI_CO[2])
+                                                      0.228    20.544 r  odd_matmul_value_stage_reg[7]_i_250/CO[2]
+                         net (fo=103, routed)         1.294    21.838    odd_matmul_value_stage_reg[7]_i_250_n_1
+    SLICE_X9Y9           LUT6 (Prop_lut6_I4_O)        0.313    22.151 r  odd_matmul_value_stage[7]_i_419/O
+                         net (fo=1, routed)           0.433    22.584    odd_matmul_value_stage[7]_i_419_n_0
+    SLICE_X9Y9           LUT6 (Prop_lut6_I5_O)        0.124    22.708 r  odd_matmul_value_stage[7]_i_256/O
+                         net (fo=9, routed)           0.965    23.673    odd_matmul_value_stage[7]_i_256_n_0
+    SLICE_X12Y8          LUT6 (Prop_lut6_I0_O)        0.124    23.797 r  odd_matmul_value_stage[7]_i_143/O
+                         net (fo=3, routed)           0.369    24.166    odd_matmul_value_stage[7]_i_143_n_0
+    SLICE_X13Y8          LUT5 (Prop_lut5_I2_O)        0.124    24.290 f  odd_matmul_value_stage[7]_i_63/O
+                         net (fo=54, routed)          0.827    25.117    odd_matmul_value_stage[7]_i_667_n_0
+    SLICE_X13Y5          LUT2 (Prop_lut2_I1_O)        0.124    25.241 r  odd_matmul_value_stage[7]_i_838/O
+                         net (fo=6, routed)           0.450    25.691    odd_matmul_value_stage[7]_i_838_n_0
+    SLICE_X16Y5          LUT3 (Prop_lut3_I1_O)        0.124    25.815 r  odd_matmul_value_stage[7]_i_800/O
+                         net (fo=3, routed)           0.834    26.649    odd_matmul_value_stage[7]_i_800_n_0
+    SLICE_X16Y6          LUT6 (Prop_lut6_I4_O)        0.124    26.773 r  odd_matmul_value_stage[7]_i_730/O
+                         net (fo=2, routed)           0.657    27.430    odd_matmul_value_stage[7]_i_730_n_0
+    SLICE_X15Y6          LUT5 (Prop_lut5_I2_O)        0.124    27.554 r  odd_matmul_value_stage[7]_i_592/O
+                         net (fo=1, routed)           0.000    27.554    odd_matmul_value_stage[7]_i_592_n_0
+    SLICE_X15Y6          CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401    27.955 r  odd_matmul_value_stage_reg[7]_i_439/CO[3]
+                         net (fo=1, routed)           0.000    27.955    odd_matmul_value_stage_reg[7]_i_439_n_0
+    SLICE_X15Y7          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    28.069 r  odd_matmul_value_stage_reg[7]_i_387/CO[3]
+                         net (fo=1, routed)           0.000    28.069    odd_matmul_value_stage_reg[7]_i_387_n_0
+    SLICE_X15Y8          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    28.183 r  odd_matmul_value_stage_reg[7]_i_386/CO[3]
+                         net (fo=1, routed)           0.000    28.183    odd_matmul_value_stage_reg[7]_i_386_n_0
+    SLICE_X15Y9          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.313    28.496 r  odd_matmul_value_stage_reg[7]_i_241/O[3]
+                         net (fo=2, routed)           0.450    28.946    float32_matmul_requantize1_round_float32_product.normalized30_in[27]
+    SLICE_X13Y9          LUT3 (Prop_lut3_I0_O)        0.306    29.252 f  odd_matmul_value_stage[7]_i_245/O
+                         net (fo=2, routed)           0.449    29.701    odd_matmul_value_stage[7]_i_245_n_0
+    SLICE_X17Y8          LUT4 (Prop_lut4_I3_O)        0.124    29.825 r  odd_matmul_value_stage[7]_i_139/O
+                         net (fo=1, routed)           0.000    29.825    odd_matmul_value_stage[7]_i_139_n_0
+    SLICE_X17Y8          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    30.375 r  odd_matmul_value_stage_reg[7]_i_62/CO[3]
+                         net (fo=52, routed)          1.310    31.685    float32_matmul_requantize1_round_float32_product.normalized24_in
+    SLICE_X19Y8          LUT6 (Prop_lut6_I2_O)        0.124    31.809 r  odd_matmul_value_stage[7]_i_318/O
+                         net (fo=3, routed)           0.976    32.784    odd_matmul_value_stage[7]_i_318_n_0
+    SLICE_X21Y4          LUT6 (Prop_lut6_I1_O)        0.124    32.908 r  odd_matmul_value_stage[7]_i_188/O
+                         net (fo=2, routed)           0.679    33.587    odd_matmul_value_stage[7]_i_188_n_0
+    SLICE_X22Y4          LUT6 (Prop_lut6_I5_O)        0.124    33.711 r  odd_matmul_value_stage[3]_i_13/O
+                         net (fo=2, routed)           0.728    34.439    odd_matmul_value_stage[3]_i_13_n_0
+    SLICE_X22Y6          LUT6 (Prop_lut6_I5_O)        0.124    34.563 f  odd_matmul_value_stage[3]_i_7/O
+                         net (fo=11, routed)          0.891    35.455    float32_matmul_requantize1_round_float32_product.rounded_magnitude5[3]
+    SLICE_X28Y7          LUT6 (Prop_lut6_I2_O)        0.124    35.579 r  odd_matmul_value_stage[3]_i_244/O
+                         net (fo=3, routed)           0.590    36.169    odd_matmul_value_stage[3]_i_244_n_0
+    SLICE_X27Y5          LUT3 (Prop_lut3_I0_O)        0.124    36.293 r  odd_matmul_value_stage[3]_i_221/O
+                         net (fo=1, routed)           0.436    36.729    odd_matmul_value_stage[3]_i_221_n_0
+    SLICE_X24Y6          LUT6 (Prop_lut6_I4_O)        0.124    36.853 r  odd_matmul_value_stage[3]_i_174/O
+                         net (fo=1, routed)           0.000    36.853    odd_matmul_value_stage[3]_i_174_n_0
+    SLICE_X24Y6          CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    37.385 r  odd_matmul_value_stage_reg[3]_i_113/CO[3]
+                         net (fo=1, routed)           0.000    37.385    odd_matmul_value_stage_reg[3]_i_113_n_0
+    SLICE_X24Y7          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.499 r  odd_matmul_value_stage_reg[3]_i_88/CO[3]
+                         net (fo=1, routed)           0.000    37.499    odd_matmul_value_stage_reg[3]_i_88_n_0
+    SLICE_X24Y8          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    37.613 r  odd_matmul_value_stage_reg[3]_i_86/CO[3]
+                         net (fo=1, routed)           0.000    37.613    odd_matmul_value_stage_reg[3]_i_86_n_0
+    SLICE_X24Y9          CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.313    37.926 r  odd_matmul_value_stage_reg[3]_i_51/O[3]
+                         net (fo=3, routed)           0.672    38.598    float32_matmul_requantize1_round_float32_product.rounded_magnitude30_in[27]
+    SLICE_X25Y9          LUT5 (Prop_lut5_I0_O)        0.306    38.904 r  odd_matmul_value_stage[3]_i_19/O
+                         net (fo=1, routed)           0.691    39.595    odd_matmul_value_stage[3]_i_19_n_0
+    SLICE_X25Y8          CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.507    40.102 r  odd_matmul_value_stage_reg[3]_i_10/CO[3]
+                         net (fo=2, routed)           0.861    40.963    float32_matmul_requantize1_round_float32_product.rounded_magnitude25_in
+    SLICE_X21Y8          LUT3 (Prop_lut3_I0_O)        0.124    41.087 r  odd_matmul_value_stage[7]_i_30/O
+                         net (fo=31, routed)          0.517    41.604    odd_matmul_value_stage[7]_i_30_n_0
+    SLICE_X23Y6          LUT5 (Prop_lut5_I4_O)        0.124    41.728 r  odd_matmul_value_stage[3]_i_5/O
+                         net (fo=1, routed)           0.000    41.728    odd_matmul_value_stage[3]_i_5_n_0
+    SLICE_X23Y6          CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    42.278 r  odd_matmul_value_stage_reg[3]_i_2/CO[3]
+                         net (fo=1, routed)           0.000    42.278    odd_matmul_value_stage_reg[3]_i_2_n_0
+    SLICE_X23Y7          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.392 r  odd_matmul_value_stage_reg[7]_i_5/CO[3]
+                         net (fo=1, routed)           0.000    42.392    odd_matmul_value_stage_reg[7]_i_5_n_0
+    SLICE_X23Y8          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.506 r  odd_matmul_value_stage_reg[7]_i_190/CO[3]
+                         net (fo=1, routed)           0.000    42.506    odd_matmul_value_stage_reg[7]_i_190_n_0
+    SLICE_X23Y9          CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.620 r  odd_matmul_value_stage_reg[7]_i_106/CO[3]
+                         net (fo=1, routed)           0.000    42.620    odd_matmul_value_stage_reg[7]_i_106_n_0
+    SLICE_X23Y10         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.734 r  odd_matmul_value_stage_reg[7]_i_50/CO[3]
+                         net (fo=1, routed)           0.000    42.734    odd_matmul_value_stage_reg[7]_i_50_n_0
+    SLICE_X23Y11         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.848 r  odd_matmul_value_stage_reg[7]_i_23/CO[3]
+                         net (fo=1, routed)           0.000    42.848    odd_matmul_value_stage_reg[7]_i_23_n_0
+    SLICE_X23Y12         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    42.962 r  odd_matmul_value_stage_reg[7]_i_7/CO[3]
+                         net (fo=1, routed)           0.000    42.962    odd_matmul_value_stage_reg[7]_i_7_n_0
+    SLICE_X23Y13         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222    43.184 f  odd_matmul_value_stage_reg[7]_i_4/O[0]
+                         net (fo=2, routed)           0.724    43.908    odd_matmul_value_stage_reg[7]_i_4_n_7
+    SLICE_X21Y12         LUT2 (Prop_lut2_I0_O)        0.299    44.207 r  odd_matmul_value_stage[7]_i_21/O
+                         net (fo=1, routed)           0.000    44.207    odd_matmul_value_stage[7]_i_21_n_0
+    SLICE_X21Y12         CARRY4 (Prop_carry4_S[1]_CO[2])
+                                                      0.570    44.777 r  odd_matmul_value_stage_reg[7]_i_6/CO[2]
+                         net (fo=8, routed)           0.463    45.240    odd_matmul_value_stage_reg[7]_i_6_n_1
+    SLICE_X20Y13         LUT2 (Prop_lut2_I1_O)        0.313    45.553 r  odd_matmul_value_stage[6]_i_1/O
+                         net (fo=1, routed)           0.000    45.553    odd_matmul_value_stage[6]_i_1_n_0
+    SLICE_X20Y13         FDRE                                         r  odd_matmul_value_stage_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock core_clk rise edge)
+                                                     29.000    29.000 r  
+    U7                                                0.000    29.000 r  clk (IN)
+                         net (fo=0)                   0.000    29.000    clk
+    U7                   IBUF (Prop_ibuf_I_O)         0.924    29.924 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.972    31.896    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    31.987 r  clk_IBUF_BUFG_inst/O
+                         net (fo=125, routed)         1.571    33.558    clk_IBUF_BUFG
+    SLICE_X20Y13         FDRE                                         r  odd_matmul_value_stage_reg[6]/C
+                         clock pessimism              0.458    34.016    
+                         clock uncertainty           -0.035    33.981    
+    SLICE_X20Y13         FDRE (Setup_fdre_C_D)        0.081    34.062    odd_matmul_value_stage_reg[6]
+  -------------------------------------------------------------------
+                         required time                         34.062    
+                         arrival time                         -45.553    
+  -------------------------------------------------------------------
+                         slack                                -11.491    
+
+
+
+

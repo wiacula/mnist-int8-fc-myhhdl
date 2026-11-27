@@ -244,6 +244,7 @@ def fc_serial(
     add_product = Signal(intbv(0, min=-(1 << 63), max=(1 << 63)))
     mac_primed = Signal(bool(0))
     matmul_value = Signal(intbv(0)[8:])
+    matmul_value_stage = Signal(intbv(0)[8:])
     output_quantized = Signal(intbv(0)[8:])
     output_register = Signal(intbv(0)[8:])
     matmul_requantizer = float32_matmul_requantize(
@@ -302,7 +303,7 @@ def fc_serial(
 
     @always_comb
     def extend_matmul_value():
-        matmul_value_extended.next = matmul_value
+        matmul_value_extended.next = matmul_value_stage
 
     @always_comb
     def center_matmul_value():
@@ -345,6 +346,7 @@ def fc_serial(
             output_index.next = 0
             accumulator.next = 0
             mac_primed.next = False
+            matmul_value_stage.next = 0
             output_register.next = 0
         elif state == states.LOAD:
             if input_valid:
@@ -372,6 +374,7 @@ def fc_serial(
             mac_primed.next = False
             state.next = states.REQUANTIZE
         elif state == states.REQUANTIZE:
+            matmul_value_stage.next = matmul_value
             state.next = states.ADD_BIAS
         elif state == states.ADD_BIAS:
             output_register.next = output_quantized
@@ -506,6 +509,8 @@ def fc_parallel2(
     output_phase = Signal(bool(0))
     even_matmul_value = Signal(intbv(0)[8:])
     odd_matmul_value = Signal(intbv(0)[8:])
+    even_matmul_value_stage = Signal(intbv(0)[8:])
+    odd_matmul_value_stage = Signal(intbv(0)[8:])
     even_output_quantized = Signal(intbv(0)[8:])
     odd_output_quantized = Signal(intbv(0)[8:])
     even_output_register = Signal(intbv(0)[8:])
@@ -600,8 +605,8 @@ def fc_parallel2(
 
     @always_comb
     def extend_matmul_values():
-        even_matmul_value_extended.next = even_matmul_value
-        odd_matmul_value_extended.next = odd_matmul_value
+        even_matmul_value_extended.next = even_matmul_value_stage
+        odd_matmul_value_extended.next = odd_matmul_value_stage
 
     @always_comb
     def center_matmul_values():
@@ -678,6 +683,8 @@ def fc_parallel2(
             odd_accumulator.next = 0
             mac_primed.next = False
             output_phase.next = False
+            even_matmul_value_stage.next = 0
+            odd_matmul_value_stage.next = 0
             even_output_register.next = 0
             odd_output_register.next = 0
         elif state == states.LOAD:
@@ -710,6 +717,8 @@ def fc_parallel2(
             mac_primed.next = False
             state.next = states.REQUANTIZE
         elif state == states.REQUANTIZE:
+            even_matmul_value_stage.next = even_matmul_value
+            odd_matmul_value_stage.next = odd_matmul_value
             state.next = states.ADD_BIAS
         elif state == states.ADD_BIAS:
             even_output_register.next = even_output_quantized

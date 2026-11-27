@@ -1,8 +1,9 @@
-# Wyniki wariantu rownoleglego P=2
+# Wyniki syntezy i timingu
 
-**Uwaga:** raporty syntezy, implementacji i timingu ponizej dotycza wersji
-sprzed zmiany requantyzacji opisanej w sekcji MNIST. Nie sa potwierdzeniem
-timingu ani zasobow aktualnego RTL; trzeba je ponownie wygenerowac w Vivado.
+Raporty wygenerowano 27 listopada 2026 w Vivado 2026.2 dla aktualnego RTL,
+po zmianie requantyzacji zgodnej z zaokragleniem float32 i dodaniu rejestru
+posredniego. Rejestr wykorzystuje istniejacy stan `REQUANTIZE`, wiec liczba
+cykli sie nie zmienila. Cel syntezy i implementacji: `xc7z020clg400-1`.
 
 ## Zakres
 
@@ -24,87 +25,70 @@ Pomiar nie obejmuje resetu ani dodatkowych taktow wynikajacych z backpressure.
 
 ## Wyniki syntezy Vivado
 
-Cel: urzadzenie wskazane w planie projektu, `xc7z020clg400-1`.
-
-Oba warianty syntezy wykonano w Vivado 2026.2 dla tego samego ukladu.
+Oba warianty zsyntetyzowano dla tego samego ukladu.
 
 | Wariant | LUT | FF | DSP48E1 | BRAM |
 |---|---:|---:|---:|---|
-| P=1 | 373 | 64 | 6 | 3 RAMB18E1 |
-| P=2 | 683 | 105 | 12 | 1 RAMB36E1 + 1 RAMB18E1 |
+| P=1 | 1163 | 72 | 5 | 3 RAMB18E1 |
+| P=2 | 2299 | 121 | 10 | 1 RAMB36E1 + 1 RAMB18E1 |
 
 Raport P=1: [vivado_utilization_7020.rpt](./vivado_utilization_7020.rpt).
 
 Raport P=2: [vivado_utilization_parallel2.rpt](./vivado_utilization_parallel2.rpt).
 
-Raport P=2 potwierdza, ze ROM wag jest zaimplementowany w RAMB36E1, a bufor
-wejsciowy w RAMB18E1. Synteza zakonczyla sie bez bledow.
+Synteza potwierdza mapowanie pamieci wag i bufora wejsciowego do BRAM.
 
 ## Implementacja i analiza timingowa Vivado 2026.2
 
-Oba warianty zaimplementowano dla `xc7z020clg400-1` w Vivado 2026.2. Projekt
-nie narzuca czestotliwosci zegara. Wybor wykonano na podstawie sweepu okresow
-10, 29, 30, 35 i 40 ns. Kryterium akceptacji to jednoczesnie WNS >= 5 ns i
-TNS = 0 dla obu wariantow; wybrano najwyzsza czestotliwosc spelniajaca te
-warunki. Jest nia 25 MHz (40 ns). Punkt 100 MHz jest porownaniem, a nie
-wymaganiem projektu.
+Oba warianty zaimplementowano dla `xc7z020clg400-1`. Wykonano sweep okresow
+10, 29, 30, 35, 40 i 45 ns. Podstawowe kryterium zamkniecia timingu to
+WNS >= 0 ns i TNS = 0 ns; dodatkowy zapas 5 ns nie jest wymagany.
+**Oba warianty spelniaja podstawowe kryterium przy 45 ns (22.222 MHz)**.
+Przy 40 ns (25 MHz) timing nadal nie jest zamkniety. Przy 45 ns zapas wynosi
+1.108 ns dla P=1 i 0.596 ns dla P=2, czyli nie ma dodatkowego zapasu 5 ns.
 
 | Okres | Czestotliwosc | P=1 WNS | P=1 TNS | P=2 WNS | P=2 TNS | Kryterium |
 |---:|---:|---:|---:|---:|---:|:---:|
-| 10 ns | 100 MHz | -18.582 ns | -550.049 ns | -18.326 ns | -1083.457 ns | FAIL |
-| 29 ns | 34.483 MHz | +0.034 ns | 0.000 ns | -0.300 ns | -1.918 ns | FAIL |
-| 30 ns | 33.333 MHz | +0.609 ns | 0.000 ns | +0.074 ns | 0.000 ns | FAIL |
-| 35 ns | 28.571 MHz | +2.327 ns | 0.000 ns | +3.029 ns | 0.000 ns | FAIL |
-| 40 ns | 25 MHz | +6.415 ns | 0.000 ns | +7.537 ns | 0.000 ns | PASS |
+| 10 ns | 100 MHz | -31.209 ns | -706.390 ns | -31.213 ns | -1375.367 ns | FAIL |
+| 29 ns | 34.483 MHz | -11.840 ns | -184.556 ns | -11.901 ns | -362.845 ns | FAIL |
+| 30 ns | 33.333 MHz | -10.745 ns | -166.336 ns | -10.942 ns | -337.749 ns | FAIL |
+| 35 ns | 28.571 MHz | -5.977 ns | -92.388 ns | -6.088 ns | -182.393 ns | FAIL |
+| 40 ns | 25 MHz | -1.724 ns | -22.266 ns | -2.297 ns | -56.001 ns | FAIL |
+| 45 ns | 22.222 MHz | 1.108 ns | 0.000 ns | 0.596 ns | 0.000 ns | PASS |
 
-Okres 40 ns odpowiada najwyzszej przebadanej czestotliwosci, ktora spelnia
-przyjete kryterium dla obu wariantow. Przy 35 ns oba maja TNS = 0, ale ich
-WNS (2.327 ns i 3.029 ns) jest mniejszy od wymaganego marginesu 5 ns. Przy
-30 ns WNS wynosi 0.609 ns i 0.074 ns; przy 29 ns P=2 ma ujemne WNS i TNS.
-Nie wyznaczano dokladnej granicy Fmax. Przy integracji nalezy dostarczyc
-blokowi zegar o okresie co najmniej 40 ns.
+Przy 45 ns krytyczna sciezka prowadzi z akumulatora do rejestru posredniego
+requantyzacji. Opoznienie sciezki wynosi 43.820 ns dla P=1 (62 poziomy logiki)
+i 44.403 ns dla P=2 (61 poziomow). Rejestr posredni poprawil WNS przy 40 ns
+o ok. 13 ns wzgledem poprzedniej wersji, bez dodatkowych cykli.
 
-Szacowany throughput przy wybranym okresie 40 ns to ok. 8,754 obrazow/s dla
-P=1 i 16,015 obrazow/s dla P=2, na podstawie odpowiednio 2,856 i 1,561
-taktow na obraz. To szacunki dla bloku, nie pomiar na plytce.
-
-Zasoby po trasowaniu przy wybranym okresie 40 ns:
+Zasoby po trasowaniu przy okresie 45 ns:
 
 | Wariant | LUT | FF | DSP48E1 | BRAM |
 |---|---:|---:|---:|---|
-| P=1 | 354 | 64 | 6 | 3 RAMB18E1 |
-| P=2 | 652 | 105 | 12 | 1 RAMB36E1 + 1 RAMB18E1 |
+| P=1 | 1072 | 72 | 5 | 3 RAMB18E1 |
+| P=2 | 2164 | 121 | 10 | 1 RAMB36E1 + 1 RAMB18E1 |
 
-Raporty dla wybranego okresu 40 ns:
+Przy okresie 45 ns teoretyczna przepustowosc, bez resetu i backpressure, wynosi
+ok. 7 781 obrazow/s dla P=1 (2856 taktow na obraz) i 14 236 obrazow/s dla P=2
+(1561 taktow na obraz). To wyliczenie dotyczy samego bloku RTL, nie calej
+plytki; raporty nie uwzgledniaja opoznien wejscia/wyjscia.
 
-- P=1: [timing](./vivado_timing_serial_40ns.rpt),
-  [critical paths](./vivado_timing_serial_40ns_paths.rpt),
-  [utilization](./vivado_timing_serial_40ns_utilization.rpt).
-- P=2: [timing](./vivado_timing_parallel2_40ns.rpt),
-  [critical paths](./vivado_timing_parallel2_40ns_paths.rpt),
-  [utilization](./vivado_timing_parallel2_40ns_utilization.rpt).
+Raporty syntezy:
 
-Raporty dla porownawczego okresu 10 ns / 100 MHz (oba warianty nie spelniaja
-timingu):
+- P=1: [utilization](./vivado_utilization_7020.rpt).
+- P=2: [utilization](./vivado_utilization_parallel2.rpt).
 
-- P=1: [timing](./vivado_timing_serial_10ns.rpt),
-  [critical paths](./vivado_timing_serial_10ns_paths.rpt).
-- P=2: [timing](./vivado_timing_parallel2_10ns.rpt),
-  [critical paths](./vivado_timing_parallel2_10ns_paths.rpt).
+Raporty timingu, sciezek krytycznych i zasobow po trasowaniu dla calego
+sweepu:
 
-Raporty dla porownawczego okresu 30 ns:
-
-- P=1: [timing](./vivado_timing_serial_30ns.rpt),
-  [critical paths](./vivado_timing_serial_30ns_paths.rpt),
-  [utilization](./vivado_timing_serial_30ns_utilization.rpt).
-- P=2: [timing](./vivado_timing_parallel2_30ns.rpt),
-  [critical paths](./vivado_timing_parallel2_30ns_paths.rpt),
-  [utilization](./vivado_timing_parallel2_30ns_utilization.rpt).
-
-Raporty sweepu: [P=1 przy 10 ns](./vivado_timing_serial_10ns.rpt),
-[P=2 przy 10 ns](./vivado_timing_parallel2_10ns.rpt),
-[P=1 przy 29 ns](./vivado_timing_serial_29ns.rpt),
-[P=2 przy 29 ns](./vivado_timing_parallel2_29ns.rpt).
+| Okres | P=1 timing | P=1 sciezki | P=1 zasoby | P=2 timing | P=2 sciezki | P=2 zasoby |
+|---:|---|---|---|---|---|---|
+| 10 ns | [rpt](./vivado_timing_serial_10ns.rpt) | [rpt](./vivado_timing_serial_10ns_paths.rpt) | [rpt](./vivado_timing_serial_10ns_utilization.rpt) | [rpt](./vivado_timing_parallel2_10ns.rpt) | [rpt](./vivado_timing_parallel2_10ns_paths.rpt) | [rpt](./vivado_timing_parallel2_10ns_utilization.rpt) |
+| 29 ns | [rpt](./vivado_timing_serial_29ns.rpt) | [rpt](./vivado_timing_serial_29ns_paths.rpt) | [rpt](./vivado_timing_serial_29ns_utilization.rpt) | [rpt](./vivado_timing_parallel2_29ns.rpt) | [rpt](./vivado_timing_parallel2_29ns_paths.rpt) | [rpt](./vivado_timing_parallel2_29ns_utilization.rpt) |
+| 30 ns | [rpt](./vivado_timing_serial_30ns.rpt) | [rpt](./vivado_timing_serial_30ns_paths.rpt) | [rpt](./vivado_timing_serial_30ns_utilization.rpt) | [rpt](./vivado_timing_parallel2_30ns.rpt) | [rpt](./vivado_timing_parallel2_30ns_paths.rpt) | [rpt](./vivado_timing_parallel2_30ns_utilization.rpt) |
+| 35 ns | [rpt](./vivado_timing_serial_35ns.rpt) | [rpt](./vivado_timing_serial_35ns_paths.rpt) | [rpt](./vivado_timing_serial_35ns_utilization.rpt) | [rpt](./vivado_timing_parallel2_35ns.rpt) | [rpt](./vivado_timing_parallel2_35ns_paths.rpt) | [rpt](./vivado_timing_parallel2_35ns_utilization.rpt) |
+| 40 ns | [rpt](./vivado_timing_serial_40ns.rpt) | [rpt](./vivado_timing_serial_40ns_paths.rpt) | [rpt](./vivado_timing_serial_40ns_utilization.rpt) | [rpt](./vivado_timing_parallel2_40ns.rpt) | [rpt](./vivado_timing_parallel2_40ns_paths.rpt) | [rpt](./vivado_timing_parallel2_40ns_utilization.rpt) |
+| 45 ns | [rpt](./vivado_timing_serial_45ns.rpt) | [rpt](./vivado_timing_serial_45ns_paths.rpt) | [rpt](./vivado_timing_serial_45ns_utilization.rpt) | [rpt](./vivado_timing_parallel2_45ns.rpt) | [rpt](./vivado_timing_parallel2_45ns_paths.rpt) | [rpt](./vivado_timing_parallel2_45ns_utilization.rpt) |
 
 ## Aktualna walidacja RTL
 
@@ -113,9 +97,9 @@ Raporty sweepu: [P=1 przy 10 ns](./vivado_timing_serial_10ns.rpt),
   0.11.52. Kazdy wariant sprawdzono dla wejscia zerowego, maksymalnego i
   deterministycznego losowego; wszystkie bajty wyjscia zgadzaja sie bit w bit
   z referencja Python. Testy obejmuja tez backpressure na wyjsciu.
-- Synteza i timing aktualnego RTL nie zostaly jeszcze wykonane. Raporty
-  Vivado opisane wyzej pochodza sprzed zmiany requantyzacji i nie sa aktualnym
-  potwierdzeniem zasobow ani czestotliwosci.
+- Aktualna synteza P=1/P=2 i pelny sweep timingu zostaly wykonane w Vivado
+  2026.2. Oba warianty spelniaja podstawowe kryterium WNS >= 0 ns i TNS = 0
+  przy 45 ns; dodatkowy zapas 5 ns nie zostal osiagniety i nie jest wymagany.
 
 ## Test na zbiorze MNIST
 
@@ -155,8 +139,5 @@ hash'e modeli sa w [mnist_test_set_results.json](./mnist_test_set_results.json).
 
 ## Pozostale walidacje
 
-- Historyczny sweep sprzed zmiany arytmetyki wskazywal okres 40 ns jako
-  spelniajacy przyjete kryterium WNS >= 5 ns i TNS = 0. Nie jest to aktualne
-  potwierdzenie timingu nowego RTL; wymagane jest ponowne uruchomienie Vivado.
 - Raporty nie zawieraja opoznien wejscia/wyjscia, wiec nie potwierdzaja
   zamkniecia timingowego na poziomie calej plytki lub systemu.
